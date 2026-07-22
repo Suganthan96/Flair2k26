@@ -181,7 +181,7 @@ export default function Hero() {
         <a
           href="#home"
           aria-label="LICET — Flair 2k26 home"
-          className="absolute left-6 top-6 z-10 block sm:left-10 sm:top-8"
+          className="absolute left-6 top-3 z-10 block sm:left-10 sm:top-4"
         >
           <NextImage
             src="/assets/licet-logo.webp"
