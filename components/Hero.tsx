@@ -52,11 +52,22 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-avengers-radial px-6 pt-24 pb-16 text-center"
+      className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-background px-6 pt-24 pb-16 text-center"
     >
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        className="absolute inset-0 h-full w-full object-cover"
+      >
+        <source src="/hero.mp4" type="video/mp4" />
+      </video>
+
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.06] [background-image:linear-gradient(to_right,white_1px,transparent_1px),linear-gradient(to_bottom,white_1px,transparent_1px)] [background-size:48px_48px]"
+        className="absolute inset-0 bg-hero-video-overlay"
       />
 
       <motion.p
