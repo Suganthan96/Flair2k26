@@ -181,7 +181,7 @@ export default function Hero() {
         <a
           href="#home"
           aria-label="LICET — Flair 2k26 home"
-          className="absolute left-6 top-3 z-10 block sm:left-10 sm:top-4"
+          className="absolute left-8 top-3 z-10 block sm:left-16 sm:top-4"
         >
           <NextImage
             src="/assets/licet-logo.webp"
@@ -192,6 +192,18 @@ export default function Hero() {
             className="h-14 w-14 object-contain drop-shadow-[0_2px_12px_rgba(0,0,0,0.65)] sm:h-16 sm:w-16"
           />
         </a>
+
+        {/* Title lockup, bottom-right. Also outside the grade wrapper — the
+            grade would mute the green glow that ties it to the footage. */}
+        <NextImage
+          src="/assets/FLAIR.png"
+          alt="Flair 2k26"
+          width={2896}
+          height={2172}
+          priority
+          sizes="(max-width: 640px) 60vw, (max-width: 1024px) 40vw, 30vw"
+          className="pointer-events-none absolute bottom-6 right-6 z-10 w-52 select-none object-contain drop-shadow-[0_4px_24px_rgba(0,0,0,0.7)] sm:bottom-10 sm:right-10 sm:w-72 lg:w-[22rem]"
+        />
       </div>
     </section>
   );
