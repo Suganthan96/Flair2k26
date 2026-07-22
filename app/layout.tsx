@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import localFont from "next/font/local";
+import BackgroundMusic from "@/components/BackgroundMusic";
 import SmoothScroll from "@/components/SmoothScroll";
 import "./globals.css";
 
@@ -59,6 +60,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <SmoothScroll>{children}</SmoothScroll>
+        <BackgroundMusic />
       </body>
     </html>
   );
