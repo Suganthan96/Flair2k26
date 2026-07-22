@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import BackgroundMusic from "@/components/BackgroundMusic";
+import SmoothScroll from "@/components/SmoothScroll";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -52,12 +53,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    // No `scroll-smooth` here — native smooth scrolling fights Lenis.
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${avenger.variable} h-full scroll-smooth antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${avenger.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        {children}
+        <SmoothScroll>{children}</SmoothScroll>
         <BackgroundMusic />
       </body>
     </html>
