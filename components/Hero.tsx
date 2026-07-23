@@ -3,6 +3,7 @@
 // Aliased: the bare `Image` name is the DOM constructor used to preload frames.
 import NextImage from "next/image";
 import { useEffect, useRef, useState, type RefObject } from "react";
+import SideRays from "./SideRays";
 
 const FRAME_COUNT = 137;
 const FRAME_PATH = (i: number) => `/newframes/frame_${String(i).padStart(6, "0")}.jpg`;
@@ -175,6 +176,23 @@ export default function Hero() {
         {/* Colour grade lives here so it covers the canvas as one layer. */}
         <div className="absolute inset-0 [filter:saturate(0.65)_contrast(1.06)_brightness(0.94)]">
           <ScrollFrameCanvas trackRef={sectionRef} />
+        </div>
+
+        {/* Accent light fanning in from the empty top-right corner. */}
+        <div className="absolute inset-0">
+          <SideRays
+            speed={2.5}
+            rayColor1="#70AFA2"
+            rayColor2="#274C47"
+            intensity={2}
+            spread={2}
+            origin="top-right"
+            tilt={0}
+            saturation={1.5}
+            blend={0.75}
+            falloff={1.6}
+            opacity={0.5}
+          />
         </div>
 
         {/* Sits outside the grade wrapper so the crest keeps its own colour. */}
