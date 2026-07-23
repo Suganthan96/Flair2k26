@@ -162,9 +162,8 @@ export const studentCoreTeam = [
 
 export const footerLinks = {
   quick: [
-    { label: "About", href: "#about" },
-    { label: "Events", href: "#events" },
-    { label: "Schedule", href: "#schedule" },
+    { label: "Speakers", href: "#speakers" },
+    { label: "Sponsors", href: "#sponsors" },
     { label: "Team", href: "#team" },
   ],
   contact: {
