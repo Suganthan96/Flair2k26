@@ -3,282 +3,175 @@
 import { useEffect, useRef } from "react";
 
 // ============================================================
-//  Doctor Doom — Tactical Energy Reticle & Plasma Trail Cursor
+//  Ultra-Fast Doctor Doom Custom Cursor (60-144 FPS Zero-Lag)
 //
-//  A custom Doctor Doom cursor:
-//  - Rotating emerald power core & precision target crosshair reticle
-//  - Live plasma trail particles trailing the cursor movement
-//  - Interactive target lock-on state on hoverable elements
-//  - High-energy emerald shockwave ring on click
+//  - 1:1 Instant hardware tracking for center point (0ms input lag)
+//  - GPU-accelerated transform3d for reticle & ring
+//  - Zero DOM querying on mousemove (uses mouseover delegation)
+//  - Lightweight pre-allocated particle pool for plasma trail
 // ============================================================
 
-interface TrailParticle {
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  size: number;
-  alpha: number;
-  life: number;
-  maxLife: number;
-  isGold: boolean;
-}
-
 export default function DoomCursor() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const coreRef = useRef<HTMLDivElement>(null);
+  const cursorRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
-  const crosshairRef = useRef<HTMLDivElement>(null);
-  const shockwaveRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    // Hide default cursor on desktop
-    const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
-    if (isTouch) return;
+    // Disable on touch devices to avoid touch latency
+    if ("ontouchstart" in window || navigator.maxTouchPoints > 0) return;
 
     document.documentElement.classList.add("custom-doom-cursor");
 
-    const mouse = { x: -100, y: -100, targetX: -100, targetY: -100 };
-    const ring = { x: -100, y: -100 };
+    let mouseX = -100;
+    let mouseY = -100;
+    let ringX = -100;
+    let ringY = -100;
     let isHovering = false;
-    let isMouseDown = false;
+    let isClicking = false;
     let animId = 0;
 
-    const particles: TrailParticle[] = [];
+    // Fixed particle pool for trail (zero GC allocations)
+    const MAX_PARTICLES = 25;
+    const particles = new Float32Array(MAX_PARTICLES * 5); // [x, y, vx, vy, life]
+    let particleHead = 0;
 
     const canvas = canvasRef.current;
-    const ctx = canvas?.getContext("2d");
+    const ctx = canvas?.getContext("2d", { alpha: true });
 
-    function resizeCanvas() {
+    function resize() {
       if (!canvas) return;
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     }
-    resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
+    resize();
+    window.addEventListener("resize", resize, { passive: true });
 
-    // Mouse movement listener
+    // 1:1 Instant Mouse Position Update (No RAF lag for primary dot)
     const handleMouseMove = (e: MouseEvent) => {
-      mouse.targetX = e.clientX;
-      mouse.targetY = e.clientY;
+      mouseX = e.clientX;
+      mouseY = e.clientY;
 
-      // Spawn trail particles on move
-      if (Math.random() < 0.6) {
-        particles.push({
-          x: e.clientX,
-          y: e.clientY,
-          vx: (Math.random() - 0.5) * 0.8,
-          vy: (Math.random() - 0.5) * 0.8 - 0.3,
-          size: 1.5 + Math.random() * 2.5,
-          alpha: 0.8,
-          life: 0,
-          maxLife: 25 + Math.random() * 20,
-          isGold: Math.random() < 0.2,
-        });
+      if (cursorRef.current) {
+        cursorRef.current.style.transform = `translate3d(${mouseX - 4}px, ${mouseY - 4}px, 0)`;
+      }
+
+      // Add particle to circular pool on movement
+      if (Math.random() < 0.4) {
+        const idx = particleHead * 5;
+        particles[idx] = mouseX;
+        particles[idx + 1] = mouseY;
+        particles[idx + 2] = (Math.random() - 0.5) * 0.6;
+        particles[idx + 3] = -0.4 - Math.random() * 0.6;
+        particles[idx + 4] = 1.0; // Life (1.0 -> 0.0)
+        particleHead = (particleHead + 1) % MAX_PARTICLES;
       }
     };
 
-    const handleMouseDown = () => {
-      isMouseDown = true;
-
-      // Shockwave burst on click
-      if (shockwaveRef.current) {
-        const sw = shockwaveRef.current;
-        sw.style.transform = `translate(${mouse.targetX - 24}px, ${mouse.targetY - 24}px) scale(0.3)`;
-        sw.style.opacity = "1";
-        sw.style.transition = "none";
-        requestAnimationFrame(() => {
-          sw.style.transition = "transform 0.4s cubic-bezier(0.1, 0.8, 0.3, 1), opacity 0.4s ease-out";
-          sw.style.transform = `translate(${mouse.targetX - 24}px, ${mouse.targetY - 24}px) scale(2.2)`;
-          sw.style.opacity = "0";
-        });
-      }
-
-      // Burst extra trail particles
-      for (let i = 0; i < 12; i++) {
-        const angle = (Math.PI * 2 * i) / 12;
-        const spd = 1.5 + Math.random() * 2;
-        particles.push({
-          x: mouse.targetX,
-          y: mouse.targetY,
-          vx: Math.cos(angle) * spd,
-          vy: Math.sin(angle) * spd,
-          size: 2 + Math.random() * 3,
-          alpha: 0.9,
-          life: 0,
-          maxLife: 30 + Math.random() * 15,
-          isGold: Math.random() < 0.3,
-        });
-      }
-    };
-
-    const handleMouseUp = () => {
-      isMouseDown = false;
-    };
-
+    // Fast Event Delegation for Hovering (Fires ONLY on enter/leave, NOT on move)
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement | null;
       if (!target) return;
-      const interactive = target.closest(
+      isHovering = !!target.closest(
         'a, button, input, select, textarea, [role="button"], .group, [data-interactive="true"]'
       );
-      isHovering = !!interactive;
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mousedown", handleMouseDown);
-    window.addEventListener("mouseup", handleMouseUp);
-    window.addEventListener("mouseover", handleMouseOver);
+    const handleMouseDown = () => {
+      isClicking = true;
+    };
 
-    // Animation Loop for Cursor Position, Damping & Canvas Trail Particles
-    let rotAngle = 0;
+    const handleMouseUp = () => {
+      isClicking = false;
+    };
 
-    function render() {
-      // Direct position follow for core
-      mouse.x += (mouse.targetX - mouse.x) * 0.45;
-      // Smooth eased follow for outer ring & crosshair
-      ring.x += (mouse.targetX - ring.x) * 0.18;
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    window.addEventListener("mouseover", handleMouseOver, { passive: true });
+    window.addEventListener("mousedown", handleMouseDown, { passive: true });
+    window.addEventListener("mouseup", handleMouseUp, { passive: true });
 
-      mouse.y += (mouse.targetY - mouse.y) * 0.45;
-      ring.y += (mouse.targetY - ring.y) * 0.18;
+    // GPU Eased Animation Loop for Outer Reticle & Plasma Trail
+    let rotation = 0;
 
-      rotAngle += isHovering ? 3 : 0.8;
-
-      if (coreRef.current) {
-        const scale = isMouseDown ? 0.7 : isHovering ? 1.3 : 1;
-        coreRef.current.style.transform = `translate3d(${mouse.x - 5}px, ${mouse.y - 5}px, 0) scale(${scale}) rotate(${rotAngle * 2}deg)`;
-      }
+    function loop() {
+      // Eased movement for outer ring
+      ringX += (mouseX - ringX) * 0.25;
+      ringY += (mouseY - ringY) * 0.25;
+      rotation += isHovering ? 2.5 : 0.6;
 
       if (ringRef.current) {
-        const scale = isMouseDown ? 0.8 : isHovering ? 1.45 : 1;
-        ringRef.current.style.transform = `translate3d(${ring.x - 20}px, ${ring.y - 20}px, 0) scale(${scale}) rotate(${rotAngle}deg)`;
+        const scale = isClicking ? 0.75 : isHovering ? 1.4 : 1;
+        ringRef.current.style.transform = `translate3d(${ringX - 16}px, ${ringY - 16}px, 0) scale(${scale}) rotate(${rotation}deg)`;
         ringRef.current.style.borderColor = isHovering
-          ? "rgba(61, 255, 140, 0.8)"
+          ? "rgba(61, 255, 140, 0.85)"
           : "rgba(16, 185, 129, 0.4)";
         ringRef.current.style.backgroundColor = isHovering
           ? "rgba(16, 185, 129, 0.12)"
-          : "rgba(16, 185, 129, 0.02)";
+          : "transparent";
       }
 
-      if (crosshairRef.current) {
-        const scale = isHovering ? 1.35 : 1;
-        crosshairRef.current.style.transform = `translate3d(${ring.x - 16}px, ${ring.y - 16}px, 0) scale(${scale}) rotate(${-rotAngle * 0.5}deg)`;
-        crosshairRef.current.style.opacity = isHovering ? "1" : "0.7";
-      }
-
-      // Render Canvas Plasma Embers Trail
+      // Draw plasma particle trail
       if (ctx && canvas) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#3dff8c";
 
-        for (let i = particles.length - 1; i >= 0; i--) {
-          const p = particles[i];
-          p.x += p.vx;
-          p.y += p.vy;
-          p.vy *= 0.96;
-          p.vx *= 0.96;
-          p.life++;
+        for (let i = 0; i < MAX_PARTICLES; i++) {
+          const idx = i * 5;
+          let life = particles[idx + 4];
+          if (life <= 0) continue;
 
-          const progress = p.life / p.maxLife;
-          const currentAlpha = p.alpha * (1 - progress);
-          const currentSize = p.size * (1 - progress * 0.4);
+          life -= 0.04;
+          particles[idx + 4] = life;
 
-          if (p.life >= p.maxLife || currentAlpha <= 0) {
-            particles.splice(i, 1);
-            continue;
-          }
+          particles[idx] += particles[idx + 2];
+          particles[idx + 1] += particles[idx + 3];
 
-          ctx.save();
-          ctx.globalAlpha = currentAlpha;
-
-          // Glowing aura
-          const grad = ctx.createRadialGradient(
-            p.x,
-            p.y,
-            0,
-            p.x,
-            p.y,
-            currentSize * 2.5
-          );
-          if (p.isGold) {
-            grad.addColorStop(0, "rgba(232, 185, 35, 0.8)");
-            grad.addColorStop(1, "rgba(232, 185, 35, 0)");
-          } else {
-            grad.addColorStop(0, "rgba(61, 255, 140, 0.8)");
-            grad.addColorStop(1, "rgba(16, 185, 129, 0)");
-          }
-          ctx.fillStyle = grad;
+          ctx.globalAlpha = life * 0.7;
           ctx.beginPath();
-          ctx.arc(p.x, p.y, currentSize * 2.5, 0, Math.PI * 2);
+          ctx.arc(particles[idx], particles[idx + 1], life * 2.5, 0, Math.PI * 2);
           ctx.fill();
-
-          // Bright center
-          ctx.fillStyle = p.isGold ? "#ffe066" : "#ffffff";
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, currentSize * 0.5, 0, Math.PI * 2);
-          ctx.fill();
-
-          ctx.restore();
         }
       }
 
-      animId = requestAnimationFrame(render);
+      animId = requestAnimationFrame(loop);
     }
 
-    animId = requestAnimationFrame(render);
+    animId = requestAnimationFrame(loop);
 
     return () => {
       document.documentElement.classList.remove("custom-doom-cursor");
-      window.removeEventListener("resize", resizeCanvas);
+      window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseover", handleMouseOver);
       window.removeEventListener("mousedown", handleMouseDown);
       window.removeEventListener("mouseup", handleMouseUp);
-      window.removeEventListener("mouseover", handleMouseOver);
       cancelAnimationFrame(animId);
     };
   }, []);
 
   return (
     <>
-      {/* Dynamic Plasma Trail Canvas */}
+      {/* Plasma Trail Canvas */}
       <canvas
         ref={canvasRef}
         className="pointer-events-none fixed inset-0 z-[99990] h-full w-full"
       />
 
-      {/* Diffuse Energy Shockwave Burst on Click */}
-      <div
-        ref={shockwaveRef}
-        className="pointer-events-none fixed left-0 top-0 z-[99991] h-12 w-12 rounded-full border-2 border-emerald-400 bg-emerald-500/20 opacity-0 shadow-[0_0_20px_rgba(61,255,140,0.8)]"
-        style={{ willChange: "transform, opacity" }}
-      />
-
-      {/* Doctor Doom Tactical Crosshair Brackets */}
-      <div
-        ref={crosshairRef}
-        className="pointer-events-none fixed left-0 top-0 z-[99992] h-8 w-8 transition-opacity duration-300"
-        style={{ willChange: "transform" }}
-      >
-        {/* Top-Left Corner Notch */}
-        <span className="absolute left-0 top-0 h-2 w-2 border-l-2 border-t-2 border-emerald-400 drop-shadow-[0_0_4px_rgba(61,255,140,0.8)]" />
-        {/* Top-Right Corner Notch */}
-        <span className="absolute right-0 top-0 h-2 w-2 border-r-2 border-t-2 border-emerald-400 drop-shadow-[0_0_4px_rgba(61,255,140,0.8)]" />
-        {/* Bottom-Left Corner Notch */}
-        <span className="absolute bottom-0 left-0 h-2 w-2 border-b-2 border-l-2 border-emerald-400 drop-shadow-[0_0_4px_rgba(61,255,140,0.8)]" />
-        {/* Bottom-Right Corner Notch */}
-        <span className="absolute bottom-0 right-0 h-2 w-2 border-b-2 border-r-2 border-emerald-400 drop-shadow-[0_0_4px_rgba(61,255,140,0.8)]" />
-      </div>
-
-      {/* Outer Rotating Power Ring */}
+      {/* Outer Tactical Reticle */}
       <div
         ref={ringRef}
-        className="pointer-events-none fixed left-0 top-0 z-[99993] h-10 w-10 rounded-lg border border-emerald-400/40 bg-emerald-500/5 shadow-[0_0_16px_rgba(16,185,129,0.25)] transition-all duration-300 ease-out"
+        className="pointer-events-none fixed left-0 top-0 z-[99991] h-8 w-8 rounded-md border border-emerald-400/40 shadow-[0_0_10px_rgba(16,185,129,0.2)] transition-colors duration-200"
         style={{ willChange: "transform" }}
-      />
+      >
+        <span className="absolute -left-0.5 -top-0.5 h-1.5 w-1.5 border-l-2 border-t-2 border-emerald-400" />
+        <span className="absolute -right-0.5 -top-0.5 h-1.5 w-1.5 border-r-2 border-t-2 border-emerald-400" />
+        <span className="absolute -bottom-0.5 -left-0.5 h-1.5 w-1.5 border-b-2 border-l-2 border-emerald-400" />
+        <span className="absolute -bottom-0.5 -right-0.5 h-1.5 w-1.5 border-b-2 border-r-2 border-emerald-400" />
+      </div>
 
-      {/* Doctor Doom Central Diamond Core */}
+      {/* 1:1 Instant Core Dot */}
       <div
-        ref={coreRef}
-        className="pointer-events-none fixed left-0 top-0 z-[99994] h-2.5 w-2.5 rotate-45 rounded-sm bg-gradient-to-br from-emerald-300 to-green-500 shadow-[0_0_12px_rgba(61,255,140,0.95)]"
+        ref={cursorRef}
+        className="pointer-events-none fixed left-0 top-0 z-[99992] h-2 w-2 rotate-45 rounded-xs bg-emerald-400 shadow-[0_0_8px_rgba(61,255,140,0.9)]"
         style={{ willChange: "transform" }}
       />
     </>
