@@ -27,59 +27,142 @@ export const stats = [
 export const aboutCopy =
   "Flair 2k26 is LICET's flagship technical symposium, bringing together the brightest minds from colleges across the region for three days of competition, collaboration, and innovation. From high-stakes hackathons to rapid-fire quizzes, every event is built to test your skills and push your limits. Join the ranks — the mission starts now.";
 
+// Shared across every event's detail page — fest-wide rules rather than
+// something that varies per event.
+export const commonGuidelines: string[] = [
+  "Only students with a valid college ID are eligible to participate.",
+  "Teams must report to the venue at least 15 minutes before the scheduled time.",
+  "Participants are expected to maintain discipline and follow the organizers' instructions at all times.",
+  "Any form of malpractice or unfair conduct will lead to immediate disqualification.",
+  "The judges' decision will be final and binding — no further discussion will be entertained.",
+  "Mobile phones and personal electronic devices are not permitted during the event unless explicitly stated otherwise.",
+  "Certificates will be issued only to registered participants who complete the event.",
+];
+
+export type EventQueryContact = { name: string; phone: string };
+
 export const events: {
   id: string;
   title: string;
   icon: string;
   description: string;
+  teamSize: string;
+  time: string;
+  venue: string;
+  organizers: string;
+  queries: EventQueryContact[];
 }[] = [
   {
     id: "hackathon",
     title: "Prompt with Jarvis",
     icon: "Code2",
     description: "24-hour build sprint to ship a working prototype from scratch.",
+    teamSize: "2-4",
+    time: "09:00 AM – 09:00 AM (24 hrs) [ 22–23 Jan 2027 ]",
+    venue: "Innovation Lab",
+    organizers: "Arjun Kumar, Divya Sree",
+    queries: [
+      { name: "Arjun Kumar", phone: "+91 90000 11122" },
+      { name: "Divya Sree", phone: "+91 90000 11123" },
+    ],
   },
   {
     id: "paper-presentation",
     title: "The Stark Expo",
     icon: "FileText",
     description: "Present original research and ideas to a panel of expert judges.",
+    teamSize: "1-3",
+    time: "10:30 AM – 01:00 PM [ 22 Jan 2027 ]",
+    venue: "Seminar Hall A",
+    organizers: "Priya Dharshini, Naveen Kumar",
+    queries: [
+      { name: "Priya Dharshini", phone: "+91 90000 22233" },
+      { name: "Naveen Kumar", phone: "+91 90000 22234" },
+    ],
   },
   {
     id: "treasure-hunt",
     title: "Where is Gamora?",
     icon: "MapPin",
     description: "Solve clues and puzzles scattered across campus to find the prize.",
+    teamSize: "2-4",
+    time: "01:00 PM – 03:00 PM [ 24 Jan 2027 ]",
+    venue: "Campus Wide",
+    organizers: "Vishal Raj, Sanjana R",
+    queries: [
+      { name: "Vishal Raj", phone: "+91 90000 33344" },
+      { name: "Sanjana R", phone: "+91 90000 33345" },
+    ],
   },
   {
     id: "robo-race",
     title: "Debuggers Assemble",
     icon: "Bot",
     description: "Design and race autonomous bots through a timed obstacle track.",
+    teamSize: "1-2",
+    time: "02:00 PM – 04:00 PM [ 23 Jan 2027 ]",
+    venue: "Computer Lab 2",
+    organizers: "Arjun Kumar, Vishal Raj",
+    queries: [
+      { name: "Arjun Kumar", phone: "+91 90000 44455" },
+      { name: "Vishal Raj", phone: "+91 90000 44456" },
+    ],
   },
   {
     id: "quiz",
     title: "Infinity IQ / Trivia 3000",
     icon: "BrainCircuit",
     description: "Rapid-fire rounds testing tech trivia and general knowledge.",
+    teamSize: "2",
+    time: "04:00 PM – 06:00 PM [ 22 Jan 2027 ]",
+    venue: "Seminar Hall B",
+    organizers: "Divya Sree, Sanjana R",
+    queries: [
+      { name: "Divya Sree", phone: "+91 90000 55566" },
+      { name: "Sanjana R", phone: "+91 90000 55567" },
+    ],
   },
   {
     id: "web-design",
     title: "I Can Meme This All Day",
     icon: "LayoutTemplate",
     description: "Build a pixel-perfect responsive site against the clock.",
+    teamSize: "1",
+    time: "11:00 AM – 01:00 PM [ 23 Jan 2027 ]",
+    venue: "Design Studio",
+    organizers: "Priya Dharshini, Naveen Kumar",
+    queries: [
+      { name: "Priya Dharshini", phone: "+91 90000 66677" },
+      { name: "Naveen Kumar", phone: "+91 90000 66678" },
+    ],
   },
   {
     id: "gaming",
     title: "X-Charades",
     icon: "Gamepad2",
     description: "Compete in a bracketed esports tournament across top titles.",
+    teamSize: "3-5",
+    time: "03:00 PM – 05:00 PM [ 24 Jan 2027 ]",
+    venue: "Main Auditorium",
+    organizers: "Vishal Raj, Sanjana R",
+    queries: [
+      { name: "Vishal Raj", phone: "+91 90000 77788" },
+      { name: "Sanjana R", phone: "+91 90000 77789" },
+    ],
   },
   {
     id: "case-study",
     title: "Sacred Connections",
     icon: "Briefcase",
     description: "Crack real-world business problems under time pressure.",
+    teamSize: "2-3",
+    time: "01:00 PM – 03:00 PM [ 23 Jan 2027 ]",
+    venue: "Seminar Hall A",
+    organizers: "Arjun Kumar, Divya Sree",
+    queries: [
+      { name: "Arjun Kumar", phone: "+91 90000 88899" },
+      { name: "Divya Sree", phone: "+91 90000 88900" },
+    ],
   },
 ];
 
