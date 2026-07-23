@@ -30,70 +30,59 @@ export const stats = [
 export const aboutCopy =
   "Flair 2k26 is LICET's flagship technical symposium, bringing together the brightest minds from colleges across the region for three days of competition, collaboration, and innovation. From high-stakes hackathons to rapid-fire quizzes, every event is built to test your skills and push your limits. Join the ranks — the mission starts now.";
 
-export type EventCategory = "Technical" | "Non-Technical";
-
 export const events: {
   id: string;
   title: string;
-  category: EventCategory;
   icon: string;
   description: string;
 }[] = [
   {
-    id: "paper-presentation",
-    title: "Paper Presentation",
-    category: "Technical",
-    icon: "FileText",
-    description: "Present original research and ideas to a panel of expert judges.",
-  },
-  {
     id: "hackathon",
-    title: "Hackathon",
-    category: "Technical",
+    title: "Prompt with Jarvis",
     icon: "Code2",
     description: "24-hour build sprint to ship a working prototype from scratch.",
   },
   {
+    id: "paper-presentation",
+    title: "The Stark Expo",
+    icon: "FileText",
+    description: "Present original research and ideas to a panel of expert judges.",
+  },
+  {
+    id: "treasure-hunt",
+    title: "Where is Gamora?",
+    icon: "MapPin",
+    description: "Solve clues and puzzles scattered across campus to find the prize.",
+  },
+  {
     id: "robo-race",
-    title: "Robo Race",
-    category: "Technical",
+    title: "Debuggers Assemble",
     icon: "Bot",
     description: "Design and race autonomous bots through a timed obstacle track.",
   },
   {
+    id: "quiz",
+    title: "Infinity IQ / Trivia 3000",
+    icon: "BrainCircuit",
+    description: "Rapid-fire rounds testing tech trivia and general knowledge.",
+  },
+  {
     id: "web-design",
-    title: "Web Design",
-    category: "Technical",
+    title: "I Can Meme This All Day",
     icon: "LayoutTemplate",
     description: "Build a pixel-perfect responsive site against the clock.",
   },
   {
     id: "gaming",
-    title: "Gaming Arena",
-    category: "Non-Technical",
+    title: "X-Charades",
     icon: "Gamepad2",
     description: "Compete in a bracketed esports tournament across top titles.",
   },
   {
-    id: "quiz",
-    title: "Tech Quiz",
-    category: "Non-Technical",
-    icon: "BrainCircuit",
-    description: "Rapid-fire rounds testing tech trivia and general knowledge.",
-  },
-  {
     id: "case-study",
-    title: "Case Study Battle",
-    category: "Non-Technical",
+    title: "Sacred Connections",
     icon: "Briefcase",
     description: "Crack real-world business problems under time pressure.",
-  },
-  {
-    id: "treasure-hunt",
-    title: "Treasure Hunt",
-    category: "Non-Technical",
-    icon: "MapPin",
-    description: "Solve clues and puzzles scattered across campus to find the prize.",
   },
 ];
 
@@ -162,7 +151,7 @@ export const studentCoreTeam = [
 
 export const footerLinks = {
   quick: [
-    { label: "Speakers", href: "#speakers" },
+    { label: "Events", href: "#events" },
     { label: "Sponsors", href: "#sponsors" },
     { label: "Team", href: "#team" },
   ],

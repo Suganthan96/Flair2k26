@@ -1,37 +1,7 @@
-import {
-  FileText,
-  Code2,
-  Bot,
-  LayoutTemplate,
-  Gamepad2,
-  BrainCircuit,
-  Briefcase,
-  MapPin,
-  ArrowRight,
-  type LucideIcon,
-} from "lucide-react";
+import { FileText, ArrowRight } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
+import { iconMap, GRADIENTS } from "./eventVisuals";
 import { events } from "@/data/mockData";
-
-const iconMap: Record<string, LucideIcon> = {
-  FileText,
-  Code2,
-  Bot,
-  LayoutTemplate,
-  Gamepad2,
-  BrainCircuit,
-  Briefcase,
-  MapPin,
-};
-
-// Cycled per card so eight stacked cards don't all read as one identical
-// gradient repeated — still built entirely from the existing avenger palette.
-const GRADIENTS = [
-  "from-avenger-purple via-[#7a1f4f] to-avenger-red",
-  "from-avenger-blue via-[#3d2f6b] to-avenger-purple",
-  "from-avenger-red via-[#8a1f3f] to-avenger-gold",
-  "from-avenger-blue via-[#1f4f6b] to-avenger-red",
-];
 
 export default function EventPromoCards() {
   return (
@@ -75,17 +45,14 @@ export default function EventPromoCards() {
                   <div
                     className={`text-center lg:text-left ${reversed ? "lg:order-1" : "lg:order-2"}`}
                   >
-                    <span className="text-xs font-semibold uppercase tracking-[0.3em] text-white/60">
-                      {event.category}
-                    </span>
-                    <h2 className="font-avenger mt-2 text-4xl uppercase leading-[0.95] text-white sm:text-5xl">
+                    <h2 className="font-black-ops text-4xl uppercase leading-[0.95] text-white sm:text-5xl">
                       {event.title}
                     </h2>
                     <p className="mx-auto mt-5 max-w-md text-base leading-relaxed text-white/80 sm:text-lg lg:mx-0">
                       {event.description}
                     </p>
                     <a
-                      href={`#${event.id}`}
+                      href={`/events/${event.id}`}
                       className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-semibold text-black transition-transform hover:scale-105"
                     >
                       View Details

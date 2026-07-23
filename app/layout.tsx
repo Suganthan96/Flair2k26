@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Black_Ops_One, Domine, Montserrat } from "next/font/google";
 import localFont from "next/font/local";
 import BackgroundMusic from "@/components/BackgroundMusic";
 import SmoothScroll from "@/components/SmoothScroll";
@@ -13,6 +13,24 @@ const geistSans = Geist({
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+const blackOpsOne = Black_Ops_One({
+  variable: "--font-black-ops-one",
+  weight: "400",
+  subsets: ["latin"],
+});
+
+const domine = Domine({
+  variable: "--font-domine",
+  weight: ["400", "500", "600", "700"],
+  subsets: ["latin"],
+});
+
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   subsets: ["latin"],
 });
 
@@ -57,7 +75,7 @@ export default function RootLayout({
     // No `scroll-smooth` here — native smooth scrolling fights Lenis.
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${avenger.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${avenger.variable} ${blackOpsOne.variable} ${domine.variable} ${montserrat.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <SmoothScroll>{children}</SmoothScroll>
