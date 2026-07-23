@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import BackgroundMusic from "@/components/BackgroundMusic";
+import Loader from "@/components/Loader";
 import SmoothScroll from "@/components/SmoothScroll";
 import "./globals.css";
 
@@ -59,6 +60,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${avenger.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
+        <Loader />
         <SmoothScroll>{children}</SmoothScroll>
         <BackgroundMusic />
       </body>
