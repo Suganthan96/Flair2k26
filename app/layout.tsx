@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Jost } from "next/font/google";
 import localFont from "next/font/local";
 import BackgroundMusic from "@/components/BackgroundMusic";
 import Loader from "@/components/Loader";
+import SideNav from "@/components/SideNav";
 import SmoothScroll from "@/components/SmoothScroll";
 import "./globals.css";
 
@@ -13,6 +14,11 @@ const geistSans = Geist({
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+const jost = Jost({
+  variable: "--font-jost",
   subsets: ["latin"],
 });
 
@@ -57,10 +63,11 @@ export default function RootLayout({
     // No `scroll-smooth` here — native smooth scrolling fights Lenis.
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${avenger.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${avenger.variable} ${jost.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <Loader />
+        <SideNav />
         <SmoothScroll>{children}</SmoothScroll>
         <BackgroundMusic />
       </body>
