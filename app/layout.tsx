@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Black_Ops_One, Domine, Montserrat } from "next/font/google";
+import { Geist, Geist_Mono, Black_Ops_One, Domine, Montserrat, Jost } from "next/font/google";
 import localFont from "next/font/local";
 import BackgroundMusic from "@/components/BackgroundMusic";
+import Loader from "@/components/Loader";
+import SideNav from "@/components/SideNav";
 import SmoothScroll from "@/components/SmoothScroll";
 import "lenis/dist/lenis.css";
 import "./globals.css";
@@ -31,6 +33,11 @@ const domine = Domine({
 const montserrat = Montserrat({
   variable: "--font-montserrat",
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  subsets: ["latin"],
+});
+
+const jost = Jost({
+  variable: "--font-jost",
   subsets: ["latin"],
 });
 
@@ -75,9 +82,11 @@ export default function RootLayout({
     // No `scroll-smooth` here — native smooth scrolling fights Lenis.
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${avenger.variable} ${blackOpsOne.variable} ${domine.variable} ${montserrat.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${avenger.variable} ${blackOpsOne.variable} ${domine.variable} ${montserrat.variable} ${jost.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
+        <Loader />
+        <SideNav />
         <SmoothScroll>{children}</SmoothScroll>
         <BackgroundMusic />
       </body>
