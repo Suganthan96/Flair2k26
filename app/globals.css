@@ -85,3 +85,8 @@ h1, h2, h3 {
       rgba(5, 6, 10, 0.92) 100%
     );
 }
+
+.custom-doom-cursor,
+.custom-doom-cursor * {
+  cursor: none !important;
+}
