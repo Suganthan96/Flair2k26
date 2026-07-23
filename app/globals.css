@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "lenis/dist/lenis.css";
 
 :root {
   --background: #05060a;
@@ -20,6 +19,9 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-avenger: var(--font-avenger);
+  --font-black-ops: var(--font-black-ops-one);
+  --font-domine: var(--font-domine);
+  --font-montserrat: var(--font-montserrat);
   --font-jost: var(--font-jost);
 }
 

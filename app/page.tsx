@@ -1,8 +1,5 @@
 import Hero from "@/components/Hero";
-import About from "@/components/About";
-import Events from "@/components/Events";
-import Schedule from "@/components/Schedule";
-import Speakers from "@/components/Speakers";
+import EventPromoCards from "@/components/EventPromoCards";
 import Sponsors from "@/components/Sponsors";
 import Team from "@/components/Team";
 import RegisterCTA from "@/components/RegisterCTA";
@@ -13,10 +10,7 @@ export default function Home() {
     <>
       <main className="flex-1">
         <Hero />
-        <About />
-        <Events />
-        <Schedule />
-        <Speakers />
+        <EventPromoCards />
         <Sponsors />
         <Team />
         <RegisterCTA />
