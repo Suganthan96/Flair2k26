@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin, Zap } from "lucide-react";
 import { footerLinks, siteConfig } from "@/data/mockData";
 
 function InstagramIcon({ size = 18 }: { size?: number }) {
@@ -36,8 +36,15 @@ const socialIcons: Record<string, React.ComponentType<{ size?: number }>> = {
 
 export default function Footer() {
   return (
-    <footer id="contact" className="relative border-t border-white/10 bg-background px-6 py-16">
-      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
+    <footer
+      id="contact"
+      className="relative overflow-hidden border-t border-emerald-900/20 px-6 py-16"
+      style={{ background: "#05060a" }}
+    >
+      {/* Subtle green glow at the top */}
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_30%_at_50%_0%,rgba(16,185,129,0.06),transparent_60%)]" />
+
+      <div className="relative z-10 mx-auto grid max-w-6xl grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <div className="flex items-center gap-3">
             <Image
@@ -47,17 +54,17 @@ export default function Footer() {
               height={32}
               className="h-8 w-8 object-contain"
             />
-            <span className="font-avenger text-base uppercase text-white">
+            <span className="font-avenger text-base uppercase text-white/90">
               {siteConfig.name}
             </span>
           </div>
-          <p className="mt-4 text-sm text-white/60">
-            LICET&apos;s flagship technical symposium. Assemble. Innovate. Elevate.
+          <p className="mt-4 text-sm text-emerald-300/40">
+            LICET's flagship technical symposium. Assemble. Innovate. Elevate.
           </p>
         </div>
 
         <div>
-          <h3 className="text-xs font-semibold uppercase tracking-widest text-avenger-gold">
+          <h3 className="text-xs font-semibold uppercase tracking-widest text-emerald-500/70">
             Quick Links
           </h3>
           <ul className="mt-4 space-y-3">
@@ -65,7 +72,7 @@ export default function Footer() {
               <li key={link.href}>
                 <a
                   href={link.href}
-                  className="text-sm text-white/65 transition-colors hover:text-avenger-red"
+                  className="text-sm text-white/50 transition-colors hover:text-emerald-400"
                 >
                   {link.label}
                 </a>
@@ -75,27 +82,27 @@ export default function Footer() {
         </div>
 
         <div>
-          <h3 className="text-xs font-semibold uppercase tracking-widest text-avenger-gold">
+          <h3 className="text-xs font-semibold uppercase tracking-widest text-emerald-500/70">
             Contact
           </h3>
-          <ul className="mt-4 space-y-3 text-sm text-white/65">
+          <ul className="mt-4 space-y-3 text-sm text-white/50">
             <li className="flex items-start gap-2">
-              <Mail size={16} className="mt-0.5 shrink-0" />
+              <Mail size={16} className="mt-0.5 shrink-0 text-emerald-400/60" />
               {footerLinks.contact.email}
             </li>
             <li className="flex items-start gap-2">
-              <Phone size={16} className="mt-0.5 shrink-0" />
+              <Phone size={16} className="mt-0.5 shrink-0 text-emerald-400/60" />
               {footerLinks.contact.phone}
             </li>
             <li className="flex items-start gap-2">
-              <MapPin size={16} className="mt-0.5 shrink-0" />
+              <MapPin size={16} className="mt-0.5 shrink-0 text-emerald-400/60" />
               {footerLinks.contact.address}
             </li>
           </ul>
         </div>
 
         <div>
-          <h3 className="text-xs font-semibold uppercase tracking-widest text-avenger-gold">
+          <h3 className="text-xs font-semibold uppercase tracking-widest text-emerald-500/70">
             Follow Us
           </h3>
           <div className="mt-4 flex gap-4">
@@ -106,8 +113,12 @@ export default function Footer() {
                   key={social.label}
                   href={social.href}
                   aria-label={social.label}
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-white/70 transition-colors hover:border-avenger-red hover:text-avenger-red"
+                  className="group relative flex h-10 w-10 items-center justify-center rounded-full border border-emerald-900/25 text-white/50 transition-all duration-500 hover:border-emerald-500/60 hover:text-emerald-400 hover:shadow-[0_0_20px_rgba(16,185,129,0.1)]"
                 >
+                  {/* Doom's power release on hover */}
+                  <div className="pointer-events-none absolute -inset-6 rounded-full opacity-0 transition-all duration-700 group-hover:opacity-100">
+                    <div className="absolute inset-0 animate-pulse rounded-full bg-[radial-gradient(circle_at_50%_50%,rgba(16,185,129,0.15),transparent_60%)]" />
+                  </div>
                   <Icon size={18} />
                 </a>
               );
@@ -116,8 +127,12 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="mx-auto mt-12 max-w-6xl border-t border-white/10 pt-6 text-center text-xs text-white/40">
-        © {new Date().getFullYear()} Flair 2k26, LICET. All rights reserved.
+      <div className="relative z-10 mx-auto mt-12 max-w-6xl border-t border-emerald-900/20 pt-6 text-center text-xs uppercase tracking-[0.2em] text-white/30">
+          <span className="inline-flex items-center gap-2">
+            <Zap size={10} className="text-emerald-500/50" />
+            © {new Date().getFullYear()} Flair 2k26, LICET. All rights reserved.
+            <Zap size={10} className="text-emerald-500/50" />
+          </span>
       </div>
     </footer>
   );

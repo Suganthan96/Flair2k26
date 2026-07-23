@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import BackgroundMusic from "@/components/BackgroundMusic";
 import Loader from "@/components/Loader";
 import SideNav from "@/components/SideNav";
+import DoomCursor from "@/components/DoomCursor";
 import SmoothScroll from "@/components/SmoothScroll";
 import "lenis/dist/lenis.css";
 import "./globals.css";
@@ -89,6 +90,7 @@ export default function RootLayout({
         <SideNav />
         <SmoothScroll>{children}</SmoothScroll>
         <BackgroundMusic />
+        <DoomCursor />
       </body>
     </html>
   );

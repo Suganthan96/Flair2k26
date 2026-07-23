@@ -7,6 +7,12 @@
   --avenger-gold: #e8b923;
   --avenger-blue: #1b3f73;
   --avenger-purple: #5b1a8c;
+  --doom-green: #1a3a1a;
+  --doom-bright-green: #2d8a2d;
+  --doom-glow: #3dff3d;
+  --doom-metal: #6b7280;
+  --doom-dark-metal: #374151;
+  --doom-crack: #1f2937;
 }
 
 @theme inline {
@@ -16,6 +22,12 @@
   --color-avenger-gold: var(--avenger-gold);
   --color-avenger-blue: var(--avenger-blue);
   --color-avenger-purple: var(--avenger-purple);
+  --color-doom-green: var(--doom-green);
+  --color-doom-bright-green: var(--doom-bright-green);
+  --color-doom-glow: var(--doom-glow);
+  --color-doom-metal: var(--doom-metal);
+  --color-doom-dark-metal: var(--doom-dark-metal);
+  --color-doom-crack: var(--doom-crack);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-avenger: var(--font-avenger);
@@ -32,6 +44,14 @@ body {
 
 html {
   scroll-padding-top: 5rem;
+}
+
+/*
+ * Prevent letter-spacing from clipping the last character.
+ * tracking-wider pushes the final glyph past the container edge.
+ */
+h1, h2, h3 {
+  padding-right: 0.15em;
 }
 
 .text-gradient-avengers {
