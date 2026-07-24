@@ -31,6 +31,41 @@ export default function EventPromoCards() {
           const reversed = i % 2 === 1;
           const gradient = GRADIENTS[i % GRADIENTS.length];
 
+          if (event.backgroundImage) {
+            return (
+              <AnimatedSection key={event.id}>
+                <div className="relative min-h-[26rem] overflow-hidden rounded-[2rem] border border-white/10 sm:min-h-[28rem]">
+                  <Image
+                    src={event.backgroundImage}
+                    alt=""
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 1024px"
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black/55" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/55 to-black/25" />
+
+                  <div className="relative flex h-full flex-col justify-end p-8 sm:p-12">
+                    <h2 className="font-black-ops text-4xl uppercase leading-[0.95] text-white sm:text-5xl">
+                      {event.title}
+                    </h2>
+                    <p className="mt-5 max-w-md text-base leading-relaxed text-white/80 sm:text-lg">
+                      {event.description}
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => setOpenIndex(i)}
+                      className="mt-8 inline-flex w-fit items-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-semibold text-black transition-transform hover:scale-105"
+                    >
+                      View Details
+                      <ArrowRight size={16} />
+                    </button>
+                  </div>
+                </div>
+              </AnimatedSection>
+            );
+          }
+
           return (
             <AnimatedSection key={event.id}>
               <div
