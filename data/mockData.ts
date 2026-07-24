@@ -52,6 +52,9 @@ export const events: {
   organizers: string;
   queries: EventQueryContact[];
   lumaEventId: string;
+  // Optional character art that slides in from the right on scroll, in
+  // place of the plain icon. Only set for the cards that have art ready.
+  characterImage?: string;
 }[] = [
   {
     id: "hackathon",
@@ -67,6 +70,7 @@ export const events: {
       { name: "Divya Sree", phone: "+91 90000 11123" },
     ],
     lumaEventId: "evt-80hU40SG5wXqj3V",
+    characterImage: "/assets/event-thor-3.png",
   },
   {
     id: "paper-presentation",
@@ -82,6 +86,7 @@ export const events: {
       { name: "Naveen Kumar", phone: "+91 90000 22234" },
     ],
     lumaEventId: "evt-TRewZ5zsA2Xb8fO",
+    characterImage: "/assets/event-captain - 3.png",
   },
   {
     id: "treasure-hunt",
