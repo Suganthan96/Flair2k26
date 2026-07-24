@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
 import EventDetailModal from "./EventDetailModal";
+import TwistCard from "./TwistCard";
 import { iconMap, GRADIENTS } from "./eventVisuals";
 import { events } from "@/data/mockData";
 
@@ -32,7 +33,7 @@ export default function EventPromoCards() {
           const gradient = GRADIENTS[i % GRADIENTS.length];
 
           return (
-            <AnimatedSection key={event.id}>
+            <TwistCard key={event.id} index={i}>
               <div
                 className={`relative overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-br p-8 sm:p-12 ${gradient}`}
               >
@@ -81,7 +82,7 @@ export default function EventPromoCards() {
                   </div>
                 </div>
               </div>
-            </AnimatedSection>
+            </TwistCard>
           );
         })}
       </div>
