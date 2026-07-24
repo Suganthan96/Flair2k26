@@ -42,9 +42,10 @@ export default function EventPromoCards() {
                     fill
                     sizes="(max-width: 1024px) 100vw, 1024px"
                     className="object-cover"
+                    style={{ objectPosition: event.backgroundPosition ?? "center" }}
                   />
-                  <div className="absolute inset-0 bg-black/55" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/55 to-black/25" />
+                  <div className="absolute inset-0 bg-black/30" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/35 to-black/10" />
 
                   <div className="relative flex h-full flex-col justify-end p-8 sm:p-12">
                     <h2 className="font-black-ops text-4xl uppercase leading-[0.95] text-white sm:text-5xl">

@@ -54,6 +54,8 @@ export const events: {
   /** When set, the promo card renders this as a full-bleed background
    * image instead of the usual gradient + icon panel. */
   backgroundImage?: string;
+  /** CSS object-position for the background image crop; defaults to "center". */
+  backgroundPosition?: string;
   lumaEventId: string;
 }[] = [
   {
@@ -86,6 +88,7 @@ export const events: {
       { name: "Richan", phone: "+91 91502 48398" },
     ],
     lumaEventId: "evt-TRewZ5zsA2Xb8fO",
+    backgroundImage: "/assets/paper-expo.avif",
   },
   {
     id: "treasure-hunt",
@@ -102,6 +105,7 @@ export const events: {
     ],
     lumaEventId: "evt-uXjsXiOFz0G0nGx",
     backgroundImage: "/assets/vormir-gamora.jpg",
+    backgroundPosition: "top",
   },
   {
     id: "Code-Debugging",
@@ -117,6 +121,7 @@ export const events: {
       { name: "Richan", phone: "+91 91502 48398" },
     ],
     lumaEventId: "evt-0DlblubojnaeKj2",
+    backgroundImage: "/assets/Debuggers-assemble.jpeg",
   },
   {
     id: "bussiness-pitch",
@@ -132,6 +137,8 @@ export const events: {
       { name: "Richan", phone: "+91 91502 48398" },
     ],
     lumaEventId: "evt-EReesO2u1YgnQLq",
+    backgroundImage: "/assets/bussiness-pitch.avif",
+    backgroundPosition: "top",
   },
   {
     id: "meme-creation",
@@ -147,6 +154,8 @@ export const events: {
       { name: "Richan", phone: "+91 91502 48398" },
     ],
     lumaEventId: "evt-ziwcw16DWyGLOn2",
+    backgroundImage: "/assets/i can meme this all day.jpg",
+    backgroundPosition: "top",
   },
   {
     id: "Tech Charades",
@@ -162,6 +171,8 @@ export const events: {
       { name: "Richan", phone: "+91 91502 48398" },
     ],
     lumaEventId: "evt-gfyfV5c2R6TMYtU",
+    backgroundImage: "/assets/x-chardes.jpeg",
+    backgroundPosition: "top",
   },
   {
     id: "Technical Connection",
@@ -177,6 +188,7 @@ export const events: {
       { name: "Richan", phone: "+91 91502 48398" },
     ],
     lumaEventId: "evt-yfO2RHvL8hwS6DF",
+    backgroundImage: "/assets/connections.jpg",
   },
 ];
 
