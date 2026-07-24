@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Black_Ops_One, Domine, Montserrat, Jost } from "next/font/google";
 import localFont from "next/font/local";
+import Script from "next/script";
 import BackgroundMusic from "@/components/BackgroundMusic";
 import Loader from "@/components/Loader";
 import SideNav from "@/components/SideNav";
@@ -89,6 +90,7 @@ export default function RootLayout({
         <SideNav />
         <SmoothScroll>{children}</SmoothScroll>
         <BackgroundMusic />
+        <Script id="luma-checkout" src="https://embed.lu.ma/checkout-button.js" strategy="afterInteractive" />
       </body>
     </html>
   );

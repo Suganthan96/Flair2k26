@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import Link from "next/link";
 import { X } from "lucide-react";
 import { iconMap, GRADIENTS } from "./eventVisuals";
 import { commonGuidelines, type EventQueryContact } from "@/data/mockData";
@@ -16,6 +15,7 @@ type EventDetail = {
   venue: string;
   organizers: string;
   queries: EventQueryContact[];
+  lumaEventId: string;
 };
 
 export default function EventDetailModal({
@@ -82,13 +82,14 @@ export default function EventDetailModal({
               <span className="inline-block rounded-full border border-avenger-red/40 bg-avenger-red/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-avenger-red">
                 Team Size: {event.teamSize}
               </span>
-              <Link
-                href="/#register"
-                onClick={onClose}
-                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-avenger-red to-avenger-purple px-6 py-2 text-sm font-semibold text-white transition-transform hover:scale-105"
+              <a
+                href={`https://luma.com/event/${event.lumaEventId}`}
+                className="luma-checkout--button inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-avenger-red to-avenger-purple px-6 py-2 text-sm font-semibold text-white transition-transform hover:scale-105"
+                data-luma-action="checkout"
+                data-luma-event-id={event.lumaEventId}
               >
-                Register Now
-              </Link>
+                Register for {event.title}
+              </a>
             </div>
           </div>
         </div>

@@ -51,6 +51,7 @@ export const events: {
   venue: string;
   organizers: string;
   queries: EventQueryContact[];
+  lumaEventId: string;
 }[] = [
   {
     id: "hackathon",
@@ -65,6 +66,7 @@ export const events: {
       { name: "Arjun Kumar", phone: "+91 90000 11122" },
       { name: "Divya Sree", phone: "+91 90000 11123" },
     ],
+    lumaEventId: "evt-80hU40SG5wXqj3V",
   },
   {
     id: "paper-presentation",
@@ -79,6 +81,7 @@ export const events: {
       { name: "Priya Dharshini", phone: "+91 90000 22233" },
       { name: "Naveen Kumar", phone: "+91 90000 22234" },
     ],
+    lumaEventId: "evt-TRewZ5zsA2Xb8fO",
   },
   {
     id: "treasure-hunt",
@@ -93,6 +96,7 @@ export const events: {
       { name: "Vishal Raj", phone: "+91 90000 33344" },
       { name: "Sanjana R", phone: "+91 90000 33345" },
     ],
+    lumaEventId: "evt-uXjsXiOFz0G0nGx",
   },
   {
     id: "robo-race",
@@ -107,6 +111,7 @@ export const events: {
       { name: "Arjun Kumar", phone: "+91 90000 44455" },
       { name: "Vishal Raj", phone: "+91 90000 44456" },
     ],
+    lumaEventId: "evt-0DlblubojnaeKj2",
   },
   {
     id: "quiz",
@@ -121,6 +126,7 @@ export const events: {
       { name: "Divya Sree", phone: "+91 90000 55566" },
       { name: "Sanjana R", phone: "+91 90000 55567" },
     ],
+    lumaEventId: "evt-EReesO2u1YgnQLq",
   },
   {
     id: "web-design",
@@ -135,6 +141,7 @@ export const events: {
       { name: "Priya Dharshini", phone: "+91 90000 66677" },
       { name: "Naveen Kumar", phone: "+91 90000 66678" },
     ],
+    lumaEventId: "evt-ziwcw16DWyGLOn2",
   },
   {
     id: "gaming",
@@ -149,6 +156,7 @@ export const events: {
       { name: "Vishal Raj", phone: "+91 90000 77788" },
       { name: "Sanjana R", phone: "+91 90000 77789" },
     ],
+    lumaEventId: "evt-gfyfV5c2R6TMYtU",
   },
   {
     id: "case-study",
@@ -163,6 +171,7 @@ export const events: {
       { name: "Arjun Kumar", phone: "+91 90000 88899" },
       { name: "Divya Sree", phone: "+91 90000 88900" },
     ],
+    lumaEventId: "evt-yfO2RHvL8hwS6DF",
   },
 ];
 
