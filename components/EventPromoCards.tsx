@@ -39,22 +39,22 @@ export default function EventPromoCards() {
 
           return (
             <AnimatedSection key={event.id}>
-              <div className="group relative min-h-[340px] overflow-hidden rounded-[2rem] border border-emerald-500/30 bg-black/80 p-8 sm:p-12 shadow-2xl transition-all duration-500 hover:border-emerald-400/70 hover:shadow-[0_0_60px_rgba(16,185,129,0.25)]">
+              <div className="group relative min-h-[340px] overflow-hidden rounded-[2rem] border border-emerald-500/30 bg-black/8 p-8 sm:p-12 shadow-2xl transition-all duration-500 hover:border-emerald-400/70 hover:shadow-[0_0_60px_rgba(16,185,129,0.25)]">
                 {/* Full Backside Background Image */}
                 <NextImage
                   src={event.image || `/assets/events/${event.id}.jpg`}
                   alt={event.title}
                   fill
                   priority={i < 2}
-                  className="object-cover object-center opacity-40 transition-all duration-700 group-hover:scale-105 group-hover:opacity-55"
+                  className="object-cover object-center opacity-85 brightness-105 transition-all duration-700 group-hover:scale-105 group-hover:opacity-100"
                 />
 
-                {/* Dark Gradient Overlay for Crisp Legibility */}
+                {/* Lightened Gradient Overlay for Unfaded Vivid Images */}
                 <div
                   className={`pointer-events-none absolute inset-0 ${
                     isEven
-                      ? "bg-gradient-to-r from-black/95 via-black/80 to-black/45"
-                      : "bg-gradient-to-l from-black/95 via-black/80 to-black/45"
+                      ? "bg-gradient-to-r from-black/85 via-black/50 to-black/20"
+                      : "bg-gradient-to-l from-black/85 via-black/50 to-black/20"
                   }`}
                 />
 

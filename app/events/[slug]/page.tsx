@@ -39,11 +39,11 @@ export default async function EventPage({
             alt={event.title}
             fill
             priority
-            className="object-cover object-center opacity-45 transition-all duration-700 group-hover:scale-105 group-hover:opacity-60"
+            className="object-cover object-center opacity-85 brightness-105 transition-all duration-700 group-hover:scale-105 group-hover:opacity-100"
           />
 
-          {/* Dark Gradient Overlay */}
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/95 via-black/85 to-black/50" />
+          {/* Lightened Gradient Overlay */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-black/20" />
 
           {/* Content */}
           <div className="relative z-10 max-w-2xl">
