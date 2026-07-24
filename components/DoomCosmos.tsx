@@ -3,13 +3,12 @@
 import { useEffect, useRef } from "react";
 
 // ============================================================
-//  Doctor Doom — Live Interactive Doomsday Cosmic Background
+//  Doctor Doom — Smooth Live Doomsday Background Engine
 //
 //  - Interactive Hexagonal Energy Defense Shield (Ripples on Mouse Hover)
-//  - Live Drifting Volumetric Emerald Plasma Smoke & Nebular Haze
-//  - Dynamic Electric Plasma Arcs & Lightning Flashes
+//  - Deep Obsidian Void & Parallax Emerald Starfield
 //  - Volcanic Rugged Terrain & Citadel with Pulsing Magma Fissures
-//  - 60+ Fluid Rising Embers & Energy Rune Sparks reacting to Cursor
+//  - Fluid Rising Embers & Energy Rune Sparks reacting to Cursor
 //  - Viewport Culling via IntersectionObserver for 60-144 FPS
 // ============================================================
 
@@ -19,13 +18,6 @@ interface Star {
   z: number;
   size: number;
   speed: number;
-}
-
-interface LightningBolt {
-  segments: { x: number; y: number }[];
-  alpha: number;
-  life: number;
-  maxLife: number;
 }
 
 interface PlasmaStream {
@@ -99,7 +91,6 @@ export default function DoomCosmos() {
 
     const stars: Star[] = [];
     const embers: Ember[] = [];
-    const bolts: LightningBolt[] = [];
     const streams: PlasmaStream[] = [];
 
     function initStars() {
@@ -130,32 +121,12 @@ export default function DoomCosmos() {
       });
     }
 
-    function spawnBolt() {
-      const startX = 0.1 * w + Math.random() * 0.8 * w;
-      const startY = 0.05 * h + Math.random() * 0.25 * h;
-      const segs: { x: number; y: number }[] = [{ x: startX, y: startY }];
-      let x = startX;
-      let y = startY;
-      const length = 8 + Math.floor(Math.random() * 10);
-      for (let i = 0; i < length; i++) {
-        x += (Math.random() - 0.5) * 25;
-        y += 15 + Math.random() * 25;
-        segs.push({ x, y });
-      }
-      bolts.push({
-        segments: segs,
-        alpha: 0.85 + Math.random() * 0.15,
-        life: 0,
-        maxLife: 8 + Math.random() * 10,
-      });
-    }
-
     function spawnStream() {
-      if (streams.length > 6) return;
+      if (streams.length > 5) return;
       const x = Math.random() * w;
       const y = 0.2 * h + Math.random() * 0.4 * h;
       const pts: { x: number; y: number }[] = [];
-      const len = 20 + Math.floor(Math.random() * 20);
+      const len = 18 + Math.floor(Math.random() * 18);
       for (let i = 0; i < len; i++) {
         pts.push({
           x: x + Math.sin(i * 0.4) * i * 3,
@@ -260,9 +231,6 @@ export default function DoomCosmos() {
       buildStaticCache();
     }
 
-    // High-FPS Live Animation Loop
-    let boltTimer = 0;
-
     function tick() {
       if (!isVisible) {
         animId = 0;
@@ -330,49 +298,20 @@ export default function DoomCosmos() {
       }
       ctx!.restore();
 
-      // 4. Electric Lightning Strikes
-      boltTimer++;
-      if (boltTimer > 120 + Math.random() * 180) {
-        spawnBolt();
-        boltTimer = 0;
-      }
-
-      for (let i = bolts.length - 1; i >= 0; i--) {
-        const b = bolts[i];
-        b.life++;
-        if (b.life >= b.maxLife) {
-          bolts.splice(i, 1);
-          continue;
-        }
-
-        const fade = 1 - b.life / b.maxLife;
-        ctx!.save();
-        ctx!.strokeStyle = `rgba(61, 255, 140, ${b.alpha * fade})`;
-        ctx!.lineWidth = 2.5 * fade;
-        ctx!.beginPath();
-        for (let j = 0; j < b.segments.length; j++) {
-          const pt = b.segments[j];
-          if (j === 0) ctx!.moveTo(pt.x, pt.y);
-          else ctx!.lineTo(pt.x, pt.y);
-        }
-        ctx!.stroke();
-        ctx!.restore();
-      }
-
-      // 5. Pre-rendered Terrain & Citadel Cache
+      // 4. Pre-rendered Terrain & Citadel Cache
       ctx!.drawImage(offscreen, 0, 0);
 
-      // 6. Live Plasma Energy Beams
-      if (Math.random() < 0.2) spawnStream();
+      // 5. Live Plasma Energy Beams
+      if (Math.random() < 0.15) spawnStream();
       for (let i = streams.length - 1; i >= 0; i--) {
         const st = streams[i];
-        st.life += 0.02;
+        st.life += 0.015;
         if (st.life > 1) {
           streams.splice(i, 1);
           continue;
         }
 
-        const alpha = (1 - st.life) * 0.5;
+        const alpha = (1 - st.life) * 0.45;
         ctx!.save();
         ctx!.strokeStyle = `${st.color}${alpha})`;
         ctx!.lineWidth = st.width;
@@ -387,7 +326,7 @@ export default function DoomCosmos() {
         ctx!.restore();
       }
 
-      // 7. Live Interactive Embers (React to Cursor)
+      // 6. Live Interactive Embers (React to Cursor)
       if (Math.random() < 0.4) spawnEmber();
 
       for (let i = embers.length - 1; i >= 0; i--) {

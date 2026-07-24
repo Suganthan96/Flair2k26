@@ -67,7 +67,7 @@ export default function Team() {
           </p>
           <div className="mx-auto max-w-[320px] sm:max-w-[380px] md:max-w-[420px]">
             <NextImage
-              src="/assets/event_team1.png"
+              src="/assets/event_team2.png"
               alt="Event Team"
               width={420}
               height={180}

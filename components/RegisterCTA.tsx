@@ -19,7 +19,7 @@ export default function RegisterCTA() {
         </p>
         <div className="mx-auto max-w-[420px]">
           <NextImage
-            src="/assets/join_flair_2k26.png"
+            src="/assets/join_flair_2k261.png"
             alt="Join Flair 2k26"
             width={840}
             height={160}
