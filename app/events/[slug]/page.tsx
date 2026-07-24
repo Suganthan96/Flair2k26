@@ -1,5 +1,4 @@
 import Link from "next/link";
-import NextImage from "next/image";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { iconMap, GRADIENTS } from "@/components/eventVisuals";
@@ -46,18 +45,14 @@ export default async function EventPage({
           />
 
           <div className="relative grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
-            <div className="relative mx-auto aspect-square w-full max-w-sm overflow-hidden rounded-2xl border border-white/20 bg-black/40 shadow-2xl shadow-black/40 group">
-              <NextImage
-                src={`/assets/events/${event.id}.jpg`}
-                alt={event.title}
-                width={800}
-                height={800}
-                priority
-                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-              <div className="absolute bottom-4 right-4 flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-black/60 backdrop-blur-md">
-                <Icon size={20} className="text-emerald-400" />
+            <div className="relative mx-auto aspect-square w-full max-w-sm overflow-hidden rounded-2xl border border-white/20 bg-black/40 shadow-2xl shadow-black/40">
+              <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/30" />
+              <div className="relative flex h-full items-center justify-center">
+                <Icon
+                  size={120}
+                  strokeWidth={1.25}
+                  className="text-white/90 drop-shadow-[0_4px_20px_rgba(0,0,0,0.6)]"
+                />
               </div>
             </div>
 
