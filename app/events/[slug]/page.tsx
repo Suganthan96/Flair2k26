@@ -1,7 +1,8 @@
 import Link from "next/link";
+import NextImage from "next/image";
 import { notFound } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
-import { iconMap, GRADIENTS } from "@/components/eventVisuals";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { iconMap } from "@/components/eventVisuals";
 import { events } from "@/data/mockData";
 
 export async function generateStaticParams() {
@@ -19,55 +20,55 @@ export default async function EventPage({
 
   const event = events[index];
   const Icon = iconMap[event.icon] ?? iconMap.FileText;
-  const gradient = GRADIENTS[index % GRADIENTS.length];
 
   return (
-    <main className="relative min-h-screen bg-background px-6 py-16 sm:py-24">
-      <div className="mx-auto max-w-4xl">
+    <main className="relative min-h-screen bg-[#05060a] px-6 py-16 sm:py-24">
+      <div className="mx-auto max-w-5xl">
         <Link
           href="/#events"
-          className="inline-flex items-center gap-2 text-sm font-semibold text-white/60 transition-colors hover:text-white"
+          className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-400/80 transition-colors hover:text-emerald-300 mb-6"
         >
           <ArrowLeft size={16} />
           Back to Events
         </Link>
 
-        <div
-          className={`relative mt-8 overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-br p-8 sm:p-12 ${gradient}`}
-        >
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -left-16 -top-16 h-64 w-64 rounded-full bg-white/10 blur-3xl"
-          />
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -bottom-10 -right-10 h-72 w-72 rounded-full bg-black/20 blur-3xl"
+        <div className="group relative min-h-[420px] overflow-hidden rounded-[2rem] border border-emerald-500/40 bg-black/80 p-8 sm:p-14 shadow-2xl">
+          {/* Full Backside Background Image */}
+          <NextImage
+            src={`/assets/events/${event.id}.jpg`}
+            alt={event.title}
+            fill
+            priority
+            className="object-cover object-center opacity-45 transition-all duration-700 group-hover:scale-105 group-hover:opacity-60"
           />
 
-          <div className="relative grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
-            <div className="relative mx-auto aspect-square w-full max-w-sm overflow-hidden rounded-2xl border border-white/20 bg-black/40 shadow-2xl shadow-black/40">
-              <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/30" />
-              <div className="relative flex h-full items-center justify-center">
-                <Icon
-                  size={120}
-                  strokeWidth={1.25}
-                  className="text-white/90 drop-shadow-[0_4px_20px_rgba(0,0,0,0.6)]"
-                />
-              </div>
+          {/* Dark Gradient Overlay */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/95 via-black/85 to-black/50" />
+
+          {/* Content */}
+          <div className="relative z-10 max-w-2xl">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-emerald-400/40 bg-emerald-950/70 px-4 py-1.5 backdrop-blur-md">
+              <Icon size={20} className="text-emerald-400" />
+              <span className="text-xs font-semibold uppercase tracking-widest text-emerald-300">
+                Event Track
+              </span>
             </div>
 
-            <div className="text-center lg:text-left">
-              <h1 className="font-black-ops text-4xl uppercase leading-[0.95] text-white sm:text-5xl">
-                {event.title}
-              </h1>
-              <p className="mx-auto mt-5 max-w-md text-base leading-relaxed text-white/80 sm:text-lg lg:mx-0">
-                {event.description}
-              </p>
+            <h1 className="font-black-ops text-4xl uppercase leading-[0.95] text-white sm:text-6xl drop-shadow-xl">
+              {event.title}
+            </h1>
+
+            <p className="mt-6 text-base leading-relaxed text-white/90 sm:text-xl">
+              {event.description}
+            </p>
+
+            <div className="mt-10">
               <Link
                 href="/#register"
-                className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-semibold text-black transition-transform hover:scale-105"
+                className="inline-flex items-center gap-3 rounded-full border border-emerald-400/60 bg-emerald-400 px-8 py-4 text-base font-semibold text-black transition-all hover:bg-emerald-300 hover:shadow-[0_0_40px_rgba(61,255,140,0.7)]"
               >
-                Register Now
+                <span>Register Now</span>
+                <ArrowRight size={18} />
               </Link>
             </div>
           </div>

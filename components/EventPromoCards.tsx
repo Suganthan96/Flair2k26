@@ -2,7 +2,7 @@ import NextImage from "next/image";
 import { FileText, ArrowRight } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
 import DoomCosmos from "./DoomCosmos";
-import { iconMap, GRADIENTS } from "./eventVisuals";
+import { iconMap } from "./eventVisuals";
 import { events } from "@/data/mockData";
 
 export default function EventPromoCards() {
@@ -16,7 +16,7 @@ export default function EventPromoCards() {
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#05060a]/60" />
 
       <div className="relative z-10 mx-auto flex max-w-6xl flex-col gap-10">
-        <AnimatedSection className="text-center mb-4">
+        <AnimatedSection className="mb-4 text-center">
           <p className="mb-3 font-avenger text-xs uppercase tracking-[0.2em] text-emerald-400/80">
             Events & Tracks
           </p>
@@ -32,56 +32,74 @@ export default function EventPromoCards() {
           </div>
           <div className="mx-auto mt-4 h-[3px] w-40 rounded-full bg-gradient-to-r from-transparent via-emerald-500 to-transparent" />
         </AnimatedSection>
+
         {events.map((event, i) => {
           const Icon = iconMap[event.icon] ?? FileText;
-          const reversed = i % 2 === 1;
-          const gradient = GRADIENTS[i % GRADIENTS.length];
+          const isEven = i % 2 === 0; // Alternating cards: 0 (Right Button), 1 (Left Button), 2 (Right Button)...
 
           return (
             <AnimatedSection key={event.id}>
-              <div
-                className={`relative overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-br p-8 sm:p-12 ${gradient}`}
-              >
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute -left-16 -top-16 h-64 w-64 rounded-full bg-white/10 blur-3xl"
-                />
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute -bottom-10 -right-10 h-72 w-72 rounded-full bg-black/20 blur-3xl"
+              <div className="group relative min-h-[340px] overflow-hidden rounded-[2rem] border border-emerald-500/30 bg-black/80 p-8 sm:p-12 shadow-2xl transition-all duration-500 hover:border-emerald-400/70 hover:shadow-[0_0_60px_rgba(16,185,129,0.25)]">
+                {/* Full Backside Background Image */}
+                <NextImage
+                  src={`/assets/events/${event.id}.jpg`}
+                  alt={event.title}
+                  fill
+                  priority={i < 2}
+                  className="object-cover object-center opacity-40 transition-all duration-700 group-hover:scale-105 group-hover:opacity-55"
                 />
 
-                <div className="relative grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
+                {/* Dark Gradient Overlay for Crisp Legibility */}
+                <div
+                  className={`pointer-events-none absolute inset-0 ${
+                    isEven
+                      ? "bg-gradient-to-r from-black/95 via-black/80 to-black/45"
+                      : "bg-gradient-to-l from-black/95 via-black/80 to-black/45"
+                  }`}
+                />
+
+                {/* Card Content Grid (Alternating button position: right for even, left for odd) */}
+                <div className="relative z-10 grid grid-cols-1 items-center gap-8 lg:grid-cols-12">
+                  {/* Content Block */}
                   <div
-                    className={`relative mx-auto aspect-square w-full max-w-sm overflow-hidden rounded-2xl border border-white/20 bg-black/40 shadow-2xl shadow-black/40 ${
-                      reversed ? "lg:order-2" : "lg:order-1"
+                    className={`lg:col-span-8 text-center ${
+                      isEven ? "lg:order-1 lg:text-left" : "lg:order-2 lg:text-right"
                     }`}
                   >
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/30" />
-                    <div className="relative flex h-full items-center justify-center">
-                      <Icon
-                        size={120}
-                        strokeWidth={1.25}
-                        className="text-white/90 drop-shadow-[0_4px_20px_rgba(0,0,0,0.6)]"
-                      />
+                    <div
+                      className={`mb-4 inline-flex items-center gap-2 rounded-full border border-emerald-400/40 bg-emerald-950/70 px-4 py-1.5 backdrop-blur-md`}
+                    >
+                      <Icon size={18} className="text-emerald-400" />
+                      <span className="text-xs font-semibold uppercase tracking-widest text-emerald-300">
+                        Track #{i + 1}
+                      </span>
                     </div>
-                  </div>
 
-                  <div
-                    className={`text-center lg:text-left ${reversed ? "lg:order-1" : "lg:order-2"}`}
-                  >
-                    <h2 className="font-black-ops text-4xl uppercase leading-[0.95] text-white sm:text-5xl">
+                    <h2 className="font-black-ops text-3xl uppercase leading-[1.0] text-white sm:text-4xl md:text-5xl drop-shadow-lg">
                       {event.title}
                     </h2>
-                    <p className="mx-auto mt-5 max-w-md text-base leading-relaxed text-white/80 sm:text-lg lg:mx-0">
+
+                    <p
+                      className={`mt-4 text-sm leading-relaxed text-white/90 sm:text-base md:text-lg ${
+                        isEven ? "lg:mr-auto" : "lg:ml-auto"
+                      } max-w-xl`}
+                    >
                       {event.description}
                     </p>
+                  </div>
+
+                  {/* Button Block */}
+                  <div
+                    className={`lg:col-span-4 flex justify-center ${
+                      isEven ? "lg:order-2 lg:justify-end" : "lg:order-1 lg:justify-start"
+                    }`}
+                  >
                     <a
                       href={`/events/${event.id}`}
-                      className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-semibold text-black transition-transform hover:scale-105"
+                      className="group/btn relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-emerald-400/60 bg-black/60 px-8 py-4 text-sm font-semibold text-white backdrop-blur-md transition-all duration-300 hover:border-emerald-300 hover:bg-emerald-400 hover:text-black hover:shadow-[0_0_30px_rgba(61,255,140,0.6)]"
                     >
-                      View Details
-                      <ArrowRight size={16} />
+                      <span>View Details</span>
+                      <ArrowRight size={18} className="transition-transform group-hover/btn:translate-x-1" />
                     </a>
                   </div>
                 </div>
