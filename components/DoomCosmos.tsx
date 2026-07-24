@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 
 // ============================================================
-//  Doctor Doom — Smooth Live Doomsday Background Engine
+//  Doctor Doom — Clean Live Doomsday Background Engine
 //
 //  - Interactive Hexagonal Energy Defense Shield (Ripples on Mouse Hover)
 //  - Deep Obsidian Void & Parallax Emerald Starfield
@@ -18,14 +18,6 @@ interface Star {
   z: number;
   size: number;
   speed: number;
-}
-
-interface PlasmaStream {
-  points: { x: number; y: number }[];
-  color: string;
-  width: number;
-  speed: number;
-  life: number;
 }
 
 interface Ember {
@@ -91,7 +83,6 @@ export default function DoomCosmos() {
 
     const stars: Star[] = [];
     const embers: Ember[] = [];
-    const streams: PlasmaStream[] = [];
 
     function initStars() {
       stars.length = 0;
@@ -118,27 +109,6 @@ export default function DoomCosmos() {
         life: 0,
         maxLife: 110 + Math.random() * 130,
         isGold,
-      });
-    }
-
-    function spawnStream() {
-      if (streams.length > 5) return;
-      const x = Math.random() * w;
-      const y = 0.2 * h + Math.random() * 0.4 * h;
-      const pts: { x: number; y: number }[] = [];
-      const len = 18 + Math.floor(Math.random() * 18);
-      for (let i = 0; i < len; i++) {
-        pts.push({
-          x: x + Math.sin(i * 0.4) * i * 3,
-          y: y - i * 3,
-        });
-      }
-      streams.push({
-        points: pts,
-        color: Math.random() < 0.3 ? "rgba(232, 185, 35," : "rgba(61, 255, 140,",
-        width: 1.5 + Math.random() * 2,
-        speed: 0.8 + Math.random() * 0.6,
-        life: 0,
       });
     }
 
@@ -301,32 +271,7 @@ export default function DoomCosmos() {
       // 4. Pre-rendered Terrain & Citadel Cache
       ctx!.drawImage(offscreen, 0, 0);
 
-      // 5. Live Plasma Energy Beams
-      if (Math.random() < 0.15) spawnStream();
-      for (let i = streams.length - 1; i >= 0; i--) {
-        const st = streams[i];
-        st.life += 0.015;
-        if (st.life > 1) {
-          streams.splice(i, 1);
-          continue;
-        }
-
-        const alpha = (1 - st.life) * 0.45;
-        ctx!.save();
-        ctx!.strokeStyle = `${st.color}${alpha})`;
-        ctx!.lineWidth = st.width;
-        ctx!.beginPath();
-        for (let j = 0; j < st.points.length; j++) {
-          const p = st.points[j];
-          const wave = Math.sin(j * 0.3 + time * st.speed) * 6;
-          if (j === 0) ctx!.moveTo(p.x + wave, p.y);
-          else ctx!.lineTo(p.x + wave, p.y);
-        }
-        ctx!.stroke();
-        ctx!.restore();
-      }
-
-      // 6. Live Interactive Embers (React to Cursor)
+      // 5. Live Interactive Embers (React to Cursor)
       if (Math.random() < 0.4) spawnEmber();
 
       for (let i = embers.length - 1; i >= 0; i--) {
