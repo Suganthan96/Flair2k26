@@ -54,8 +54,16 @@ export default function Footer() {
               height={32}
               className="h-8 w-8 object-contain"
             />
+             <Image
+              src="/assets/FLAIR.png"
+              alt="FLAIR logo"
+              width={500}
+              height={500}
+              className="h-15 w-15 object-contain"
+            />
+
             <span className="font-avenger text-base uppercase text-white/90">
-              {siteConfig.name}
+              
             </span>
           </div>
           <p className="mt-4 text-sm text-emerald-300/40">

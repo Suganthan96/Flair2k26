@@ -22,7 +22,7 @@ export default function EventPromoCards() {
           </p>
           <div className="mx-auto max-w-[320px] sm:max-w-[380px] md:max-w-[420px]">
             <NextImage
-              src="/assets/events_heading.png"
+              src="/assets/events.png"
               alt="Events & Tracks"
               width={443}
               height={248}
