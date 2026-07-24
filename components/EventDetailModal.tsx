@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { X } from "lucide-react";
+import SpecularButton from "./SpecularButton";
 import { iconMap, GRADIENTS } from "./eventVisuals";
 import { commonGuidelines, type EventQueryContact } from "@/data/mockData";
 
@@ -79,17 +80,29 @@ export default function EventDetailModal({
               {event.description}
             </p>
             <div className="mt-4 flex flex-wrap items-center gap-3">
-              <span className="inline-block rounded-full border border-avenger-red/40 bg-avenger-red/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-avenger-red">
+              <span className="inline-block rounded-full border border-green-500/40 bg-green-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-green-500">
                 Team Size: {event.teamSize}
               </span>
-              <a
+              <SpecularButton
                 href={`https://luma.com/event/${event.lumaEventId}`}
-                className="luma-checkout--button inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-avenger-red to-avenger-purple px-6 py-2 text-sm font-semibold text-white transition-transform hover:scale-105"
+                className="luma-checkout--button"
                 data-luma-action="checkout"
                 data-luma-event-id={event.lumaEventId}
+                size="md"
+                radius={999}
+                tint="#ffffff"
+                tintOpacity={0.08}
+                textColor="#ffffff"
+                lineColor="#22c55e"
+                baseColor="#5b1a8c"
+                intensity={1.2}
+                shineSize={12}
+                shineFade={45}
+                thickness={1.5}
+                autoAnimate
               >
-                Register for {event.title}
-              </a>
+                Register 
+              </SpecularButton>
             </div>
           </div>
         </div>
@@ -100,13 +113,13 @@ export default function EventDetailModal({
         <div data-lenis-prevent className="no-scrollbar overflow-y-auto p-6 sm:p-8">
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-avenger-red">
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-green-500">
                 Common Guidelines
               </h3>
               <ul className="mt-4 space-y-3 text-sm leading-relaxed text-white/75">
                 {commonGuidelines.map((line) => (
                   <li key={line} className="flex gap-2">
-                    <span className="mt-0.5 shrink-0 text-avenger-red">—</span>
+                    <span className="mt-0.5 shrink-0 text-green-500">—</span>
                     <span>{line}</span>
                   </li>
                 ))}
@@ -135,7 +148,7 @@ export default function EventDetailModal({
           </div>
 
           <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-6">
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-avenger-red">
+            <h3 className="text-sm font-semibold uppercase tracking-wide text-green-500">
               Event Description
             </h3>
             <p className="mt-3 text-sm leading-relaxed text-white/75">{event.description}</p>
@@ -143,13 +156,13 @@ export default function EventDetailModal({
 
           <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-avenger-red">
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-green-500">
                 Time
               </h3>
               <p className="mt-3 text-sm text-white/80">{event.time}</p>
             </div>
             <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-avenger-red">
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-green-500">
                 Venue
               </h3>
               <p className="mt-3 text-sm text-white/80">{event.venue}</p>
@@ -158,13 +171,13 @@ export default function EventDetailModal({
 
           <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-avenger-red">
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-green-500">
                 Organizers
               </h3>
               <p className="mt-3 text-sm text-white/80">{event.organizers}</p>
             </div>
             <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-avenger-red">
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-green-500">
                 For Queries
               </h3>
               <ul className="mt-3 space-y-1 text-sm text-white/80">
