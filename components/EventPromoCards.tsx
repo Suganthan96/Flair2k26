@@ -1,14 +1,33 @@
-import { FileText, ArrowRight } from "lucide-react";
+"use client";
+
+import { useState } from "react";
+import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
+import EventDetailModal from "./EventDetailModal";
 import { iconMap, GRADIENTS } from "./eventVisuals";
 import { events } from "@/data/mockData";
 
 export default function EventPromoCards() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
   return (
     <section id="events" className="relative px-6 pb-6 pt-16 sm:pb-8 sm:pt-20">
-      <div className="mx-auto flex max-w-6xl flex-col gap-10">
+      <div className="mx-auto max-w-6xl">
+        <AnimatedSection className="flex justify-center">
+          <Image
+            src="/assets/events-removebg-preview.png"
+            alt="Events"
+            width={612}
+            height={408}
+            className="h-auto w-56 object-contain drop-shadow-[0_4px_20px_rgba(0,0,0,0.6)] sm:w-72"
+          />
+        </AnimatedSection>
+      </div>
+
+      <div className="mx-auto mt-8 flex max-w-6xl flex-col gap-10">
         {events.map((event, i) => {
-          const Icon = iconMap[event.icon] ?? FileText;
+          const Icon = iconMap[event.icon] ?? iconMap.FileText;
           const reversed = i % 2 === 1;
           const gradient = GRADIENTS[i % GRADIENTS.length];
 
@@ -51,13 +70,14 @@ export default function EventPromoCards() {
                     <p className="mx-auto mt-5 max-w-md text-base leading-relaxed text-white/80 sm:text-lg lg:mx-0">
                       {event.description}
                     </p>
-                    <a
-                      href={`/events/${event.id}`}
+                    <button
+                      type="button"
+                      onClick={() => setOpenIndex(i)}
                       className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-semibold text-black transition-transform hover:scale-105"
                     >
                       View Details
                       <ArrowRight size={16} />
-                    </a>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -65,6 +85,14 @@ export default function EventPromoCards() {
           );
         })}
       </div>
+
+      {openIndex !== null && (
+        <EventDetailModal
+          event={events[openIndex]}
+          index={openIndex}
+          onClose={() => setOpenIndex(null)}
+        />
+      )}
     </section>
   );
 }

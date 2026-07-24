@@ -54,6 +54,16 @@ html {
     var(--background);
 }
 
+/* Scroll still works — this only hides the visible track/thumb. */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 .bg-hero-video-overlay {
   background:
     radial-gradient(60% 50% at 15% 20%, rgba(237, 28, 36, 0.28), transparent 60%),
