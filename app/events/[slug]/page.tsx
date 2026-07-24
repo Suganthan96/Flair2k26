@@ -35,7 +35,7 @@ export default async function EventPage({
         <div className="group relative min-h-[420px] overflow-hidden rounded-[2rem] border border-emerald-500/40 bg-black/80 p-8 sm:p-14 shadow-2xl">
           {/* Full Backside Background Image */}
           <NextImage
-            src={`/assets/events/${event.id}.jpg`}
+            src={event.image || `/assets/events/${event.id}.jpg`}
             alt={event.title}
             fill
             priority

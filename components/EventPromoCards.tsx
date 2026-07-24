@@ -42,7 +42,7 @@ export default function EventPromoCards() {
               <div className="group relative min-h-[340px] overflow-hidden rounded-[2rem] border border-emerald-500/30 bg-black/80 p-8 sm:p-12 shadow-2xl transition-all duration-500 hover:border-emerald-400/70 hover:shadow-[0_0_60px_rgba(16,185,129,0.25)]">
                 {/* Full Backside Background Image */}
                 <NextImage
-                  src={`/assets/events/${event.id}.jpg`}
+                  src={event.image || `/assets/events/${event.id}.jpg`}
                   alt={event.title}
                   fill
                   priority={i < 2}
