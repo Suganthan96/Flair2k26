@@ -51,6 +51,76 @@ export default function EventCard({
   // per-card index marker rather than copying its layout wholesale.
   const numberY = useTransform(scrollYProgress, [0, 1], [30, -30]);
 
+  if (event.backgroundImage) {
+    return (
+      <TwistCard index={index}>
+        <div
+          ref={cardRef}
+          className={`relative min-h-[26rem] rounded-[2rem] border border-white/10 sm:min-h-[28rem] ${
+            event.characterImage ? "overflow-visible" : "overflow-hidden"
+          }`}
+        >
+          {/* Photo + dark-wash overlays clip to the rounded card; the
+              character art below intentionally escapes this via the
+              outer container's overflow-visible, same bleed treatment as
+              the icon-box cards. */}
+          <div className="absolute inset-0 overflow-hidden rounded-[2rem]">
+            <Image
+              src={event.backgroundImage}
+              alt=""
+              fill
+              sizes="(max-width: 1024px) 100vw, 1024px"
+              className="object-cover"
+              style={{ objectPosition: event.backgroundPosition ?? "center" }}
+            />
+            <div className="absolute inset-0 bg-black/30" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/35 to-black/10" />
+          </div>
+
+          <div
+            className={`relative z-10 flex h-full flex-col justify-end p-8 sm:p-12 ${
+              event.characterImage && !imageOnRight ? "ml-auto max-w-md sm:max-w-lg" : ""
+            }`}
+          >
+            <h2 className="font-black-ops text-4xl uppercase leading-[0.95] text-white sm:text-5xl">
+              {event.title}
+            </h2>
+            <p className="mt-5 max-w-md text-base leading-relaxed text-white/80 sm:text-lg">
+              {event.description}
+            </p>
+            <button
+              type="button"
+              onClick={onOpenDetails}
+              className="mt-8 inline-flex w-fit items-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-semibold text-black transition-transform hover:scale-105"
+            >
+              View Details
+              <ArrowRight size={16} />
+            </button>
+          </div>
+
+          {event.characterImage && (
+            <motion.div
+              className={`pointer-events-none absolute top-1/2 z-20 h-[165%] w-72 -translate-y-1/2 sm:w-96 lg:w-[34rem] ${
+                imageOnRight
+                  ? "-right-8 sm:-right-16 lg:-right-28"
+                  : "-left-8 sm:-left-16 lg:-left-28"
+              }`}
+              style={{ x }}
+            >
+              <Image
+                src={event.characterImage}
+                alt={event.title}
+                fill
+                sizes="(max-width: 640px) 70vw, (max-width: 1024px) 50vw, 34rem"
+                className="object-contain drop-shadow-[0_12px_40px_rgba(0,0,0,0.7)]"
+              />
+            </motion.div>
+          )}
+        </div>
+      </TwistCard>
+    );
+  }
+
   return (
     <TwistCard index={index}>
       <div
