@@ -3,7 +3,6 @@
 // Aliased: the bare `Image` name is the DOM constructor used to preload frames.
 import NextImage from "next/image";
 import { useEffect, useRef, useState, type RefObject } from "react";
-import { ArrowRight, Zap } from "lucide-react";
 import SideRays from "./SideRays";
 
 const FRAME_COUNT = 137;
@@ -168,6 +167,7 @@ function ScrollFrameCanvas({ trackRef }: { trackRef: RefObject<HTMLElement | nul
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     // Scroll budget for the whole sequence. All frames play across whatever
@@ -212,44 +212,55 @@ export default function Hero() {
           />
         </a>
 
-        {/* Ultra-Attractive Doctor Doom Avengers Style "JOIN US ON 8TH AUGUST" Text Emblem */}
+        {/* Pure Standalone 3D Metallic Avengers: Doomsday Styled Text (Thor Lightning Roll-Over on Hover) */}
         <a
           href="#register"
-          className="group/text absolute left-8 top-20 z-20 flex flex-col text-left transition-all duration-500 sm:left-16 sm:top-24"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          className="group/text absolute left-8 top-20 z-20 inline-block transition-all duration-500 sm:left-16 sm:top-24"
         >
-          {/* Subtitle Badge */}
-          <div className="mb-1 flex items-center gap-2.5">
-            <span className="relative flex h-2.5 w-2.5 items-center justify-center">
-              <span className="absolute inset-0 animate-ping rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative h-2 w-2 rounded-full bg-emerald-300" />
-            </span>
-            <span className="font-avenger text-xs font-bold uppercase tracking-[0.35em] text-emerald-400 drop-shadow-[0_0_10px_rgba(61,255,140,0.9)] transition-all group-hover/text:text-emerald-200">
-              DOOMSDAY MISSION · AUGUST 8, 2026
-            </span>
-          </div>
+          <div className="relative inline-block select-none">
+            {/* Thor Lightning Electric Arcs (Rolls across letters on hover) */}
+            {isHovered && (
+              <svg
+                className="pointer-events-none absolute -inset-x-8 -inset-y-6 h-[calc(100%+48px)] w-[calc(100%+64px)] z-30 overflow-visible"
+                viewBox="0 0 500 120"
+                preserveAspectRatio="none"
+              >
+                {/* Thor Lightning Strike 1 - Electric Blue/Green */}
+                <path
+                  d="M 0 35 L 80 15 L 140 45 L 220 10 L 310 50 L 400 20 L 500 35"
+                  fill="none"
+                  stroke="#6ee7b7"
+                  strokeWidth="3.5"
+                  className="animate-pulse drop-shadow-[0_0_15px_rgba(110,231,183,1)]"
+                />
+                {/* Thor Lightning Arc 2 - Cyan Thunder Bolt */}
+                <path
+                  d="M 10 75 L 100 95 L 190 60 L 280 105 L 370 55 L 450 85 L 500 65"
+                  fill="none"
+                  stroke="#93c5fd"
+                  strokeWidth="3"
+                  className="animate-pulse delay-75 drop-shadow-[0_0_20px_rgba(147,197,253,1)]"
+                />
+                {/* Vertical Lightning Branches */}
+                <path
+                  d="M 140 45 L 165 75 M 310 50 L 335 85 M 220 10 L 205 50"
+                  fill="none"
+                  stroke="#ffffff"
+                  strokeWidth="2.5"
+                  className="animate-ping drop-shadow-[0_0_10px_rgba(255,255,255,1)]"
+                />
+              </svg>
+            )}
 
-          {/* Main Avengers 3D Metallic Text with Plasma Storm & Glitter Shimmer */}
-          <div className="relative inline-block overflow-hidden py-1">
-            {/* Ambient Background Energy Aura Glow */}
-            <div className="pointer-events-none absolute -inset-6 opacity-0 transition-opacity duration-500 group-hover/text:opacity-100 bg-[radial-gradient(circle_at_50%_50%,rgba(61,255,140,0.25),transparent_70%)] blur-lg" />
-
-            <h1 className="relative font-black-ops text-3xl uppercase tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-emerald-100 via-emerald-300 to-green-400 transition-all duration-500 drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)] group-hover/text:scale-[1.02] group-hover/text:from-white group-hover/text:via-emerald-200 group-hover/text:to-green-300 group-hover/text:drop-shadow-[0_0_25px_rgba(61,255,140,1)] group-hover/text:drop-shadow-[0_0_55px_rgba(16,185,129,0.95)] sm:text-5xl md:text-6xl">
+            {/* 3D Metallic Avengers: Doomsday Title Text */}
+            <h1 className="relative z-10 font-black-ops text-3xl uppercase tracking-wider text-transparent bg-clip-text bg-gradient-to-b from-[#e8f7f0] via-[#38b783] to-[#093d26] transition-all duration-500 drop-shadow-[0_3px_0px_#072819] drop-shadow-[0_8px_24px_rgba(0,0,0,0.95)] group-hover/text:scale-[1.03] group-hover/text:from-white group-hover/text:via-[#52e8a7] group-hover/text:to-[#166544] group-hover/text:drop-shadow-[0_0_30px_rgba(147,197,253,1)] group-hover/text:drop-shadow-[0_0_65px_rgba(61,255,140,1)] sm:text-5xl md:text-6xl lg:text-7xl">
               JOIN US ON 8TH AUGUST
             </h1>
 
-            {/* Shimmer Electro-Glitter Lightning Sweep Bar on Hover */}
-            <span className="pointer-events-none absolute -inset-x-full inset-y-0 bg-gradient-to-r from-transparent via-emerald-200/90 to-transparent transition-transform duration-1000 group-hover/text:translate-x-full" />
-
-            {/* Plasma Energy Line under Title */}
-            <div className="mt-1.5 h-[2.5px] w-full scale-x-75 bg-gradient-to-r from-transparent via-emerald-400 to-transparent transition-transform duration-500 group-hover/text:scale-x-100 group-hover/text:shadow-[0_0_15px_rgba(61,255,140,0.9)]" />
-          </div>
-
-          {/* Action Subline with Glowing Arrow Badge */}
-          <div className="mt-3 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.25em] text-white/80 transition-colors group-hover/text:text-emerald-300">
-            <span>Assemble For The Experience</span>
-            <div className="flex h-7 w-7 items-center justify-center rounded-full border border-emerald-400/50 bg-black/60 shadow-[0_0_12px_rgba(16,185,129,0.3)] transition-all duration-300 group-hover/text:translate-x-2 group-hover/text:border-emerald-300 group-hover/text:bg-emerald-400 group-hover/text:text-black group-hover/text:shadow-[0_0_25px_rgba(61,255,140,0.9)]">
-              <ArrowRight size={15} />
-            </div>
+            {/* Thor Lightning Shimmer Sweep on Hover */}
+            <span className="pointer-events-none absolute -inset-x-full inset-y-0 bg-gradient-to-r from-transparent via-[#93c5fd]/90 to-transparent transition-transform duration-700 group-hover/text:translate-x-full" />
           </div>
         </a>
 
