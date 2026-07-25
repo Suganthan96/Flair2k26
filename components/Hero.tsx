@@ -3,7 +3,7 @@
 // Aliased: the bare `Image` name is the DOM constructor used to preload frames.
 import NextImage from "next/image";
 import { useEffect, useRef, useState, type RefObject } from "react";
-import { UserPlus, Zap, Radio, ShieldAlert } from "lucide-react";
+import { UserPlus } from "lucide-react";
 import SideRays from "./SideRays";
 
 const FRAME_COUNT = 137;
@@ -212,54 +212,27 @@ export default function Hero() {
           />
         </a>
 
-        {/* Doctor Doom "JOIN WITH US" Interactive Text Icon Button */}
+        {/* Doctor Doom Avengers Style "JOIN US ON 8TH AUGUST" Interactive Text Icon Emblem */}
         <a
           href="#register"
-          className="group/join absolute left-8 top-20 z-20 flex items-center gap-3.5 rounded-full border border-emerald-400/50 bg-black/75 px-6 py-3 backdrop-blur-md transition-all duration-500 hover:scale-105 hover:border-emerald-300 hover:bg-emerald-400 hover:shadow-[0_0_40px_rgba(61,255,140,0.8)] sm:left-16 sm:top-24"
+          className="group/join absolute left-8 top-20 z-20 flex items-center gap-4 rounded-2xl border-2 border-emerald-400/60 bg-black/85 px-6 py-3.5 backdrop-blur-lg transition-all duration-500 hover:scale-105 hover:border-emerald-300 hover:bg-emerald-400 hover:shadow-[0_0_50px_rgba(61,255,140,0.85)] sm:left-16 sm:top-24"
         >
-          <div className="relative flex h-9 w-9 items-center justify-center rounded-full bg-emerald-950/90 ring-1 ring-emerald-400/60 transition-colors group-hover/join:bg-black group-hover/join:ring-black">
-            <span className="absolute inset-0 animate-ping rounded-full bg-emerald-400/40" />
-            <UserPlus size={18} className="relative z-10 text-emerald-400 transition-colors group-hover/join:text-emerald-400" />
+          {/* Glowing Icon Cell */}
+          <div className="relative flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-950 to-green-950 ring-1 ring-emerald-400/80 transition-transform duration-500 group-hover/join:scale-110 group-hover/join:bg-black">
+            <span className="absolute inset-0 animate-ping rounded-xl bg-emerald-400/40" />
+            <UserPlus size={22} className="relative z-10 text-emerald-400 transition-colors group-hover/join:text-emerald-300 drop-shadow-[0_0_8px_rgba(61,255,140,0.9)]" />
           </div>
+
+          {/* Avengers Title Typography Lockup */}
           <div className="flex flex-col text-left">
-            <span className="font-avenger text-[10px] font-semibold uppercase tracking-[0.25em] text-emerald-400 group-hover/join:text-black/80">
-              Doomsday Mission
+            <span className="font-avenger text-[11px] font-bold uppercase tracking-[0.3em] text-emerald-400 group-hover/join:text-black/85 drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]">
+              DOOMSDAY SYMPOSIUM
             </span>
-            <span className="font-black-ops text-sm uppercase tracking-wider text-white group-hover/join:text-black">
-              Join With Us
+            <span className="font-black-ops text-base uppercase tracking-wider text-white sm:text-lg group-hover/join:text-black drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
+              JOIN US ON 8TH AUGUST
             </span>
           </div>
         </a>
-
-        {/* Doctor Doom Live Cyber Core Reactor & Status Ticker (Live Element) */}
-        <div className="absolute bottom-6 left-6 z-20 flex items-center gap-4 rounded-2xl border border-emerald-500/35 bg-black/80 p-4 backdrop-blur-md shadow-[0_0_30px_rgba(0,0,0,0.8)] sm:bottom-10 sm:left-10 sm:p-5">
-          {/* Live Rotating Doom Energy Core */}
-          <div className="relative flex h-12 w-12 items-center justify-center">
-            <div className="absolute inset-0 animate-spin rounded-full border-2 border-dashed border-emerald-400/70" style={{ animationDuration: "12s" }} />
-            <div className="absolute inset-1.5 animate-pulse rounded-full border border-emerald-300/50 bg-emerald-950/70" />
-            <Zap size={20} className="relative z-10 text-emerald-400 drop-shadow-[0_0_10px_rgba(61,255,140,0.9)]" />
-          </div>
-
-          <div className="flex flex-col">
-            <div className="flex items-center gap-2">
-              <span className="h-2 w-2 animate-ping rounded-full bg-emerald-400" />
-              <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-emerald-400">
-                LATVERIA MATRIX // LIVE
-              </span>
-            </div>
-            <p className="font-avenger text-xs text-white/90">
-              JAN 22–24, 2027 · LICET CHENNAI
-            </p>
-            <div className="mt-1.5 flex items-center gap-3 border-t border-emerald-900/50 pt-1.5 text-[10px] font-mono text-emerald-300/75">
-              <span className="flex items-center gap-1">
-                <Radio size={12} className="animate-pulse text-emerald-400" />
-                SYSTEM ONLINE
-              </span>
-              <span className="text-emerald-400/50">|</span>
-              <span className="text-emerald-400">3000K POWER</span>
-            </div>
-          </div>
-        </div>
 
         {/* Title lockup, bottom-right. Outside grade wrapper */}
         <NextImage
