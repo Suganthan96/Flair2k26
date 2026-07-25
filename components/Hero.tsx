@@ -212,34 +212,43 @@ export default function Hero() {
           />
         </a>
 
-        {/* Doctor Doom Avengers Style Standalone "JOIN US ON 8TH AUGUST" Text (Glitter & Plasma Storm Hover Effect) */}
+        {/* Ultra-Attractive Doctor Doom Avengers Style "JOIN US ON 8TH AUGUST" Text Emblem */}
         <a
           href="#register"
           className="group/text absolute left-8 top-20 z-20 flex flex-col text-left transition-all duration-500 sm:left-16 sm:top-24"
         >
           {/* Subtitle Badge */}
-          <div className="mb-1 flex items-center gap-2">
-            <span className="h-2 w-2 animate-ping rounded-full bg-emerald-400" />
-            <span className="font-avenger text-xs font-bold uppercase tracking-[0.35em] text-emerald-400 drop-shadow-[0_0_8px_rgba(61,255,140,0.8)] transition-all group-hover/text:text-emerald-300">
-              DOOMSDAY MISSION
+          <div className="mb-1 flex items-center gap-2.5">
+            <span className="relative flex h-2.5 w-2.5 items-center justify-center">
+              <span className="absolute inset-0 animate-ping rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative h-2 w-2 rounded-full bg-emerald-300" />
+            </span>
+            <span className="font-avenger text-xs font-bold uppercase tracking-[0.35em] text-emerald-400 drop-shadow-[0_0_10px_rgba(61,255,140,0.9)] transition-all group-hover/text:text-emerald-200">
+              DOOMSDAY MISSION · AUGUST 8, 2026
             </span>
           </div>
 
-          {/* Main Avengers Styled Text with Storm Glitter Hover */}
+          {/* Main Avengers 3D Metallic Text with Plasma Storm & Glitter Shimmer */}
           <div className="relative inline-block overflow-hidden py-1">
-            <h1 className="font-black-ops text-2xl uppercase tracking-wider text-white transition-all duration-500 drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] group-hover/text:scale-102 group-hover/text:text-emerald-300 group-hover/text:drop-shadow-[0_0_20px_rgba(61,255,140,1)] group-hover/text:drop-shadow-[0_0_40px_rgba(16,185,129,0.9)] group-hover/text:drop-shadow-[0_0_70px_rgba(61,255,140,0.8)] sm:text-4xl md:text-5xl">
+            {/* Ambient Background Energy Aura Glow */}
+            <div className="pointer-events-none absolute -inset-6 opacity-0 transition-opacity duration-500 group-hover/text:opacity-100 bg-[radial-gradient(circle_at_50%_50%,rgba(61,255,140,0.25),transparent_70%)] blur-lg" />
+
+            <h1 className="relative font-black-ops text-3xl uppercase tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-emerald-100 via-emerald-300 to-green-400 transition-all duration-500 drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)] group-hover/text:scale-[1.02] group-hover/text:from-white group-hover/text:via-emerald-200 group-hover/text:to-green-300 group-hover/text:drop-shadow-[0_0_25px_rgba(61,255,140,1)] group-hover/text:drop-shadow-[0_0_55px_rgba(16,185,129,0.95)] sm:text-5xl md:text-6xl">
               JOIN US ON 8TH AUGUST
             </h1>
 
-            {/* Sweep Shimmer Lightning Glitter Bar across letters on hover */}
-            <span className="pointer-events-none absolute -inset-x-full inset-y-0 bg-gradient-to-r from-transparent via-emerald-300/80 to-transparent transition-transform duration-1000 group-hover/text:translate-x-full" />
+            {/* Shimmer Electro-Glitter Lightning Sweep Bar on Hover */}
+            <span className="pointer-events-none absolute -inset-x-full inset-y-0 bg-gradient-to-r from-transparent via-emerald-200/90 to-transparent transition-transform duration-1000 group-hover/text:translate-x-full" />
+
+            {/* Plasma Energy Line under Title */}
+            <div className="mt-1.5 h-[2.5px] w-full scale-x-75 bg-gradient-to-r from-transparent via-emerald-400 to-transparent transition-transform duration-500 group-hover/text:scale-x-100 group-hover/text:shadow-[0_0_15px_rgba(61,255,140,0.9)]" />
           </div>
 
-          {/* Arrow & Energy Spark Subline */}
-          <div className="mt-2 flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.25em] text-white/70 transition-colors group-hover/text:text-emerald-400">
-            <span>Assemble for the Experience</span>
-            <div className="flex h-6 w-6 items-center justify-center rounded-full border border-emerald-400/40 bg-emerald-950/60 transition-transform duration-300 group-hover/text:translate-x-1.5 group-hover/text:border-emerald-300 group-hover/text:bg-emerald-400 group-hover/text:text-black">
-              <ArrowRight size={14} />
+          {/* Action Subline with Glowing Arrow Badge */}
+          <div className="mt-3 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.25em] text-white/80 transition-colors group-hover/text:text-emerald-300">
+            <span>Assemble For The Experience</span>
+            <div className="flex h-7 w-7 items-center justify-center rounded-full border border-emerald-400/50 bg-black/60 shadow-[0_0_12px_rgba(16,185,129,0.3)] transition-all duration-300 group-hover/text:translate-x-2 group-hover/text:border-emerald-300 group-hover/text:bg-emerald-400 group-hover/text:text-black group-hover/text:shadow-[0_0_25px_rgba(61,255,140,0.9)]">
+              <ArrowRight size={15} />
             </div>
           </div>
         </a>
