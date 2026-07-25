@@ -3,7 +3,7 @@
 // Aliased: the bare `Image` name is the DOM constructor used to preload frames.
 import NextImage from "next/image";
 import { useEffect, useRef, useState, type RefObject } from "react";
-import { UserPlus } from "lucide-react";
+import { ArrowRight, Zap } from "lucide-react";
 import SideRays from "./SideRays";
 
 const FRAME_COUNT = 137;
@@ -212,25 +212,35 @@ export default function Hero() {
           />
         </a>
 
-        {/* Doctor Doom Avengers Style "JOIN US ON 8TH AUGUST" Interactive Text Icon Emblem */}
+        {/* Doctor Doom Avengers Style Standalone "JOIN US ON 8TH AUGUST" Text (Glitter & Plasma Storm Hover Effect) */}
         <a
           href="#register"
-          className="group/join absolute left-8 top-20 z-20 flex items-center gap-4 rounded-2xl border-2 border-emerald-400/60 bg-black/85 px-6 py-3.5 backdrop-blur-lg transition-all duration-500 hover:scale-105 hover:border-emerald-300 hover:bg-emerald-400 hover:shadow-[0_0_50px_rgba(61,255,140,0.85)] sm:left-16 sm:top-24"
+          className="group/text absolute left-8 top-20 z-20 flex flex-col text-left transition-all duration-500 sm:left-16 sm:top-24"
         >
-          {/* Glowing Icon Cell */}
-          <div className="relative flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-950 to-green-950 ring-1 ring-emerald-400/80 transition-transform duration-500 group-hover/join:scale-110 group-hover/join:bg-black">
-            <span className="absolute inset-0 animate-ping rounded-xl bg-emerald-400/40" />
-            <UserPlus size={22} className="relative z-10 text-emerald-400 transition-colors group-hover/join:text-emerald-300 drop-shadow-[0_0_8px_rgba(61,255,140,0.9)]" />
+          {/* Subtitle Badge */}
+          <div className="mb-1 flex items-center gap-2">
+            <span className="h-2 w-2 animate-ping rounded-full bg-emerald-400" />
+            <span className="font-avenger text-xs font-bold uppercase tracking-[0.35em] text-emerald-400 drop-shadow-[0_0_8px_rgba(61,255,140,0.8)] transition-all group-hover/text:text-emerald-300">
+              DOOMSDAY MISSION
+            </span>
           </div>
 
-          {/* Avengers Title Typography Lockup */}
-          <div className="flex flex-col text-left">
-            <span className="font-avenger text-[11px] font-bold uppercase tracking-[0.3em] text-emerald-400 group-hover/join:text-black/85 drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]">
-              DOOMSDAY SYMPOSIUM
-            </span>
-            <span className="font-black-ops text-base uppercase tracking-wider text-white sm:text-lg group-hover/join:text-black drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
+          {/* Main Avengers Styled Text with Storm Glitter Hover */}
+          <div className="relative inline-block overflow-hidden py-1">
+            <h1 className="font-black-ops text-2xl uppercase tracking-wider text-white transition-all duration-500 drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] group-hover/text:scale-102 group-hover/text:text-emerald-300 group-hover/text:drop-shadow-[0_0_20px_rgba(61,255,140,1)] group-hover/text:drop-shadow-[0_0_40px_rgba(16,185,129,0.9)] group-hover/text:drop-shadow-[0_0_70px_rgba(61,255,140,0.8)] sm:text-4xl md:text-5xl">
               JOIN US ON 8TH AUGUST
-            </span>
+            </h1>
+
+            {/* Sweep Shimmer Lightning Glitter Bar across letters on hover */}
+            <span className="pointer-events-none absolute -inset-x-full inset-y-0 bg-gradient-to-r from-transparent via-emerald-300/80 to-transparent transition-transform duration-1000 group-hover/text:translate-x-full" />
+          </div>
+
+          {/* Arrow & Energy Spark Subline */}
+          <div className="mt-2 flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.25em] text-white/70 transition-colors group-hover/text:text-emerald-400">
+            <span>Assemble for the Experience</span>
+            <div className="flex h-6 w-6 items-center justify-center rounded-full border border-emerald-400/40 bg-emerald-950/60 transition-transform duration-300 group-hover/text:translate-x-1.5 group-hover/text:border-emerald-300 group-hover/text:bg-emerald-400 group-hover/text:text-black">
+              <ArrowRight size={14} />
+            </div>
           </div>
         </a>
 
