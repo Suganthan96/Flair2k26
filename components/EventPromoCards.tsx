@@ -1,19 +1,32 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import AnimatedSection from "./AnimatedSection";
+import EventCard from "./EventCard";
 import EventDetailModal from "./EventDetailModal";
-import TwistCard from "./TwistCard";
-import { iconMap, GRADIENTS } from "./eventVisuals";
 import { events } from "@/data/mockData";
+
+// Matches the "from" tone of each card's gradient in eventVisuals.ts, cycled
+// the same way (i % length). A soft ambient wash behind the whole list
+// shifts through these as you scroll — echoing the reference site's
+// per-section background colour changes, without copying its layout.
+const WASH_COLORS = ["#5b1a8c", "#1b3f73", "#ed1c24", "#1b3f73"];
 
 export default function EventPromoCards() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const listRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: listRef,
+    offset: ["start center", "end center"],
+  });
+  const washStops = WASH_COLORS.map((_, i) => i / (WASH_COLORS.length - 1));
+  const washColor = useTransform(scrollYProgress, washStops, WASH_COLORS);
 
   return (
-    <section id="events" className="relative px-6 pb-6 pt-16 sm:pb-8 sm:pt-20">
+    <section id="events" className="relative overflow-x-hidden px-6 pb-6 pt-16 sm:pb-8 sm:pt-20">
       <div className="mx-auto max-w-6xl">
         <AnimatedSection className="flex justify-center">
           <Image
@@ -26,101 +39,21 @@ export default function EventPromoCards() {
         </AnimatedSection>
       </div>
 
-      <div className="mx-auto mt-8 flex max-w-6xl flex-col gap-10">
-        {events.map((event, i) => {
-          const Icon = iconMap[event.icon] ?? iconMap.FileText;
-          const reversed = i % 2 === 1;
-          const gradient = GRADIENTS[i % GRADIENTS.length];
+      <div ref={listRef} className="relative mx-auto mt-8 flex max-w-6xl flex-col gap-10">
+        <motion.div
+          aria-hidden
+          className="pointer-events-none absolute -inset-x-10 -inset-y-24 -z-10 rounded-[3rem] opacity-25 blur-[110px]"
+          style={{ backgroundColor: washColor }}
+        />
 
-          if (event.backgroundImage) {
-            return (
-              <AnimatedSection key={event.id}>
-                <div className="relative min-h-[26rem] overflow-hidden rounded-[2rem] border border-white/10 sm:min-h-[28rem]">
-                  <Image
-                    src={event.backgroundImage}
-                    alt=""
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 1024px"
-                    className="object-cover"
-                    style={{ objectPosition: event.backgroundPosition ?? "center" }}
-                  />
-                  <div className="absolute inset-0 bg-black/30" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/35 to-black/10" />
-
-                  <div className="relative flex h-full flex-col justify-end p-8 sm:p-12">
-                    <h2 className="font-black-ops text-4xl uppercase leading-[0.95] text-white sm:text-5xl">
-                      {event.title}
-                    </h2>
-                    <p className="mt-5 max-w-md text-base leading-relaxed text-white/80 sm:text-lg">
-                      {event.description}
-                    </p>
-                    <button
-                      type="button"
-                      onClick={() => setOpenIndex(i)}
-                      className="mt-8 inline-flex w-fit items-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-semibold text-black transition-transform hover:scale-105"
-                    >
-                      View Details
-                      <ArrowRight size={16} />
-                    </button>
-                  </div>
-                </div>
-              </AnimatedSection>
-            );
-          }
-
-          return (
-            <TwistCard key={event.id} index={i}>
-              <div
-                className={`relative overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-br p-8 sm:p-12 ${gradient}`}
-              >
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute -left-16 -top-16 h-64 w-64 rounded-full bg-white/10 blur-3xl"
-                />
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute -bottom-10 -right-10 h-72 w-72 rounded-full bg-black/20 blur-3xl"
-                />
-
-                <div className="relative grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
-                  <div
-                    className={`relative mx-auto aspect-square w-full max-w-sm overflow-hidden rounded-2xl border border-white/20 bg-black/40 shadow-2xl shadow-black/40 ${
-                      reversed ? "lg:order-2" : "lg:order-1"
-                    }`}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/30" />
-                    <div className="relative flex h-full items-center justify-center">
-                      <Icon
-                        size={120}
-                        strokeWidth={1.25}
-                        className="text-white/90 drop-shadow-[0_4px_20px_rgba(0,0,0,0.6)]"
-                      />
-                    </div>
-                  </div>
-
-                  <div
-                    className={`text-center lg:text-left ${reversed ? "lg:order-1" : "lg:order-2"}`}
-                  >
-                    <h2 className="font-black-ops text-4xl uppercase leading-[0.95] text-white sm:text-5xl">
-                      {event.title}
-                    </h2>
-                    <p className="mx-auto mt-5 max-w-md text-base leading-relaxed text-white/80 sm:text-lg lg:mx-0">
-                      {event.description}
-                    </p>
-                    <button
-                      type="button"
-                      onClick={() => setOpenIndex(i)}
-                      className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-semibold text-black transition-transform hover:scale-105"
-                    >
-                      View Details
-                      <ArrowRight size={16} />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </TwistCard>
-          );
-        })}
+        {events.map((event, i) => (
+          <EventCard
+            key={event.id}
+            event={event}
+            index={i}
+            onOpenDetails={() => setOpenIndex(i)}
+          />
+        ))}
       </div>
 
       {openIndex !== null && (

@@ -57,6 +57,9 @@ export const events: {
   /** CSS object-position for the background image crop; defaults to "center". */
   backgroundPosition?: string;
   lumaEventId: string;
+  // Optional character art that slides in from the right on scroll, in
+  // place of the plain icon. Only set for the cards that have art ready.
+  characterImage?: string;
 }[] = [
   {
     id: "AI Prompting",
@@ -73,6 +76,7 @@ export const events: {
     ],
     lumaEventId: "evt-80hU40SG5wXqj3V",
     backgroundImage: "/assets/age of ultron.png",
+    characterImage: "/assets/event-thor-3.png",
   },
   {
     id: "paper-presentation",
@@ -89,6 +93,7 @@ export const events: {
     ],
     lumaEventId: "evt-TRewZ5zsA2Xb8fO",
     backgroundImage: "/assets/paper-expo.avif",
+    characterImage: "/assets/event-captain - 3.png",
   },
   {
     id: "treasure-hunt",
