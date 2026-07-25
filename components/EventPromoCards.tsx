@@ -26,7 +26,25 @@ export default function EventPromoCards() {
   const washColor = useTransform(scrollYProgress, washStops, WASH_COLORS);
 
   return (
-    <section id="events" className="relative overflow-x-hidden px-6 pb-6 pt-16 sm:pb-8 sm:pt-20">
+    // Negative top margin pulls the logo + card list up so they visibly rise
+    // over the tail of the hero's sticky scroll — but this section has no
+    // background of its own (intentionally transparent), so only the logo
+    // and the cards themselves appear to rise; the gaps around them show
+    // the hero's own fade happening underneath, not a solid panel edge.
+    //
+    // Must clear 100vh with real margin to spare: Hero's `position: sticky`
+    // releases (stops tracking scroll 1:1 and starts scrolling away
+    // normally) once scrollY reaches heroSectionHeight - 100vh. Hero's fade
+    // tracks the "Events" wordmark itself, which sits below this section's
+    // own top padding — so the wordmark reaching the viewport's top needs
+    // more scroll than this section's outer edge reaching it. If overlap
+    // were too tight, that point would fall past the release — and once
+    // released, the gap between hero and this section stops closing (both
+    // scroll at the same rate), permanently freezing coverage short of 100%.
+    <section
+      id="events"
+      className="relative z-10 -mt-[115vh] overflow-x-hidden px-6 pb-6 pt-16 sm:-mt-[118vh] sm:pb-8 sm:pt-20 lg:-mt-[122vh]"
+    >
       <div className="mx-auto max-w-6xl">
         <AnimatedSection className="flex justify-center">
           <Image
