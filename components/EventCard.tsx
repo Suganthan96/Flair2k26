@@ -45,6 +45,12 @@ export default function EventCard({
   );
   const x = useSpring(rawX, { stiffness: 140, damping: 24, mass: 0.4 });
 
+  // Reference site (ousmaneballondor.fr) leans heavily on oversized
+  // stroke-only numerals as a recurring background motif, drifting gently
+  // as you scroll rather than sitting static — borrowing that here as a
+  // per-card index marker rather than copying its layout wholesale.
+  const numberY = useTransform(scrollYProgress, [0, 1], [30, -30]);
+
   return (
     <TwistCard index={index}>
       <div
@@ -94,6 +100,13 @@ export default function EventCard({
               (event.characterImage ? imageOnRight : reversed) ? "lg:order-1" : "lg:order-2"
             }`}
           >
+            <motion.span
+              aria-hidden
+              style={{ y: numberY }}
+              className="pointer-events-none absolute -top-8 left-1/2 -z-10 -translate-x-1/2 select-none text-[6rem] font-black-ops leading-none text-transparent [-webkit-text-stroke:2px_rgba(255,255,255,0.15)] sm:-top-12 sm:left-0 sm:translate-x-0 sm:text-[8rem]"
+            >
+              {String(index + 1).padStart(2, "0")}
+            </motion.span>
             <h2 className="font-black-ops text-4xl uppercase leading-[0.95] text-white sm:text-5xl">
               {event.title}
             </h2>

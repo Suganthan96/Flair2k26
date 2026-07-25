@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Scraped reference material for design research — not app source.
+    "page_content/**",
   ]),
 ]);
 
