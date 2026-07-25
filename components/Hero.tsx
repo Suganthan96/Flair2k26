@@ -165,14 +165,46 @@ function ScrollFrameCanvas({ trackRef }: { trackRef: RefObject<HTMLElement | nul
   );
 }
 
+// Hero never fully disappears — a faint trace of the footage stays visible
+// even once the events panel has fully risen over it.
+const MIN_HERO_OPACITY = 0.12;
+
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
+  const fadeRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let rafId = 0;
+    function tick() {
+      const fadeEl = fadeRef.current;
+      // Track the "Events" wordmark itself, not the section's outer edge —
+      // the section has top padding before the logo, so using the section
+      // boundary made coverage (and the fade) complete before the logo had
+      // actually reached the top of the viewport.
+      const logoEl = document.querySelector('#events img[alt="Events"]');
+      if (fadeEl) {
+        let coverage = 0;
+        if (logoEl) {
+          const logoTop = logoEl.getBoundingClientRect().top;
+          coverage = Math.min(1, Math.max(0, (window.innerHeight - logoTop) / window.innerHeight));
+        }
+        const opacity = MIN_HERO_OPACITY + (1 - MIN_HERO_OPACITY) * (1 - coverage);
+        fadeEl.style.opacity = String(opacity);
+      }
+      rafId = requestAnimationFrame(tick);
+    }
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
+  }, []);
 
   return (
     // Scroll budget for the whole sequence. All frames play across whatever
     // height this is — shrink it to make the sequence advance faster.
     <section id="home" ref={sectionRef} className="relative h-[300vh]">
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
+      <div
+        ref={fadeRef}
+        className="sticky top-0 h-screen w-full overflow-hidden"
+      >
         {/* Colour grade lives here so it covers the canvas as one layer. */}
         <div className="absolute inset-0 [filter:saturate(0.65)_contrast(1.06)_brightness(0.94)]">
           <ScrollFrameCanvas trackRef={sectionRef} />
