@@ -36,7 +36,7 @@ const socialIcons: Record<string, React.ComponentType<{ size?: number }>> = {
 
 export default function Footer() {
   return (
-    <footer id="contact" className="relative border-t border-white/10 bg-background px-6 py-16">
+    <footer id="contact" className="relative overflow-hidden border-t border-white/10 bg-background px-6 pt-16">
       <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <div className="flex items-center gap-3">
@@ -47,9 +47,13 @@ export default function Footer() {
               height={32}
               className="h-8 w-8 object-contain"
             />
-            <span className="font-avenger text-base uppercase text-white">
-              {siteConfig.name}
-            </span>
+            <Image
+              src="/assets/FLAIR.png"
+              alt={siteConfig.name}
+              width={2896}
+              height={2172}
+              className="h-10 w-auto object-contain"
+            />
           </div>
           <p className="mt-4 text-sm text-white/60">
             LICET&apos;s flagship technical symposium. Assemble. Innovate. Elevate.
@@ -76,13 +80,32 @@ export default function Footer() {
 
         <div>
           <h3 className="text-xs font-semibold uppercase tracking-widest text-avenger-gold">
-            Contact
+            Contact Us
           </h3>
-          <ul className="mt-4 space-y-3 text-sm text-white/65">
-            <li className="flex items-start gap-2">
-              <Mail size={16} className="mt-0.5 shrink-0" />
-              {footerLinks.contact.email}
-            </li>
+
+          <h4 className="mt-4 text-xs font-semibold uppercase tracking-widest text-avenger-gold">
+            Coordinators
+          </h4>
+          <ul className="mt-3 space-y-2 text-sm text-white/65">
+            {footerLinks.contact.coordinators.map((coordinator) => (
+              <li key={coordinator.name}>
+                {coordinator.name} : {coordinator.phone}
+              </li>
+            ))}
+          </ul>
+
+          <h4 className="mt-6 text-xs font-semibold uppercase tracking-widest text-avenger-gold">
+            Mail Us
+          </h4>
+          <a
+            href={`mailto:${footerLinks.contact.email}`}
+            className="mt-3 inline-flex items-center gap-2 text-sm text-white/65 underline decoration-white/30 underline-offset-2 transition-colors hover:text-avenger-red"
+          >
+            <Mail size={16} className="shrink-0" />
+            {footerLinks.contact.email}
+          </a>
+
+          <ul className="mt-6 space-y-3 text-sm text-white/65">
             <li className="flex items-start gap-2">
               <Phone size={16} className="mt-0.5 shrink-0" />
               {footerLinks.contact.phone}
@@ -118,6 +141,18 @@ export default function Footer() {
 
       <div className="mx-auto mt-12 max-w-6xl border-t border-white/10 pt-6 text-center text-xs text-white/40">
         © {new Date().getFullYear()} Flair 2k26, LICET. All rights reserved.
+      </div>
+
+      {/* Oversized bleed wordmark — purely decorative. Sized in vw (not rem)
+          so it scales to fill the full viewport width at any breakpoint,
+          rather than sitting at a fixed size anchored to one side. Clipped
+          by the footer's own overflow-hidden so it never adds horizontal
+          scroll even if a letter edge would otherwise poke past. */}
+      <div
+        aria-hidden
+        className="pointer-events-none -mx-6 mt-8 select-none whitespace-nowrap text-center font-avenger uppercase leading-none text-white/5 text-[18vw]"
+      >
+        FLAIR2K26
       </div>
     </footer>
   );

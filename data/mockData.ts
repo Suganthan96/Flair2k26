@@ -264,12 +264,15 @@ export const footerLinks = {
   quick: [
     { label: "Events", href: "#events" },
     { label: "Sponsors", href: "#sponsors" },
-    { label: "Team", href: "#team" },
   ],
   contact: {
     email: "flair2k26@licet.ac.in",
     phone: "+91 98765 43210",
     address: "LICET Campus, St. Thomas Mount, Chennai - 600016",
+    coordinators: [
+      { name: "Zenith Joshua", phone: "+91 74483 43632" },
+      { name: "Richan", phone: "+91 91502 48398" },
+    ],
   },
   social: [
     { label: "Instagram", href: "https://instagram.com" },
