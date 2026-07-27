@@ -43,7 +43,15 @@ export default function EventPromoCards() {
     // scroll at the same rate), permanently freezing coverage short of 100%.
     <section
       id="events"
-      className="relative z-10 -mt-[115vh] overflow-x-hidden px-6 pb-6 pt-16 sm:-mt-[118vh] sm:pb-8 sm:pt-20 lg:-mt-[122vh]"
+      // overflow-clip (not overflow-x-hidden alone): per the CSS overflow
+      // spec, pairing any non-"visible" axis with a "visible" axis forces
+      // the "visible" one to compute as `auto` — even if set explicitly —
+      // which silently turned this section into its own scroll container
+      // (with its own scrollbar) since its content overflows its box due to
+      // the negative margin above. `clip` on both axes sidesteps the rule
+      // entirely (neither axis is "visible") without establishing a scroll
+      // container, so no scrollbar, while still clipping horizontal bleed.
+      className="relative z-10 -mt-[115vh] overflow-clip px-6 pb-6 pt-16 sm:-mt-[118vh] sm:pb-8 sm:pt-20 lg:-mt-[122vh]"
     >
       <div className="mx-auto max-w-6xl">
         <AnimatedSection className="flex justify-center">
