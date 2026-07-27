@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
 import { footerLinks, siteConfig } from "@/data/mockData";
 
 function InstagramIcon({ size = 18 }: { size?: number }) {
@@ -20,18 +20,9 @@ function LinkedInIcon({ size = 18 }: { size?: number }) {
   );
 }
 
-function YouTubeIcon({ size = 18 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
-      <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.5 31.5 0 0 0 24 12a31.5 31.5 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z" />
-    </svg>
-  );
-}
-
 const socialIcons: Record<string, React.ComponentType<{ size?: number }>> = {
   Instagram: InstagramIcon,
   LinkedIn: LinkedInIcon,
-  YouTube: YouTubeIcon,
 };
 
 export default function Footer() {
@@ -106,10 +97,6 @@ export default function Footer() {
           </a>
 
           <ul className="mt-6 space-y-3 text-sm text-white/65">
-            <li className="flex items-start gap-2">
-              <Phone size={16} className="mt-0.5 shrink-0" />
-              {footerLinks.contact.phone}
-            </li>
             <li className="flex items-start gap-2">
               <MapPin size={16} className="mt-0.5 shrink-0" />
               {footerLinks.contact.address}
