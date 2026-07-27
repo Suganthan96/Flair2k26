@@ -4,6 +4,7 @@
 import NextImage from "next/image";
 import { useEffect, useRef, useState, type RefObject } from "react";
 import SideRays from "./SideRays";
+import Text3DFlip from "@/registry/magicui/text-3d-flip";
 
 const FRAME_COUNT = 137;
 const FRAME_PATH = (i: number) => `/newframes/frame_${String(i).padStart(6, "0")}.jpg`;
@@ -167,7 +168,6 @@ function ScrollFrameCanvas({ trackRef }: { trackRef: RefObject<HTMLElement | nul
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
-  const [isHovered, setIsHovered] = useState(false);
 
   return (
     // Scroll budget for the whole sequence. All frames play across whatever
@@ -212,58 +212,6 @@ export default function Hero() {
           />
         </a>
 
-        {/* Pure Standalone 3D Metallic Avengers: Doomsday Styled Text (Thor Lightning Roll-Over on Hover) */}
-        <a
-          href="#register"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          className="group/text absolute left-8 top-20 z-20 inline-block transition-all duration-500 sm:left-16 sm:top-24"
-        >
-          <div className="relative inline-block select-none">
-            {/* Thor Lightning Electric Arcs (Rolls across letters on hover) */}
-            {isHovered && (
-              <svg
-                className="pointer-events-none absolute -inset-x-8 -inset-y-6 h-[calc(100%+48px)] w-[calc(100%+64px)] z-30 overflow-visible"
-                viewBox="0 0 500 120"
-                preserveAspectRatio="none"
-              >
-                {/* Thor Lightning Strike 1 - Electric Blue/Green */}
-                <path
-                  d="M 0 35 L 80 15 L 140 45 L 220 10 L 310 50 L 400 20 L 500 35"
-                  fill="none"
-                  stroke="#6ee7b7"
-                  strokeWidth="3.5"
-                  className="animate-pulse drop-shadow-[0_0_15px_rgba(110,231,183,1)]"
-                />
-                {/* Thor Lightning Arc 2 - Cyan Thunder Bolt */}
-                <path
-                  d="M 10 75 L 100 95 L 190 60 L 280 105 L 370 55 L 450 85 L 500 65"
-                  fill="none"
-                  stroke="#93c5fd"
-                  strokeWidth="3"
-                  className="animate-pulse delay-75 drop-shadow-[0_0_20px_rgba(147,197,253,1)]"
-                />
-                {/* Vertical Lightning Branches */}
-                <path
-                  d="M 140 45 L 165 75 M 310 50 L 335 85 M 220 10 L 205 50"
-                  fill="none"
-                  stroke="#ffffff"
-                  strokeWidth="2.5"
-                  className="animate-ping drop-shadow-[0_0_10px_rgba(255,255,255,1)]"
-                />
-              </svg>
-            )}
-
-            {/* 3D Metallic Avengers: Doomsday Title Text */}
-            <h1 className="relative z-10 font-black-ops text-3xl uppercase tracking-wider text-transparent bg-clip-text bg-gradient-to-b from-[#e8f7f0] via-[#38b783] to-[#093d26] transition-all duration-500 drop-shadow-[0_3px_0px_#072819] drop-shadow-[0_8px_24px_rgba(0,0,0,0.95)] group-hover/text:scale-[1.03] group-hover/text:from-white group-hover/text:via-[#52e8a7] group-hover/text:to-[#166544] group-hover/text:drop-shadow-[0_0_30px_rgba(147,197,253,1)] group-hover/text:drop-shadow-[0_0_65px_rgba(61,255,140,1)] sm:text-5xl md:text-6xl lg:text-7xl">
-              JOIN US ON 8TH AUGUST
-            </h1>
-
-            {/* Thor Lightning Shimmer Sweep on Hover */}
-            <span className="pointer-events-none absolute -inset-x-full inset-y-0 bg-gradient-to-r from-transparent via-[#93c5fd]/90 to-transparent transition-transform duration-700 group-hover/text:translate-x-full" />
-          </div>
-        </a>
-
         {/* Title lockup, bottom-right. Outside grade wrapper */}
         <NextImage
           src="/assets/FLAIR.png"
@@ -274,6 +222,27 @@ export default function Hero() {
           sizes="(max-width: 640px) 60vw, (max-width: 1024px) 40vw, 30vw"
           className="pointer-events-none absolute bottom-6 right-6 z-10 w-52 select-none object-contain drop-shadow-[0_4px_24px_rgba(0,0,0,0.7)] sm:bottom-10 sm:right-10 sm:w-72 lg:w-[22rem]"
         />
+
+        {/* Join Us - bottom-left direct 3D flip text */}
+        <div className="pointer-events-auto absolute bottom-6 left-6 z-10 select-none sm:bottom-10 sm:left-10">
+          <a href="#register" className="group flex flex-col items-start gap-2.5">
+            <Text3DFlip
+              className="font-joinus-hero text-4xl sm:text-6xl md:text-[68px] tracking-wider uppercase cursor-pointer"
+              textClassName="font-joinus-hero"
+              flipTextClassName="font-joinus-hero-flip"
+              rotateDirection="top"
+              staggerDuration={0.03}
+              staggerFrom="first"
+              transition={{ type: "spring", damping: 25, stiffness: 160 }}
+            >
+              JOIN US
+            </Text3DFlip>
+            <div className="h-[2px] w-36 rounded-full bg-gradient-to-r from-emerald-400 via-emerald-500/60 to-transparent transition-all duration-300 group-hover:w-48" />
+            <p className="font-avenger text-[10px] uppercase tracking-[0.25em] text-emerald-400/80 transition-colors duration-300 group-hover:text-emerald-300 sm:text-xs">
+              Assemble. Innovate. Elevate.
+            </p>
+          </a>
+        </div>
       </div>
     </section>
   );
