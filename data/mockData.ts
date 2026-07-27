@@ -120,6 +120,7 @@ export const events: {
     lumaEventId: "evt-uXjsXiOFz0G0nGx",
     backgroundImage: "/assets/vormir-gamora.jpg",
     backgroundPosition: "top",
+    characterImage: "/assets/event - whereisgamora.png",
   },
   {
     id: "Code-Debugging",
@@ -157,6 +158,7 @@ export const events: {
     lumaEventId: "evt-EReesO2u1YgnQLq",
     backgroundImage: "/assets/bussiness-pitch.avif",
     backgroundPosition: "top",
+    characterImage: "/assets/event - starktank.png",
   },
   {
     id: "meme-creation",
@@ -176,6 +178,7 @@ export const events: {
     lumaEventId: "evt-ziwcw16DWyGLOn2",
     backgroundImage: "/assets/i can meme this all day.jpg",
     backgroundPosition: "top",
+    characterImage: "/assets/event -icanmemethisallday.png",
   },
   {
     id: "Tech Charades",
@@ -195,6 +198,7 @@ export const events: {
     lumaEventId: "evt-gfyfV5c2R6TMYtU",
     backgroundImage: "/assets/x-chardes.jpeg",
     backgroundPosition: "top",
+    characterImage: "/assets/event - x-charades.png",
   },
   {
     id: "Technical Connection",

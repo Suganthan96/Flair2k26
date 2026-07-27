@@ -65,7 +65,7 @@ export default function EventPromoCards() {
         </AnimatedSection>
       </div>
 
-      <div ref={listRef} className="relative mx-auto mt-8 flex max-w-6xl flex-col gap-10">
+      <div ref={listRef} className="relative mx-auto mt-8 flex max-w-6xl flex-col gap-14 sm:gap-16">
         <motion.div
           aria-hidden
           className="pointer-events-none absolute -inset-x-10 -inset-y-24 -z-10 rounded-[3rem] opacity-25 blur-[110px]"
