@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import TwistCard from "./TwistCard";
 import { iconMap, GRADIENTS } from "./eventVisuals";
@@ -22,39 +22,13 @@ export default function EventCard({
   const Icon = iconMap[event.icon] ?? iconMap.FileText;
   const reversed = index % 2 === 1;
   const gradient = GRADIENTS[index % GRADIENTS.length];
-  // Alternates independently of `reversed`, which only governs the plain
-  // icon-box cards. Swapped from the original right-first pattern.
-  const imageOnRight = index % 2 === 1;
 
   const cardRef = useRef<HTMLDivElement>(null);
 
-  // Tied directly to scroll position (like the Hero canvas), not a
-  // trigger-once reveal: as the card travels from just below the viewport to
-  // just above it, progress runs 0 -> 1, and the art slides in step with
-  // that — scrolling back up slides it back out, continuously, with no
-  // separate "enter"/"leave" animation states.
   const { scrollYProgress } = useScroll({
     target: cardRef,
     offset: ["start end", "end start"],
   });
-  const rawX = useTransform(
-    scrollYProgress,
-    [0, 0.5, 1],
-    [imageOnRight ? 200 : -200, 0, 0]
-  );
-  const x = useSpring(rawX, { stiffness: 140, damping: 24, mass: 0.4 });
-
-  // Rests in the gutter *outside* the card — at the true browser edge, not
-  // the card's edge — with only a small sliver cropped off-screen, like the
-  // reference. `left/right: 50%` lands on this card's own horizontal
-  // midpoint, which (since the card is centered on the page) coincides with
-  // the viewport's midpoint; `translateX(50vw)` then walks it out to the
-  // actual edge regardless of screen width, and the extra `+/- 18%` (of the
-  // image box's own width) nudges it just past that edge, keeping most of
-  // the box in view instead of half of it.
-  const restingEdgeStyle = imageOnRight
-    ? { transform: "translateY(-50%) translateX(calc(50vw + 18%))" }
-    : { transform: "translateY(-50%) translateX(calc(-50vw - 18%))" };
 
   // Reference site (ousmaneballondor.fr) leans heavily on oversized
   // stroke-only numerals as a recurring background motif, drifting gently
@@ -67,15 +41,9 @@ export default function EventCard({
       <TwistCard index={index}>
         <div
           ref={cardRef}
-          className={`relative min-h-[22rem] rounded-[2rem] border border-white/10 sm:min-h-[24rem] ${
-            event.characterImage ? "overflow-visible" : "overflow-hidden"
-          }`}
+          className="relative min-h-[22rem] overflow-hidden rounded-[2rem] border border-white/10 sm:min-h-[24rem]"
         >
-          {/* Photo + dark-wash overlays clip to the rounded card; the
-              character art below intentionally escapes this via the
-              outer container's overflow-visible, same bleed treatment as
-              the icon-box cards. */}
-          <div className="absolute inset-0 overflow-hidden rounded-[2rem]">
+          <div className="absolute inset-0">
             <Image
               src={event.backgroundImage}
               alt=""
@@ -88,11 +56,7 @@ export default function EventCard({
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/35 to-black/10" />
           </div>
 
-          <div
-            className={`relative z-10 flex h-full flex-col justify-end p-7 sm:p-10 ${
-              event.characterImage && !imageOnRight ? "ml-auto max-w-md sm:max-w-lg" : ""
-            }`}
-          >
+          <div className="relative z-10 flex h-full flex-col justify-end p-7 sm:p-10">
             <h2 className="font-black-ops text-4xl uppercase leading-[0.95] text-white sm:text-5xl">
               {event.title}
             </h2>
@@ -108,25 +72,6 @@ export default function EventCard({
               <ArrowRight size={16} />
             </button>
           </div>
-
-          {event.characterImage && (
-            <div
-              className={`pointer-events-none absolute top-1/2 z-20 h-56 w-36 sm:h-72 sm:w-48 lg:h-80 lg:w-56 ${
-                imageOnRight ? "right-1/2" : "left-1/2"
-              }`}
-              style={restingEdgeStyle}
-            >
-              <motion.div className="relative h-full w-full" style={{ x }}>
-                <Image
-                  src={event.characterImage}
-                  alt={event.title}
-                  fill
-                  sizes="(max-width: 640px) 9rem, (max-width: 1024px) 12rem, 14rem"
-                  className="object-contain drop-shadow-[0_12px_40px_rgba(0,0,0,0.7)]"
-                />
-              </motion.div>
-            </div>
-          )}
         </div>
       </TwistCard>
     );
@@ -135,50 +80,36 @@ export default function EventCard({
   return (
     <TwistCard index={index}>
       <div
-        ref={cardRef}
-        className={`relative rounded-[2rem] border border-white/10 bg-gradient-to-br p-7 sm:p-10 ${
-          event.characterImage ? "overflow-visible" : "overflow-hidden"
-        } ${gradient}`}
+        className={`relative overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-br p-7 sm:p-10 ${gradient}`}
       >
-        {/* Decorative glows only — clipped to the card, unlike the
-            character portrait below which needs to bleed past it. */}
-        <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[2rem]">
-          <div
-            aria-hidden
-            className="absolute -left-16 -top-16 h-64 w-64 rounded-full bg-white/10 blur-3xl"
-          />
-          <div
-            aria-hidden
-            className="absolute -bottom-10 -right-10 h-72 w-72 rounded-full bg-black/20 blur-3xl"
-          />
-        </div>
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -left-16 -top-16 h-64 w-64 rounded-full bg-white/10 blur-3xl"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -bottom-10 -right-10 h-72 w-72 rounded-full bg-black/20 blur-3xl"
+        />
 
         <div className="relative grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
-          {event.characterImage ? (
-            // Reserves the grid column so the text lines up as before — the
-            // actual art renders as a separate, larger, edge-anchored
-            // element below, escaping this card's own boundary.
-            <div aria-hidden className={imageOnRight ? "lg:order-2" : "lg:order-1"} />
-          ) : (
-            <div
-              className={`relative mx-auto aspect-square w-full max-w-sm overflow-hidden rounded-2xl border border-white/20 bg-black/40 shadow-2xl shadow-black/40 ${
-                reversed ? "lg:order-2" : "lg:order-1"
-              }`}
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/30" />
-              <div className="relative flex h-full items-center justify-center">
-                <Icon
-                  size={120}
-                  strokeWidth={1.25}
-                  className="text-white/90 drop-shadow-[0_4px_20px_rgba(0,0,0,0.6)]"
-                />
-              </div>
+          <div
+            className={`relative mx-auto aspect-square w-full max-w-sm overflow-hidden rounded-2xl border border-white/20 bg-black/40 shadow-2xl shadow-black/40 ${
+              reversed ? "lg:order-2" : "lg:order-1"
+            }`}
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/30" />
+            <div className="relative flex h-full items-center justify-center">
+              <Icon
+                size={120}
+                strokeWidth={1.25}
+                className="text-white/90 drop-shadow-[0_4px_20px_rgba(0,0,0,0.6)]"
+              />
             </div>
-          )}
+          </div>
 
           <div
             className={`relative z-10 text-center lg:text-left ${
-              (event.characterImage ? imageOnRight : reversed) ? "lg:order-1" : "lg:order-2"
+              reversed ? "lg:order-1" : "lg:order-2"
             }`}
           >
             <motion.span
@@ -204,25 +135,6 @@ export default function EventCard({
             </button>
           </div>
         </div>
-
-        {event.characterImage && (
-          <div
-            className={`pointer-events-none absolute top-1/2 z-0 h-56 w-36 sm:h-72 sm:w-48 lg:h-80 lg:w-56 ${
-              imageOnRight ? "right-1/2" : "left-1/2"
-            }`}
-            style={restingEdgeStyle}
-          >
-            <motion.div className="relative h-full w-full" style={{ x }}>
-              <Image
-                src={event.characterImage}
-                alt={event.title}
-                fill
-                sizes="(max-width: 640px) 9rem, (max-width: 1024px) 12rem, 14rem"
-                className="object-contain drop-shadow-[0_12px_40px_rgba(0,0,0,0.7)]"
-              />
-            </motion.div>
-          </div>
-        )}
       </div>
     </TwistCard>
   );
