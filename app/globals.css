@@ -149,4 +149,9 @@ h1, h2, h3 {
     transform: translate(8px, -12px) scale(0.4);
     opacity: 0.2;
   }
-}
+}
+
+/* 3D Letter Container */
+.letter-3d-container {
+  perspective: 1000px;
+}

@@ -4,7 +4,7 @@
 import NextImage from "next/image";
 import { useEffect, useRef, useState, type RefObject } from "react";
 import SideRays from "./SideRays";
-import Text3DFlip from "@/registry/magicui/text-3d-flip";
+import AssembleOn from "./AssembleOn";
 
 const FRAME_COUNT = 137;
 const FRAME_PATH = (i: number) => `/newframes/frame_${String(i).padStart(6, "0")}.jpg`;
@@ -223,25 +223,9 @@ export default function Hero() {
           className="pointer-events-none absolute bottom-6 right-6 z-10 w-52 select-none object-contain drop-shadow-[0_4px_24px_rgba(0,0,0,0.7)] sm:bottom-10 sm:right-10 sm:w-72 lg:w-[22rem]"
         />
 
-        {/* Join Us - bottom-left direct 3D flip text */}
+        {/* Assemble On - bottom-left 3D letter animation */}
         <div className="pointer-events-auto absolute bottom-6 left-6 z-10 select-none sm:bottom-10 sm:left-10">
-          <a href="#register" className="group flex flex-col items-start gap-2.5">
-            <Text3DFlip
-              className="font-joinus-hero text-4xl sm:text-6xl md:text-[68px] tracking-wider uppercase cursor-pointer"
-              textClassName="font-joinus-hero"
-              flipTextClassName="font-joinus-hero-flip"
-              rotateDirection="top"
-              staggerDuration={0.03}
-              staggerFrom="first"
-              transition={{ type: "spring", damping: 25, stiffness: 160 }}
-            >
-              JOIN US
-            </Text3DFlip>
-            <div className="h-[2px] w-36 rounded-full bg-gradient-to-r from-emerald-400 via-emerald-500/60 to-transparent transition-all duration-300 group-hover:w-48" />
-            <p className="font-avenger text-[10px] uppercase tracking-[0.25em] text-emerald-400/80 transition-colors duration-300 group-hover:text-emerald-300 sm:text-xs">
-              Assemble. Innovate. Elevate.
-            </p>
-          </a>
+          <AssembleOn />
         </div>
       </div>
     </section>

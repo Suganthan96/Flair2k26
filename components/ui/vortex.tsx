@@ -64,26 +64,30 @@ function createSimplexNoise3D() {
     let t0 = 0.6 - x0 * x0 - y0 * y0 - z0 * z0;
     if (t0 > 0) {
       t0 *= t0;
-      const gi0 = permMod12[ii + perm[jj + perm[kk]]];
-      n0 = t0 * t0 * (grad3[gi0][0] * x0 + grad3[gi0][1] * y0 + grad3[gi0][2] * z0);
+      const gi0 = (permMod12[(ii + (perm[(jj + (perm[kk & 255] || 0)) & 255] || 0)) & 255] || 0) % 12;
+      const g0 = grad3[gi0];
+      n0 = t0 * t0 * (g0[0] * x0 + g0[1] * y0 + g0[2] * z0);
     }
     let t1 = 0.6 - x1 * x1 - y1 * y1 - z1 * z1;
     if (t1 > 0) {
       t1 *= t1;
-      const gi1 = permMod12[ii + i1 + perm[jj + j1 + perm[kk + k1]]];
-      n1 = t1 * t1 * (grad3[gi1][0] * x1 + grad3[gi1][1] * y1 + grad3[gi1][2] * z1);
+      const gi1 = (permMod12[(ii + i1 + (perm[(jj + j1 + (perm[(kk + k1) & 255] || 0)) & 255] || 0)) & 255] || 0) % 12;
+      const g1 = grad3[gi1];
+      n1 = t1 * t1 * (g1[0] * x1 + g1[1] * y1 + g1[2] * z1);
     }
     let t2 = 0.6 - x2 * x2 - y2 * y2 - z2 * z2;
     if (t2 > 0) {
       t2 *= t2;
-      const gi2 = permMod12[ii + i2 + perm[jj + j2 + perm[kk + k2]]];
-      n2 = t2 * t2 * (grad3[gi2][0] * x2 + grad3[gi2][1] * y2 + grad3[gi2][2] * z2);
+      const gi2 = (permMod12[(ii + i2 + (perm[(jj + j2 + (perm[(kk + k2) & 255] || 0)) & 255] || 0)) & 255] || 0) % 12;
+      const g2 = grad3[gi2];
+      n2 = t2 * t2 * (g2[0] * x2 + g2[1] * y2 + g2[2] * z2);
     }
     let t3 = 0.6 - x3 * x3 - y3 * y3 - z3 * z3;
     if (t3 > 0) {
       t3 *= t3;
-      const gi3 = permMod12[ii + 1 + perm[jj + 1 + perm[kk + 1]]];
-      n3 = t3 * t3 * (grad3[gi3][0] * x3 + grad3[gi3][1] * y3 + grad3[gi3][2] * z3);
+      const gi3 = (permMod12[(ii + 1 + (perm[(jj + 1 + (perm[(kk + 1) & 255] || 0)) & 255] || 0)) & 255] || 0) % 12;
+      const g3 = grad3[gi3];
+      n3 = t3 * t3 * (g3[0] * x3 + g3[1] * y3 + g3[2] * z3);
     }
 
     return 32.0 * (n0 + n1 + n2 + n3);
