@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import AnimatedSection from "./AnimatedSection";
-import EventCard from "./EventCard";
+import EventsGrid from "./EventsGrid";
 import EventDetailModal from "./EventDetailModal";
 import { events } from "@/data/mockData";
 
@@ -51,35 +51,38 @@ export default function EventPromoCards() {
       // the negative margin above. `clip` on both axes sidesteps the rule
       // entirely (neither axis is "visible") without establishing a scroll
       // container, so no scrollbar, while still clipping horizontal bleed.
-      className="relative z-10 -mt-[115vh] overflow-clip px-6 pb-6 pt-16 sm:-mt-[118vh] sm:pb-8 sm:pt-20 lg:-mt-[122vh]"
+      className="relative z-10 flex -mt-[115vh] flex-col overflow-clip pb-6 pt-16 sm:-mt-[118vh] sm:pb-8 sm:pt-20 lg:min-h-screen lg:-mt-[122vh] lg:pb-0 lg:pt-0"
     >
-      <div className="mx-auto max-w-6xl">
+      {/* On mobile this sits in normal flow above the grid, same as before.
+          At lg+ it's pulled out of flow entirely (absolute, floating over
+          the fading hero) so it no longer reserves any layout space — the
+          grid becomes the section's only flex child and grows to fill the
+          entire frame, top to bottom. */}
+      <div className="mx-auto w-full max-w-6xl shrink-0 px-6 lg:absolute lg:left-1/2 lg:top-6 lg:z-20 lg:w-auto lg:-translate-x-1/2 lg:px-0">
         <AnimatedSection className="flex justify-center">
           <Image
             src="/assets/events-removebg-preview.png"
             alt="Events"
             width={612}
             height={408}
-            className="h-auto w-56 object-contain drop-shadow-[0_4px_20px_rgba(0,0,0,0.6)] sm:w-72"
+            className="h-auto w-56 object-contain drop-shadow-[0_4px_20px_rgba(0,0,0,0.6)] sm:w-72 lg:w-48"
           />
         </AnimatedSection>
       </div>
 
-      <div ref={listRef} className="relative mx-auto mt-8 flex max-w-6xl flex-col gap-14 sm:gap-16">
+      {/* Full-bleed, edge-to-edge — unlike the logo above, the grid
+          intentionally breaks out of the max-w-6xl/px-6 container to span
+          the full viewport width with no side gutters. `flex-1` fills the
+          section's full height at lg+, since the logo above no longer
+          participates in the flex layout there. */}
+      <div ref={listRef} className="relative mt-8 flex w-full flex-col lg:mt-0 lg:flex-1">
         <motion.div
           aria-hidden
           className="pointer-events-none absolute -inset-x-10 -inset-y-24 -z-10 rounded-[3rem] opacity-25 blur-[110px]"
           style={{ backgroundColor: washColor }}
         />
 
-        {events.map((event, i) => (
-          <EventCard
-            key={event.id}
-            event={event}
-            index={i}
-            onOpenDetails={() => setOpenIndex(i)}
-          />
-        ))}
+        <EventsGrid events={events} onOpenDetails={setOpenIndex} />
       </div>
 
       {openIndex !== null && (
