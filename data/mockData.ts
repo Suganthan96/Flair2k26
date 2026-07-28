@@ -13,7 +13,7 @@ export const siteConfig = {
 export const navLinks = [
   { label: "Home", href: "#home" },
   { label: "Events", href: "#events" },
-  { label: "About", href: "#about" },
+  { label: "Sponsor", href: "#sponsors" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -60,9 +60,6 @@ export const events: {
   /** CSS object-position for the background image crop; defaults to "center". */
   backgroundPosition?: string;
   lumaEventId: string;
-  // Optional character art that slides in from the right on scroll, in
-  // place of the plain icon. Only set for the cards that have art ready.
-  characterImage?: string;
 }[] = [
   {
     id: "AI Prompting",
@@ -81,7 +78,6 @@ export const events: {
     ],
     lumaEventId: "evt-80hU40SG5wXqj3V",
     backgroundImage: "/assets/age of ultron.png",
-    characterImage: "/assets/event-thor-3.png",
   },
   {
     id: "paper-presentation",
@@ -100,7 +96,6 @@ export const events: {
     ],
     lumaEventId: "evt-TRewZ5zsA2Xb8fO",
     backgroundImage: "/assets/paper-expo.avif",
-    characterImage: "/assets/event-captain - 3.png",
   },
   {
     id: "treasure-hunt",
@@ -120,7 +115,6 @@ export const events: {
     lumaEventId: "evt-uXjsXiOFz0G0nGx",
     backgroundImage: "/assets/vormir-gamora.jpg",
     backgroundPosition: "top",
-    characterImage: "/assets/event - whereisgamora.png",
   },
   {
     id: "Code-Debugging",
@@ -158,7 +152,6 @@ export const events: {
     lumaEventId: "evt-EReesO2u1YgnQLq",
     backgroundImage: "/assets/bussiness-pitch.avif",
     backgroundPosition: "top",
-    characterImage: "/assets/event - starktank.png",
   },
   {
     id: "meme-creation",
@@ -178,7 +171,6 @@ export const events: {
     lumaEventId: "evt-ziwcw16DWyGLOn2",
     backgroundImage: "/assets/i can meme this all day.jpg",
     backgroundPosition: "top",
-    characterImage: "/assets/event -icanmemethisallday.png",
   },
   {
     id: "Tech Charades",
@@ -198,7 +190,6 @@ export const events: {
     lumaEventId: "evt-gfyfV5c2R6TMYtU",
     backgroundImage: "/assets/x-chardes.jpeg",
     backgroundPosition: "top",
-    characterImage: "/assets/event - x-charades.png",
   },
   {
     id: "Technical Connection",
