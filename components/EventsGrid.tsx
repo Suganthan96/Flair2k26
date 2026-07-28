@@ -35,6 +35,19 @@ const OFFSCREEN: Record<SlideFrom, { x?: string; y?: string }> = {
   bottom: { y: "100%" },
 };
 
+// Scroll-entrance offset (px, not the door panel's %) — each tile arrives
+// from the same direction its own hover door panel later slides in from,
+// so the two motions read as one consistent idea per tile rather than two
+// unrelated animations. Fade + blur-to-focus, staggered by index — same
+// language as a GSAP masonry-reveal, built with framer-motion (already the
+// project's animation library) instead of adding GSAP as a dependency.
+const ENTRANCE_OFFSET: Record<SlideFrom, { x?: number; y?: number }> = {
+  left: { x: -60 },
+  right: { x: 60 },
+  top: { y: -60 },
+  bottom: { y: 60 },
+};
+
 export default function EventsGrid({
   events,
   onOpenDetails,
@@ -55,15 +68,20 @@ export default function EventsGrid({
       {events.map((event, i) => {
         const config = TILE_CONFIG[event.id] ?? DEFAULT_CONFIG;
         const offscreen = OFFSCREEN[config.slideFrom];
+        const entrance = ENTRANCE_OFFSET[config.slideFrom];
         const isHovered = hoveredIndex === i;
 
         return (
-          <button
+          <motion.button
             key={event.id}
             type="button"
             onMouseEnter={() => setHoveredIndex(i)}
             onMouseLeave={() => setHoveredIndex(null)}
             onClick={() => onOpenDetails(i)}
+            initial={{ opacity: 0, filter: "blur(8px)", ...entrance }}
+            whileInView={{ opacity: 1, filter: "blur(0px)", x: 0, y: 0 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: 0.6, delay: i * 0.06, ease: [0.16, 1, 0.3, 1] }}
             className={`group relative min-h-[9rem] overflow-hidden border border-white/10 text-left lg:min-h-0 ${config.span}`}
           >
             {event.backgroundImage && (
@@ -103,7 +121,7 @@ export default function EventsGrid({
                 {event.description}
               </p>
             </motion.div>
-          </button>
+          </motion.button>
         );
       })}
     </div>
