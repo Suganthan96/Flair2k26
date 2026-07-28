@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import Image from "next/image";
 import { X } from "lucide-react";
 import RegisterButton from "./RegisterButton";
+import TypewriterText from "./TypewriterText";
 import { iconMap, GRADIENTS } from "./eventVisuals";
 import { commonGuidelines, type EventQueryContact } from "@/data/mockData";
 
@@ -95,9 +96,12 @@ export default function EventDetailModal({
           <div className="pr-12">
             <h2
               id="event-modal-title"
+              aria-label={event.title}
               className="font-black-ops text-3xl uppercase leading-[0.95] text-white sm:text-4xl"
             >
-              {event.title}
+              <span aria-hidden="true">
+                <TypewriterText key={event.id} text={event.title} />
+              </span>
             </h2>
             <p className="mt-3 max-w-xl text-sm text-white/70 sm:text-base">
               {event.description}
