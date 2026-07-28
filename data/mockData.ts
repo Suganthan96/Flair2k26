@@ -46,6 +46,9 @@ export const events: {
   title: string;
   icon: string;
   description: string;
+  /** Fuller write-up shown in the event detail modal — distinct from the
+   * short teaser `description` shown on the promo card. */
+  longDescription: string;
   teamSize: string;
   time: string;
   venue: string;
@@ -63,6 +66,8 @@ export const events: {
     title: "Prompt with Jarvis",
     icon: "Code2",
     description: "24-hour build sprint to ship a working prototype from scratch.",
+    longDescription:
+      "Talk to the tech.Control the output. Step up solo to see the commands AI best.Survive the fast text , image , and multiprompt challenges, then build a winning presentation using nothing but raw prompt engineering..",
     teamSize: "2-4",
     time: "1.30 PM – 3.30 PM",
     venue: "A21",
@@ -79,6 +84,8 @@ export const events: {
     title: "S.H.I.E.L.D's Archive",
     icon: "FileText",
     description: "Present original research and ideas to a panel of expert judges.",
+    longDescription:
+      "Technical paper presentation is a platform for ambitious students to present thier ideas of innovation as teams in form of paper,poster or ppt.",
     teamSize: "1-3",
     time: "10.15 AM - 11.30 AM",
     venue: "H23, J14",
@@ -95,6 +102,8 @@ export const events: {
     title: "Where is Gamora?",
     icon: "MapPin",
     description: "Solve clues and puzzles scattered across campus to find the prize.",
+    longDescription:
+      "No Paper.No maps.Just you and the machine.The IT Department presents a digital Treasure Hunt.Navigate hidden directories , crack system clues , and race the clock .",
     teamSize: "2-4",
     time: "10.15 AM – 12.15 PM",
     venue: "A21",
@@ -112,6 +121,8 @@ export const events: {
     title: "Debuggers Assemble",
     icon: "Bot",
     description: "Design and race autonomous bots through a timed obstacle track.",
+    longDescription:
+      "Two coders , One broken script. Zero room for error .Smash 12 rapid fire bugs in Round 1 , then pass the keyboard mid-challenge in a brutal Round to relay. clear the test cases and assemble the perfect code.",
     teamSize: "1-2",
     time: "10:15 AM – 12:30 PM",
     venue: "A22",
@@ -128,6 +139,8 @@ export const events: {
     title: "Stark Tank",
     icon: "BrainCircuit",
     description: "Rapid-fire rounds testing tech trivia and general knowledge.",
+    longDescription:
+      "A great oppurtunity for the young innovators to pitch thier startup idea and gain recognition.",
     teamSize: "2",
     time: "1:30 PM – 3:00 PM",
     venue: "A22",
@@ -145,6 +158,8 @@ export const events: {
     title: "I Can Meme This All Day",
     icon: "LayoutTemplate",
     description: "Build a pixel-perfect responsive site against the clock.",
+    longDescription:
+      "Think you can explain complex tech with a single meme? Prove it individually on our systems. We provide the template and the technical theme on the spot - you bring the wit.",
     teamSize: "1",
     time: "1.30 PM – 3:00 PM",
     venue: "H23",
@@ -162,6 +177,8 @@ export const events: {
     title: "X-Charades",
     icon: "Gamepad2",
     description: "Compete in a bracketed esports tournament across top titles.",
+    longDescription:
+      "Can you explain tech without speaking? Prove it. Team up in threes to act out complex jargon,sketch digital concepts, and race the clock . Three silent rounds. Zero room for errors.",
     teamSize: "3-5",
     time: "1:30 PM – 3:30 PM ",
     venue: "I32",
@@ -179,9 +196,11 @@ export const events: {
     title: "Sacred Connections",
     icon: "Briefcase",
     description: "Crack real-world business problems under time pressure.",
+    longDescription:
+      "Spot the link before time runs out. Team up in pairs to crack visual riddles. Spot the patterns early, decipher fast image sequences, and prove your technical intuition is unmatched.",
     teamSize: "2-3",
     time: "10:45 AM – 12:30 PM",
-    venue: "Seminar Hall A",
+    venue: "I33",
     organizers: "Aarogiyaramya, Sahaya Nimisha",
     queries: [
       { name: "Zenith Joshua", phone: "+91 74483 43632" },
@@ -270,8 +289,7 @@ export const footerLinks = {
     ],
   },
   social: [
-    { label: "Instagram", href: "https://instagram.com" },
-    { label: "LinkedIn", href: "https://linkedin.com" },
-    { label: "YouTube", href: "https://youtube.com" },
+    { label: "Instagram", href: "https://www.instagram.com/flairit_2k26?igsh=MXRjNDVmYzBiNGZibg==" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/company/licet-grait/" },
   ],
 };

@@ -1,16 +1,23 @@
 "use client";
 
 import { useEffect } from "react";
+import Image from "next/image";
 import { X } from "lucide-react";
 import SpecularButton from "./SpecularButton";
 import { iconMap, GRADIENTS } from "./eventVisuals";
 import { commonGuidelines, type EventQueryContact } from "@/data/mockData";
+
+// Shared glass-panel look for every info box in the modal — semi-transparent
+// with a blur, so the modal's own background image shows through instead of
+// sitting behind a solid card.
+const GLASS_PANEL = "rounded-2xl border border-white/10 p-6";
 
 type EventDetail = {
   id: string;
   title: string;
   icon: string;
   description: string;
+  longDescription: string;
   teamSize: string;
   time: string;
   venue: string;
@@ -56,9 +63,25 @@ export default function EventDetailModal({
       {/* flex-col + a scrollable body below means the header (close/title/
           register) never scrolls out of view, no matter how long the body is. */}
       <div
-        className="relative flex max-h-[92vh] w-full max-w-6xl flex-col rounded-[2rem] border border-white/10 bg-background shadow-2xl"
+        className="relative flex max-h-[92vh] w-full max-w-6xl flex-col overflow-hidden rounded-[2rem] border border-white/10 shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
+        <div className="absolute inset-0 -z-10 overflow-hidden bg-black">
+          {/* object-contain (not cover): this is a centered crest on a
+              black background, not a wide scene — cover would crop into
+              the logo itself on a tall/portrait source like this. Contain
+              shows the whole mark, and its own black backdrop blends
+              seamlessly with this wrapper's bg-black, so no visible bars. */}
+          <Image
+            src="/assets/newbg.jpg"
+            alt=""
+            fill
+            sizes="100vw"
+            className="scale-125 object-contain"
+          />
+          <div className="absolute inset-0 bg-black/15" />
+        </div>
+
         <div className="shrink-0 border-b border-white/10 p-6 sm:p-8">
           <button
             type="button"
@@ -112,7 +135,7 @@ export default function EventDetailModal({
             instead of Lenis eating the input meant for this inner region. */}
         <div data-lenis-prevent className="no-scrollbar overflow-y-auto p-6 sm:p-8">
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+            <div className={GLASS_PANEL}>
               <h3 className="text-sm font-semibold uppercase tracking-wide text-green-500">
                 Common Guidelines
               </h3>
@@ -147,21 +170,21 @@ export default function EventDetailModal({
             </div>
           </div>
 
-          <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-6">
+          <div className={`mt-6 ${GLASS_PANEL}`}>
             <h3 className="text-sm font-semibold uppercase tracking-wide text-green-500">
               Event Description
             </h3>
-            <p className="mt-3 text-sm leading-relaxed text-white/75">{event.description}</p>
+            <p className="mt-3 text-sm leading-relaxed text-white/75">{event.longDescription}</p>
           </div>
 
           <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+            <div className={GLASS_PANEL}>
               <h3 className="text-sm font-semibold uppercase tracking-wide text-green-500">
                 Time
               </h3>
               <p className="mt-3 text-sm text-white/80">{event.time}</p>
             </div>
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+            <div className={GLASS_PANEL}>
               <h3 className="text-sm font-semibold uppercase tracking-wide text-green-500">
                 Venue
               </h3>
@@ -170,13 +193,13 @@ export default function EventDetailModal({
           </div>
 
           <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+            <div className={GLASS_PANEL}>
               <h3 className="text-sm font-semibold uppercase tracking-wide text-green-500">
                 Organizers
               </h3>
               <p className="mt-3 text-sm text-white/80">{event.organizers}</p>
             </div>
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+            <div className={GLASS_PANEL}>
               <h3 className="text-sm font-semibold uppercase tracking-wide text-green-500">
                 For Queries
               </h3>
