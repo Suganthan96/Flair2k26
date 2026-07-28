@@ -1,7 +1,6 @@
 import NextImage from "next/image";
 import { UserRound, Zap } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
-import DoomCosmos from "./DoomCosmos";
 import { facultyCoordinators, studentCoreTeam } from "@/data/mockData";
 
 function TeamCard({ name, role }: { name: string; role: string }) {
@@ -55,9 +54,7 @@ export default function Team() {
     <section
       id="team"
       className="relative px-6 py-24"
-      style={{ background: "#05060a" }}
     >
-      <DoomCosmos />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#05060a]/60" />
 
       <div className="relative z-10 mx-auto max-w-6xl">

@@ -6,6 +6,8 @@ import Loader from "@/components/Loader";
 import SideNav from "@/components/SideNav";
 import DoomCursor from "@/components/DoomCursor";
 import SmoothScroll from "@/components/SmoothScroll";
+import { BackgroundProvider } from "@/components/BackgroundContext";
+import BackgroundTesterToolbar from "@/components/BackgroundTesterToolbar";
 import "lenis/dist/lenis.css";
 import "./globals.css";
 
@@ -86,11 +88,14 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${avenger.variable} ${blackOpsOne.variable} ${domine.variable} ${montserrat.variable} ${jost.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        <Loader />
-        <SideNav />
-        <SmoothScroll>{children}</SmoothScroll>
-        <BackgroundMusic />
-        <DoomCursor />
+        <BackgroundProvider>
+          <Loader />
+          <SideNav />
+          <SmoothScroll>{children}</SmoothScroll>
+          <BackgroundMusic />
+          <DoomCursor />
+          <BackgroundTesterToolbar />
+        </BackgroundProvider>
       </body>
     </html>
   );

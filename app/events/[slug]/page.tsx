@@ -3,6 +3,7 @@ import NextImage from "next/image";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { iconMap } from "@/components/eventVisuals";
+import SectionBackground from "@/components/SectionBackground";
 import { events } from "@/data/mockData";
 
 export async function generateStaticParams() {
@@ -22,7 +23,8 @@ export default async function EventPage({
   const Icon = iconMap[event.icon] ?? iconMap.FileText;
 
   return (
-    <main className="relative min-h-screen bg-[#05060a] px-6 py-16 sm:py-24">
+    <main className="relative min-h-screen px-6 py-16 sm:py-24">
+      <SectionBackground />
       <div className="mx-auto max-w-5xl">
         <Link
           href="/#events"

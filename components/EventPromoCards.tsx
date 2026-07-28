@@ -1,7 +1,6 @@
 import NextImage from "next/image";
 import { FileText, ArrowRight } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
-import DoomCosmos from "./DoomCosmos";
 import { iconMap } from "./eventVisuals";
 import { events } from "@/data/mockData";
 
@@ -10,9 +9,7 @@ export default function EventPromoCards() {
     <section
       id="events"
       className="relative px-6 pb-6 pt-16 sm:pb-8 sm:pt-20"
-      style={{ background: "#05060a" }}
     >
-      <DoomCosmos />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#05060a]/60" />
 
       <div className="relative z-10 mx-auto flex max-w-6xl flex-col gap-10">

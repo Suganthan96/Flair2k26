@@ -1,6 +1,5 @@
 import NextImage from "next/image";
 import AnimatedSection from "./AnimatedSection";
-import DoomCosmos from "./DoomCosmos";
 import { siteConfig } from "@/data/mockData";
 
 export default function RegisterCTA() {
@@ -8,9 +7,7 @@ export default function RegisterCTA() {
     <section
       id="register"
       className="relative px-6 py-24"
-      style={{ background: "#05060a" }}
     >
-      <DoomCosmos />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#05060a]/60" />
 
       <AnimatedSection className="relative z-10 mx-auto max-w-3xl text-center">
