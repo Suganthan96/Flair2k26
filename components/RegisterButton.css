@@ -1,0 +1,50 @@
+/* Animated glow ring adapted from a Uiverse.io design, recolored to green
+   and sized to match the sibling "Team Size" pill instead of a fixed box. */
+.register-button {
+  position: relative;
+  cursor: pointer;
+  transition-duration: 0.2s;
+}
+
+.register-button:before,
+.register-button:after {
+  content: "";
+  position: absolute;
+  left: -2px;
+  top: -2px;
+  border-radius: 999px;
+  background: linear-gradient(
+    45deg,
+    #052e1a,
+    #14532d,
+    #16653a,
+    #4ade80,
+    #16653a,
+    #14532d,
+    #052e1a,
+    #052e1a
+  );
+  background-size: 400%;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  z-index: -1;
+  animation: register-steam 20s linear infinite;
+}
+
+@keyframes register-steam {
+  0% {
+    background-position: 0 0;
+  }
+
+  50% {
+    background-position: 400% 0;
+  }
+
+  100% {
+    background-position: 0 0;
+  }
+}
+
+.register-button:after {
+  filter: blur(50px);
+}

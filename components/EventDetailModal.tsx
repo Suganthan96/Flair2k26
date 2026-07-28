@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import Image from "next/image";
 import { X } from "lucide-react";
-import SpecularButton from "./SpecularButton";
+import RegisterButton from "./RegisterButton";
 import { iconMap, GRADIENTS } from "./eventVisuals";
 import { commonGuidelines, type EventQueryContact } from "@/data/mockData";
 
@@ -77,7 +77,7 @@ export default function EventDetailModal({
             alt=""
             fill
             sizes="100vw"
-            className="scale-125 object-contain"
+            className="scale-125 object-contain "
           />
           <div className="absolute inset-0 bg-black/15" />
         </div>
@@ -106,26 +106,14 @@ export default function EventDetailModal({
               <span className="inline-block rounded-full border border-green-500/40 bg-green-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-green-500">
                 Team Size: {event.teamSize}
               </span>
-              <SpecularButton
+              <RegisterButton
                 href={`https://luma.com/event/${event.lumaEventId}`}
                 className="luma-checkout--button"
                 data-luma-action="checkout"
                 data-luma-event-id={event.lumaEventId}
-                size="md"
-                radius={999}
-                tint="#ffffff"
-                tintOpacity={0.08}
-                textColor="#ffffff"
-                lineColor="#22c55e"
-                baseColor="#5b1a8c"
-                intensity={1.2}
-                shineSize={12}
-                shineFade={45}
-                thickness={1.5}
-                autoAnimate
               >
-                Register 
-              </SpecularButton>
+                Register
+              </RegisterButton>
             </div>
           </div>
         </div>
