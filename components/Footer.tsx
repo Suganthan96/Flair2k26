@@ -1,3 +1,6 @@
+"use client";
+
+import { useRef, useCallback } from "react";
 import Image from "next/image";
 import { Mail, MapPin } from "lucide-react";
 import { footerLinks, siteConfig } from "@/data/mockData";
@@ -20,15 +23,43 @@ function LinkedInIcon({ size = 18 }: { size?: number }) {
   );
 }
 
+const VIDEO_LOOP_END = 14.5; // seconds
+
 const socialIcons: Record<string, React.ComponentType<{ size?: number }>> = {
   Instagram: InstagramIcon,
   LinkedIn: LinkedInIcon,
 };
 
 export default function Footer() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const handleTimeUpdate = useCallback(() => {
+    const video = videoRef.current;
+    if (video && video.currentTime >= VIDEO_LOOP_END) {
+      video.currentTime = 0;
+      video.play();
+    }
+  }, []);
+
   return (
     <footer id="contact" className="relative overflow-hidden border-t border-white/10 bg-background px-6 pt-16">
-      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
+      {/* Background video — loops first 14 seconds */}
+      <video
+        ref={videoRef}
+        autoPlay
+        muted
+        playsInline
+        onTimeUpdate={handleTimeUpdate}
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+        aria-hidden="true"
+      >
+        <source src="/assets/Video.Guru_20260728_134137081.mp4" type="video/mp4" />
+      </video>
+
+      {/* Dark overlay for text readability */}
+      <div className="pointer-events-none absolute inset-0 bg-black/70" aria-hidden="true" />
+
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4 relative z-10">
         <div>
           <div className="flex items-center gap-3">
             <Image
@@ -126,10 +157,6 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="mx-auto mt-12 max-w-6xl border-t border-white/10 pt-6 text-center text-xs text-white/40">
-        © {new Date().getFullYear()} Flair 2k26, LICET. All rights reserved.
-      </div>
-
       {/* Oversized bleed wordmark — purely decorative. Sized in vw (not rem)
           so it scales to fill the full viewport width at any breakpoint,
           rather than sitting at a fixed size anchored to one side. Clipped
@@ -137,9 +164,13 @@ export default function Footer() {
           scroll even if a letter edge would otherwise poke past. */}
       <div
         aria-hidden
-        className="pointer-events-none -mx-6 mt-8 select-none whitespace-nowrap text-center font-avenger uppercase leading-none text-white/5 text-[18vw]"
+        className="relative z-10 pointer-events-none -mx-6 mt-8 select-none whitespace-nowrap text-center font-avenger uppercase leading-none text-white/5 text-[18vw]"
       >
         FLAIR2K26
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-6xl border-t border-white/10 pt-6 pb-4 text-center text-xs text-white/40">
+        © {new Date().getFullYear()} Flair 2k26, LICET. All rights reserved.
       </div>
     </footer>
   );
