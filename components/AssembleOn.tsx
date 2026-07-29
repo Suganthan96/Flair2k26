@@ -61,15 +61,16 @@ function FlipLetterCard({
   if (!backChar) {
     return (
       <motion.div
+        initial={false}
         animate={{
           rotateY: isHovered ? 180 : 0,
           scale: isHovered ? 0 : 1,
           opacity: isHovered ? 0 : 1,
-          width: isHovered ? 0 : "auto",
+          maxWidth: isHovered ? 0 : 64,
         }}
-        transition={{ duration: 0.35, delay: isHovered ? delay : 0, ease: [0.4, 0, 0.2, 1] }}
+        transition={{ duration: 0.3, delay: isHovered ? delay : 0, ease: "easeInOut" }}
         style={{ transformStyle: "preserve-3d" }}
-        className={`relative ${isHovered ? "w-0 p-0 m-0 overflow-hidden" : frontClass} [perspective:1000px] transition-all duration-300`}
+        className={`relative ${frontClass} [perspective:1000px] overflow-hidden`}
       >
         <div className="h-full w-full [backface-visibility:hidden]">
           <NextImage
