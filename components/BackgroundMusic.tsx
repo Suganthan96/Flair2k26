@@ -64,9 +64,7 @@ export default function BackgroundMusic() {
         type="button"
         onClick={toggleMute}
         aria-label={muted ? "Unmute background music" : "Mute background music"}
-        // Matches the hamburger button's size/style, positioned just to its
-        // left with the same right-offset gap at each breakpoint.
-        className="fixed right-24 top-6 z-40 flex h-14 w-14 items-center justify-center rounded-full border border-white/15 text-white transition-colors hover:border-avenger-red/60 sm:right-28 sm:top-8"
+        className="fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full border border-white/15 text-white transition-colors hover:border-avenger-red/60 sm:bottom-8 sm:right-8"
       >
         {muted ? <VolumeX size={22} /> : <Volume2 size={22} />}
       </button>
