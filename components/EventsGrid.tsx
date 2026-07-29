@@ -96,13 +96,16 @@ export default function EventsGrid({
             )}
             <div className="absolute inset-0 bg-black/25" />
 
-            {/* Always-visible title strip — the touch/mobile experience,
-                and the resting state on desktop before the door panel
-                takes over on hover. */}
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-4 lg:transition-opacity lg:group-hover:opacity-0">
+            {/* Always-visible title + description strip — the touch/mobile
+                experience, and the resting state on desktop before the door
+                panel takes over on hover. */}
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 lg:transition-opacity lg:group-hover:opacity-0">
               <h3 className="font-black-ops text-sm uppercase leading-tight text-white sm:text-base">
                 {event.title}
               </h3>
+              <p className="mt-1.5 text-xs leading-relaxed text-white/75 sm:text-sm">
+                {event.description}
+              </p>
             </div>
 
             {/* Sliding door panel — desktop/hover only. Driven by the same

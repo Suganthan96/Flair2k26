@@ -280,9 +280,11 @@ export const footerLinks = {
     { label: "Sponsors", href: "#sponsors" },
   ],
   contact: {
-    email: "flair2k26@licet.ac.in",
+    email: "flairit@licet.ac.in",
     phone: "+91 98765 43210",
-    address: "LICET Campus, St. Thomas Mount, Chennai - 600016",
+    address: "Loyola College Licet, Loyola Campus, Nungambakkam, Chennai, Greater Chennai, Tamil Nadu 600034, India",
+    addressHref:
+      "https://www.google.com/maps/place/LICET+:+Loyola-ICAM+College+of+Engineering+and+Technology/@13.0592975,80.2336586,854m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3a5266606a8d51eb:0xcfedaad4ca5bd750!8m2!3d13.0592975!4d80.2336586!16s%2Fm%2F0dlk73f?entry=ttu&g_ep=EgoyMDI2MDcyNi4wIKXMDSoASAFQAw%3D%3D",
     coordinators: [
       { name: "Zenith Joshua", phone: "+91 74483 43632" },
       { name: "Richan", phone: "+91 91502 48398" },
