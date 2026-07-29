@@ -135,7 +135,7 @@ export default function AssembleOn() {
       onMouseLeave={() => setIsHovered(false)}
       className="group flex flex-col items-start gap-2.5 select-none"
     >
-      <div className={`flex flex-wrap items-center gap-y-2 min-h-[40px] sm:min-h-[56px] md:min-h-[64px] transition-all duration-300 ${isHovered ? "gap-x-2.5 sm:gap-x-4" : "gap-x-4 sm:gap-x-6"}`}>
+      <div className={`flex flex-wrap items-center gap-y-2 min-h-[40px] sm:min-h-[56px] md:min-h-[64px] transition-all duration-300 ${isHovered ? "gap-x-3.5 sm:gap-x-5 md:gap-x-6" : "gap-x-4 sm:gap-x-6"}`}>
         {/* Word 1 (ASSEMBLE -> JOIN) */}
         <div className="flex items-center -space-x-1.5 sm:-space-x-2.5 md:-space-x-3">
           {word1Slots.map((slot, idx) => (
