@@ -2,6 +2,7 @@
 
 // Aliased: the bare `Image` name is the DOM constructor used to preload frames.
 import NextImage from "next/image";
+import { motion } from "framer-motion";
 import { useEffect, useRef, useState, type RefObject } from "react";
 import SideRays from "./SideRays";
 
@@ -17,16 +18,24 @@ const SOURCE_WIDTH = 1920;
 
 type Ctx = CanvasRenderingContext2D;
 
+// Shifts the cover-fit pan slightly right (as a fraction of canvas width),
+// pushing the character away from the left edge so the Assemble lockup has
+// clear space to sit against. Clamped inside fitCover so it never opens a
+// gap at the overflowing edge.
+const PAN_BIAS_X = 0.06;
+
 /**
  * Scale the frame to fill the viewport completely, overflowing on whichever
  * axis is proportionally shorter. Guarantees full-bleed at any window shape —
  * no pillarbox or letterbox gutters, ever.
  */
-function fitCover(cw: number, ch: number, iw: number, ih: number) {
+function fitCover(cw: number, ch: number, iw: number, ih: number, panBiasX = 0) {
   const scale = Math.max(cw / iw, ch / ih);
   const dw = iw * scale;
   const dh = ih * scale;
-  return { dx: (cw - dw) / 2, dy: (ch - dh) / 2, dw, dh };
+  const maxShiftX = (dw - cw) / 2;
+  const bias = Math.min(maxShiftX, Math.max(-maxShiftX, panBiasX));
+  return { dx: (cw - dw) / 2 + bias, dy: (ch - dh) / 2, dw, dh };
 }
 
 function ScrollFrameCanvas({ trackRef }: { trackRef: RefObject<HTMLElement | null> }) {
@@ -54,7 +63,7 @@ function ScrollFrameCanvas({ trackRef }: { trackRef: RefObject<HTMLElement | nul
     }
 
     function draw(c: Ctx, w: number, h: number, img: HTMLImageElement, alpha: number) {
-      const box = fitCover(w, h, img.naturalWidth, img.naturalHeight);
+      const box = fitCover(w, h, img.naturalWidth, img.naturalHeight, w * PAN_BIAS_X);
       c.globalAlpha = alpha;
       c.drawImage(img, box.dx, box.dy, box.dw, box.dh);
       c.globalAlpha = 1;
@@ -227,11 +236,16 @@ export default function Hero() {
           />
         </div>
 
-        {/* Sits outside the grade wrapper so the crest keeps its own colour. */}
-        <a
+        {/* Sits outside the grade wrapper so the crest keeps its own colour.
+            Same materialize-in treatment as the title lockup, just earlier
+            and lighter — it's a small crest, not the hero moment. */}
+        <motion.a
           href="#home"
           aria-label="LICET — Flair 2k26 home"
           className="absolute left-8 top-3 z-10 block sm:left-16 sm:top-4"
+          initial={{ opacity: 0, scale: 1.2, y: -16, filter: "blur(12px)" }}
+          animate={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.25 }}
         >
           <NextImage
             src="/assets/licet-logo.webp"
@@ -241,19 +255,58 @@ export default function Hero() {
             priority
             className="h-14 w-14 object-contain drop-shadow-[0_2px_12px_rgba(0,0,0,0.65)] sm:h-16 sm:w-16"
           />
-        </a>
+        </motion.a>
+
+        {/* "Assemble" mark, top-left — sits just below the LICET crest so the
+            two stack in the same corner instead of competing with the FLAIR
+            title lockup on the opposite side. Same materialize-out-of-Doom's-
+            magic entrance as the rest. Date sits right under it in the same
+            beat, arriving just after. */}
+        <motion.div
+          className="pointer-events-none absolute left-2 top-4 z-10 w-80 sm:left-6 sm:top-6 sm:w-96"
+          initial={{ opacity: 0, scale: 1.25, y: -20, filter: "blur(16px)" }}
+          animate={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
+          transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
+        >
+          <NextImage
+            src="/assets/assemble-removebg-preview.png"
+            alt="Assemble"
+            width={577}
+            height={433}
+            priority
+            sizes="(max-width: 640px) 42vw, (max-width: 1024px) 28vw, 20vw"
+            className="w-full select-none object-contain drop-shadow-[0_4px_24px_rgba(0,0,0,0.7)]"
+          />
+          <motion.p
+            className="-mt-16 text-center font-black-ops text-lg uppercase tracking-[0.2em] text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] sm:-mt-20 sm:text-2xl"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: "easeOut", delay: 0.9 }}
+          >
+            On 8th August
+          </motion.p>
+        </motion.div>
 
         {/* Title lockup, bottom-right. Also outside the grade wrapper — the
-            grade would mute the green glow that ties it to the footage. */}
-        <NextImage
-          src="/assets/FLAIR.png"
-          alt="Flair 2k26"
-          width={2896}
-          height={2172}
-          priority
-          sizes="(max-width: 640px) 60vw, (max-width: 1024px) 40vw, 30vw"
-          className="pointer-events-none absolute bottom-6 right-6 z-10 w-52 select-none object-contain drop-shadow-[0_4px_24px_rgba(0,0,0,0.7)] sm:bottom-10 sm:right-10 sm:w-72 lg:w-[22rem]"
-        />
+            grade would mute the green glow that ties it to the footage. Enters
+            like it's materializing out of Doom's magic — settles in with a
+            slow unblur/scale-down. */}
+        <motion.div
+          className="pointer-events-none absolute bottom-6 right-6 z-10 w-52 sm:bottom-10 sm:right-10 sm:w-72 lg:w-[22rem]"
+          initial={{ opacity: 0, scale: 1.25, y: 26, filter: "blur(16px)" }}
+          animate={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
+          transition={{ duration: 1.3, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
+        >
+          <NextImage
+            src="/assets/FLAIR.png"
+            alt="Flair 2k26"
+            width={2896}
+            height={2172}
+            priority
+            sizes="(max-width: 640px) 60vw, (max-width: 1024px) 40vw, 30vw"
+            className="w-full select-none object-contain drop-shadow-[0_4px_24px_rgba(0,0,0,0.7)]"
+          />
+        </motion.div>
       </div>
     </section>
   );

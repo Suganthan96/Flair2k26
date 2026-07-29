@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import RegisterButton from "./RegisterButton";
 import TypewriterText from "./TypewriterText";
@@ -54,18 +55,26 @@ export default function EventDetailModal({
   const gradient = GRADIENTS[index % GRADIENTS.length];
 
   return (
-    <div
+    <motion.div
       role="dialog"
       aria-modal="true"
       aria-labelledby="event-modal-title"
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
       onClick={onClose}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.25, ease: "easeOut" }}
     >
       {/* flex-col + a scrollable body below means the header (close/title/
           register) never scrolls out of view, no matter how long the body is. */}
-      <div
+      <motion.div
         className="relative flex max-h-[92vh] w-full max-w-6xl flex-col overflow-hidden rounded-[2rem] border border-white/10 shadow-2xl"
         onClick={(e) => e.stopPropagation()}
+        initial={{ opacity: 0, scale: 0.92, y: 24 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 12 }}
+        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
       >
         <div className="absolute inset-0 -z-10 overflow-hidden bg-black">
           {/* object-contain (not cover): this is a centered crest on a
@@ -205,7 +214,7 @@ export default function EventDetailModal({
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
