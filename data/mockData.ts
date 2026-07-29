@@ -98,22 +98,22 @@ export const events: {
     backgroundImage: "/assets/paper-expo.avif",
   },
   {
-    id: "treasure-hunt",
-    title: "Where is Gamora?",
-    icon: "MapPin",
-    description: "Solve clues and puzzles scattered across campus to find the prize.",
+    id: "meme-creation",
+    title: "I Can Meme This All Day",
+    icon: "LayoutTemplate",
+    description: "Build a pixel-perfect responsive site against the clock.",
     longDescription:
-      "No Paper.No maps.Just you and the machine.The IT Department presents a digital Treasure Hunt.Navigate hidden directories , crack system clues , and race the clock .",
-    teamSize: "2-4",
-    time: "10.15 AM – 12.15 PM",
-    venue: "A21",
-    organizers: "Suganthan, Narayani",
+      "Think you can explain complex tech with a single meme? Prove it individually on our systems. We provide the template and the technical theme on the spot - you bring the wit.",
+    teamSize: "1",
+    time: "1.30 PM – 3:00 PM",
+    venue: "H23",
+    organizers: "Priya Dharshini, Naveen Kumar",
     queries: [
       { name: "Zenith Joshua", phone: "+91 74483 43632" },
       { name: "Richan", phone: "+91 91502 48398" },
     ],
-    lumaEventId: "evt-uXjsXiOFz0G0nGx",
-    backgroundImage: "/assets/vormir-gamora.jpg",
+    lumaEventId: "evt-ziwcw16DWyGLOn2",
+    backgroundImage: "/assets/i can meme this all day.jpg",
     backgroundPosition: "top",
   },
   {
@@ -154,11 +154,16 @@ export const events: {
     backgroundPosition: "top",
   },
   {
-    id: "meme-creation",
-    title: "I Can Meme This All Day",
-    icon: "LayoutTemplate",
-    description: "Build a pixel-perfect responsive site against the clock.",
+    id: "treasure-hunt",
+    title: "Where is Gamora?",
+    icon: "MapPin",
+    description: "Solve clues and puzzles scattered across campus to find the prize.",
     longDescription:
+      "No Paper.No maps.Just you and the machine.The IT Department presents a digital Treasure Hunt.Navigate hidden directories , crack system clues , and race the clock .",
+    teamSize: "2-4",
+    time: "10.15 AM – 12.15 PM",
+    venue: "A21",
+    organizers: "Suganthan, Narayani",
       "Think you can explain complex tech with a single meme? Prove it individually on our systems. We provide the template and the technical theme on the spot - you bring the wit.",
     teamSize: "1",
     time: "1.30 PM – 3:00 PM",
@@ -168,8 +173,8 @@ export const events: {
       { name: "Zenith Joshua", phone: "+91 74483 43632" },
       { name: "Richan", phone: "+91 91502 48398" },
     ],
-    lumaEventId: "evt-ziwcw16DWyGLOn2",
-    backgroundImage: "/assets/i can meme this all day.jpg",
+    lumaEventId: "evt-uXjsXiOFz0G0nGx",
+    backgroundImage: "/assets/vormir-gamora.jpg",
     backgroundPosition: "top",
   },
   {
@@ -207,7 +212,10 @@ export const events: {
       { name: "Richan", phone: "+91 91502 48398" },
     ],
     lumaEventId: "evt-yfO2RHvL8hwS6DF",
-    backgroundImage: "/assets/connections.jpg",
+    // Cache-busting query string: the replacement file kept the same name,
+    // and neither the browser nor Next's image optimizer has any way to
+    // notice that — same URL reads as the same cached image either way.
+    backgroundImage: "/assets/connections.jpg?v=2",
   },
 ];
 
