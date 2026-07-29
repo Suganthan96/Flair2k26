@@ -1,37 +1,12 @@
-import NextImage from "next/image";
 import { FileText, ArrowRight } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
-import DoomCosmos from "./DoomCosmos";
 import { iconMap, GRADIENTS } from "./eventVisuals";
 import { events } from "@/data/mockData";
 
 export default function EventPromoCards() {
   return (
-    <section
-      id="events"
-      className="relative px-6 pb-6 pt-16 sm:pb-8 sm:pt-20"
-      style={{ background: "#05060a" }}
-    >
-      <DoomCosmos />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#05060a]/60" />
-
-      <div className="relative z-10 mx-auto flex max-w-6xl flex-col gap-10">
-        <AnimatedSection className="text-center mb-4">
-          <p className="mb-3 font-avenger text-xs uppercase tracking-[0.2em] text-emerald-400/80">
-            Events & Tracks
-          </p>
-          <div className="mx-auto max-w-[320px] sm:max-w-[380px] md:max-w-[420px]">
-            <NextImage
-              src="/assets/events_heading.png"
-              alt="Events & Tracks"
-              width={443}
-              height={248}
-              priority
-              className="h-auto w-full object-contain"
-            />
-          </div>
-          <div className="mx-auto mt-4 h-[3px] w-40 rounded-full bg-gradient-to-r from-transparent via-emerald-500 to-transparent" />
-        </AnimatedSection>
+    <section id="events" className="relative px-6 pb-6 pt-16 sm:pb-8 sm:pt-20">
+      <div className="mx-auto flex max-w-6xl flex-col gap-10">
         {events.map((event, i) => {
           const Icon = iconMap[event.icon] ?? FileText;
           const reversed = i % 2 === 1;
