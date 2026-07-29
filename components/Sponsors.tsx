@@ -16,15 +16,15 @@ export default function Sponsors() {
             className="h-auto w-64 object-contain drop-shadow-[0_4px_20px_rgba(0,0,0,0.6)] sm:w-80"
           />
 
-          {/* Sponsor Banner Image (Reduced size, set above Countdown) */}
-          <div className="mt-6 overflow-hidden rounded-xl border border-emerald-500/30 bg-black/40 p-2.5 shadow-[0_0_30px_rgba(16,185,129,0.15)] backdrop-blur-md transition-all duration-500 hover:border-emerald-400/60 hover:shadow-[0_0_40px_rgba(16,185,129,0.25)]">
+          {/* Sponsor Banner Image (Compact size, set above Countdown) */}
+          <div className="mt-5 overflow-hidden rounded-lg border border-emerald-500/30 bg-black/40 p-1.5 shadow-[0_0_20px_rgba(16,185,129,0.15)] backdrop-blur-md transition-all duration-500 hover:border-emerald-400/60 hover:shadow-[0_0_30px_rgba(16,185,129,0.25)]">
             <Image
               src="/assets/sponsor.jpeg"
               alt="Flair 2k26 Sponsor"
-              width={400}
-              height={250}
+              width={250}
+              height={150}
               priority
-              className="h-auto w-full max-w-[260px] rounded-lg object-contain sm:max-w-[340px]"
+              className="h-auto w-full max-w-[160px] rounded object-contain sm:max-w-[200px]"
             />
           </div>
 
