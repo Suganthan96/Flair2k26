@@ -7,7 +7,6 @@ import SideNav from "@/components/SideNav";
 import DoomCursor from "@/components/DoomCursor";
 import SmoothScroll from "@/components/SmoothScroll";
 import { BackgroundProvider } from "@/components/BackgroundContext";
-import BackgroundTesterToolbar from "@/components/BackgroundTesterToolbar";
 import "lenis/dist/lenis.css";
 import "./globals.css";
 
@@ -94,7 +93,6 @@ export default function RootLayout({
           <SmoothScroll>{children}</SmoothScroll>
           <BackgroundMusic />
           <DoomCursor />
-          <BackgroundTesterToolbar />
         </BackgroundProvider>
       </body>
     </html>
