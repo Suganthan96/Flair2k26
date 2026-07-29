@@ -4,7 +4,6 @@
 import NextImage from "next/image";
 import { useEffect, useRef, useState, type RefObject } from "react";
 import SideRays from "./SideRays";
-import AssembleOn from "./AssembleOn";
 
 const FRAME_COUNT = 137;
 const FRAME_PATH = (i: number) => `/newframes/frame_${String(i).padStart(6, "0")}.jpg`;
@@ -228,7 +227,7 @@ export default function Hero() {
           />
         </div>
 
-        {/* LICET Logo - Top Left */}
+        {/* Sits outside the grade wrapper so the crest keeps its own colour. */}
         <a
           href="#home"
           aria-label="LICET — Flair 2k26 home"
@@ -244,7 +243,8 @@ export default function Hero() {
           />
         </a>
 
-        {/* Title lockup, bottom-right. Outside grade wrapper */}
+        {/* Title lockup, bottom-right. Also outside the grade wrapper — the
+            grade would mute the green glow that ties it to the footage. */}
         <NextImage
           src="/assets/FLAIR.png"
           alt="Flair 2k26"
@@ -254,11 +254,6 @@ export default function Hero() {
           sizes="(max-width: 640px) 60vw, (max-width: 1024px) 40vw, 30vw"
           className="pointer-events-none absolute bottom-6 right-6 z-10 w-52 select-none object-contain drop-shadow-[0_4px_24px_rgba(0,0,0,0.7)] sm:bottom-10 sm:right-10 sm:w-72 lg:w-[22rem]"
         />
-
-        {/* Assemble On - bottom-left 3D letter animation */}
-        <div className="pointer-events-auto absolute bottom-6 left-6 z-10 select-none sm:bottom-10 sm:left-10">
-          <AssembleOn />
-        </div>
       </div>
     </section>
   );
