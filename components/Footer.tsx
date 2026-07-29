@@ -32,18 +32,18 @@ export default function Footer() {
         <div>
           <div className="flex items-center gap-3">
             <Image
-              src="/assets/licet-logo.webp"
-              alt="LICET logo"
-              width={32}
-              height={32}
-              className="h-8 w-8 object-contain"
-            />
-            <Image
               src="/assets/FLAIR.png"
               alt={siteConfig.name}
               width={2896}
               height={2172}
               className="h-10 w-auto object-contain"
+            />
+            <Image
+              src="/assets/grait-logo.webp"
+              alt="GRAIT logo"
+              width={96}
+              height={96}
+              className="h-24 w-24 object-contain"
             />
           </div>
           <p className="mt-4 text-sm text-white/60">
@@ -52,7 +52,7 @@ export default function Footer() {
         </div>
 
         <div>
-          <h3 className="text-xs font-semibold uppercase tracking-widest text-avenger-gold">
+          <h3 className="text-xs font-semibold uppercase tracking-widest text-emerald-400">
             Quick Links
           </h3>
           <ul className="mt-4 space-y-3">
@@ -70,11 +70,11 @@ export default function Footer() {
         </div>
 
         <div>
-          <h3 className="text-xs font-semibold uppercase tracking-widest text-avenger-gold">
+          <h3 className="text-xs font-semibold uppercase tracking-widest text-emerald-400">
             Contact Us
           </h3>
 
-          <h4 className="mt-4 text-xs font-semibold uppercase tracking-widest text-avenger-gold">
+          <h4 className="mt-4 text-xs font-semibold uppercase tracking-widest text-emerald-400">
             Coordinators
           </h4>
           <ul className="mt-3 space-y-2 text-sm text-white/65">
@@ -85,7 +85,7 @@ export default function Footer() {
             ))}
           </ul>
 
-          <h4 className="mt-6 text-xs font-semibold uppercase tracking-widest text-avenger-gold">
+          <h4 className="mt-6 text-xs font-semibold uppercase tracking-widest text-emerald-400">
             Mail Us
           </h4>
           <a
@@ -96,16 +96,23 @@ export default function Footer() {
             {footerLinks.contact.email}
           </a>
 
-          <ul className="mt-6 space-y-3 text-sm text-white/65">
+          <ul className="mt-3 space-y-3 text-sm text-white/65">
             <li className="flex items-start gap-2">
               <MapPin size={16} className="mt-0.5 shrink-0" />
-              {footerLinks.contact.address}
+              <a
+                href={footerLinks.contact.addressHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline decoration-white/30 underline-offset-2 transition-colors hover:text-avenger-red"
+              >
+                {footerLinks.contact.address}
+              </a>
             </li>
           </ul>
         </div>
 
         <div>
-          <h3 className="text-xs font-semibold uppercase tracking-widest text-avenger-gold">
+          <h3 className="text-xs font-semibold uppercase tracking-widest text-emerald-400">
             Follow Us
           </h3>
           <div className="mt-4 flex gap-4">

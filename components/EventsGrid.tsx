@@ -98,6 +98,74 @@ export default function EventsGrid({
           onOpenDetails={() => onOpenDetails(i)}
         />
       ))}
+    // through the flex chain here) + 4 equal-fraction rows: the parent
+    // wrapper is a flex column with this grid as its flex-1 item, so this
+    // element itself gets a real, definite height equal to whatever space
+    // remains below the logo on any screen size — grid-rows-4 then divides
+    // that height evenly across the 4 rows, filling the frame exactly.
+    <div className="grid grid-cols-2 lg:grid-cols-4 lg:grid-rows-4 lg:flex-1 lg:grid-flow-dense">
+      {events.map((event, i) => {
+        const config = TILE_CONFIG[event.id] ?? DEFAULT_CONFIG;
+        const offscreen = OFFSCREEN[config.slideFrom];
+        const entrance = ENTRANCE_OFFSET[config.slideFrom];
+        const isHovered = hoveredIndex === i;
+
+        return (
+          <motion.button
+            key={event.id}
+            type="button"
+            onMouseEnter={() => setHoveredIndex(i)}
+            onMouseLeave={() => setHoveredIndex(null)}
+            onClick={() => onOpenDetails(i)}
+            initial={{ opacity: 0, filter: "blur(8px)", ...entrance }}
+            whileInView={{ opacity: 1, filter: "blur(0px)", x: 0, y: 0 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: 0.6, delay: i * 0.06, ease: [0.16, 1, 0.3, 1] }}
+            className={`group relative min-h-[9rem] overflow-hidden border border-white/10 text-left lg:min-h-0 ${config.span}`}
+          >
+            {event.backgroundImage && (
+              <Image
+                src={event.backgroundImage}
+                alt=""
+                fill
+                sizes="(max-width: 1024px) 50vw, 25vw"
+                className="object-cover"
+                style={{ objectPosition: event.backgroundPosition ?? "center" }}
+              />
+            )}
+            <div className="absolute inset-0 bg-black/25" />
+
+            {/* Always-visible title + description strip — the touch/mobile
+                experience, and the resting state on desktop before the door
+                panel takes over on hover. */}
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 lg:transition-opacity lg:group-hover:opacity-0">
+              <h3 className="font-black-ops text-sm uppercase leading-tight text-white sm:text-base">
+                {event.title}
+              </h3>
+              <p className="mt-1.5 text-xs leading-relaxed text-white/75 sm:text-sm">
+                {event.description}
+              </p>
+            </div>
+
+            {/* Sliding door panel — desktop/hover only. Driven by the same
+                shared hoveredIndex, so switching tiles animates the old
+                one out and the new one in from the same state change. */}
+            <motion.div
+              className="pointer-events-none absolute inset-0 hidden flex-col justify-end bg-black/80 p-4 lg:flex"
+              initial={false}
+              animate={isHovered ? { x: 0, y: 0 } : offscreen}
+              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <h3 className="font-black-ops text-lg uppercase leading-tight text-white">
+                {event.title}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-white/80">
+                {event.description}
+              </p>
+            </motion.div>
+          </motion.button>
+        );
+      })}
     </div>
   );
 }
