@@ -163,7 +163,7 @@ export const events: {
     teamSize: "1",
     time: "1.30 PM – 3:00 PM",
     venue: "H23",
-    organizers: "Priya Dharshini, Naveen Kumar",
+    organizers: "MAGA DEVI P V, Abinesh Vibin",
     queries: [
       { name: "Zenith Joshua", phone: "+91 74483 43632" },
       { name: "Richan", phone: "+91 91502 48398" },

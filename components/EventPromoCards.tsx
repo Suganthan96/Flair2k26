@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
 import EventsGrid from "./EventsGrid";
 import EventDetailModal from "./EventDetailModal";
 import { events } from "@/data/mockData";
@@ -45,13 +45,18 @@ export default function EventPromoCards() {
 
       <EventsGrid events={events} onOpenDetails={setOpenIndex} />
 
-      {openIndex !== null && (
-        <EventDetailModal
-          event={events[openIndex]}
-          index={openIndex}
-          onClose={() => setOpenIndex(null)}
-        />
-      )}
+      {/* AnimatePresence (not a plain conditional) so the modal's exit
+          animation actually gets to play — a bare `{cond && <X/>}` would
+          unmount it instantly, before any exit transition could run. */}
+      <AnimatePresence>
+        {openIndex !== null && (
+          <EventDetailModal
+            event={events[openIndex]}
+            index={openIndex}
+            onClose={() => setOpenIndex(null)}
+          />
+        )}
+      </AnimatePresence>
     </section>
   );
 }
