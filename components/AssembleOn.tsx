@@ -2,35 +2,23 @@
 
 import { useState } from "react";
 import NextImage from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { TextScramble } from "@/components/core/text-scramble";
 
-const assembleLetters = [
-  { char: "A", src: "/assets/A.png" },
-  { char: "S", src: "/assets/S.png" },
-  { char: "S", src: "/assets/S.png" },
-  { char: "E", src: "/assets/E.png" },
-  { char: "M", src: "/assets/M.png" },
-  { char: "B", src: "/assets/B.png" },
-  { char: "L", src: "/assets/L.png" },
-  { char: "E", src: "/assets/E.png" },
+const word1Slots = [
+  { frontChar: "A", frontSrc: "/assets/A.png", backChar: "J", backSrc: "/assets/J.png" },
+  { frontChar: "S", frontSrc: "/assets/S.png", backChar: "O", backSrc: "/assets/O.png" },
+  { frontChar: "S", frontSrc: "/assets/S.png", backChar: "I", backSrc: "/assets/I.png" },
+  { frontChar: "E", frontSrc: "/assets/E.png", backChar: "N", backSrc: "/assets/N.png" },
+  { frontChar: "M", frontSrc: "/assets/M.png" },
+  { frontChar: "B", frontSrc: "/assets/B.png" },
+  { frontChar: "L", frontSrc: "/assets/L.png" },
+  { frontChar: "E", frontSrc: "/assets/E.png" },
 ];
 
-const onLetters = [
-  { char: "O", src: "/assets/O.png" },
-  { char: "N", src: "/assets/N.png" },
-];
-
-const joinLetters = [
-  { char: "J", src: "/assets/J.png" },
-  { char: "O", src: "/assets/O.png" },
-  { char: "I", src: "/assets/I.png" },
-  { char: "N", src: "/assets/N.png" },
-];
-
-const usLetters = [
-  { char: "U", src: "/assets/U.png" },
-  { char: "S", src: "/assets/S.png" },
+const word2Slots = [
+  { frontChar: "O", frontSrc: "/assets/O.png", backChar: "U", backSrc: "/assets/U.png" },
+  { frontChar: "N", frontSrc: "/assets/N.png", backChar: "S", backSrc: "/assets/S.png" },
 ];
 
 function getLetterContainerClass(char: string) {
@@ -52,6 +40,89 @@ function getLetterContainerClass(char: string) {
   }
 }
 
+function FlipLetterCard({
+  frontChar,
+  frontSrc,
+  backChar,
+  backSrc,
+  isHovered,
+  delay,
+}: {
+  frontChar: string;
+  frontSrc: string;
+  backChar?: string;
+  backSrc?: string;
+  isHovered: boolean;
+  delay: number;
+}) {
+  const frontClass = getLetterContainerClass(frontChar);
+  const backClass = backChar ? getLetterContainerClass(backChar) : "";
+
+  if (!backChar) {
+    return (
+      <motion.div
+        animate={{
+          rotateY: isHovered ? 180 : 0,
+          scale: isHovered ? 0 : 1,
+          opacity: isHovered ? 0 : 1,
+        }}
+        transition={{ duration: 0.45, delay: isHovered ? delay : 0, ease: [0.4, 0, 0.2, 1] }}
+        style={{ transformStyle: "preserve-3d" }}
+        className={`relative ${frontClass} [perspective:1000px] overflow-hidden`}
+      >
+        <div className="h-full w-full [backface-visibility:hidden]">
+          <NextImage
+            src={frontSrc}
+            alt={frontChar}
+            width={140}
+            height={160}
+            unoptimized
+            priority
+            className="h-full w-full object-contain drop-shadow-[0_4px_14px_rgba(0,0,0,0.85)]"
+          />
+        </div>
+      </motion.div>
+    );
+  }
+
+  return (
+    <div className={`relative ${isHovered ? backClass : frontClass} [perspective:1000px] transition-all duration-300`}>
+      <motion.div
+        animate={{ rotateY: isHovered ? 180 : 0 }}
+        transition={{ duration: 0.55, delay, ease: [0.4, 0, 0.2, 1] }}
+        style={{ transformStyle: "preserve-3d" }}
+        className="relative h-full w-full"
+      >
+        {/* Front Face (0deg): ASSEMBLE ON letter */}
+        <div className="absolute inset-0 h-full w-full [backface-visibility:hidden]">
+          <NextImage
+            src={frontSrc}
+            alt={frontChar}
+            width={140}
+            height={160}
+            unoptimized
+            priority
+            className="h-full w-full object-contain drop-shadow-[0_4px_14px_rgba(0,0,0,0.85)]"
+          />
+        </div>
+
+        {/* Back Face (180deg): JOIN US letter */}
+        <div className="absolute inset-0 h-full w-full [backface-visibility:hidden] [transform:rotateY(180deg)]">
+          <NextImage
+            src={backSrc!}
+            alt={backChar}
+            width={140}
+            height={160}
+            unoptimized
+            priority
+            className="h-full w-full object-contain drop-shadow-[0_0_18px_rgba(52,211,153,0.9)]"
+          />
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
 export default function AssembleOn() {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -62,146 +133,36 @@ export default function AssembleOn() {
       onMouseLeave={() => setIsHovered(false)}
       className="group flex flex-col items-start gap-2.5 select-none"
     >
-      <div className="relative flex min-h-[40px] items-center sm:min-h-[56px] md:min-h-[64px] [perspective:1000px]">
-        <AnimatePresence mode="wait">
-          {!isHovered ? (
-            /* ASSEMBLE ON */
-            <motion.div
-              key="assemble-on"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.15 }}
-              className="flex flex-wrap items-center gap-x-4 sm:gap-x-6 gap-y-2"
-            >
-              {/* ASSEMBLE */}
-              <div className="flex items-center -space-x-1.5 sm:-space-x-2.5 md:-space-x-3">
-                {assembleLetters.map((item, idx) => (
-                  <motion.div
-                    key={`assemble-${idx}`}
-                    initial={{ rotateY: -90, rotateX: 15, scale: 0.7, opacity: 0 }}
-                    animate={{ rotateY: 0, rotateX: 0, scale: 1, opacity: 1 }}
-                    exit={{ rotateY: 90, rotateX: -15, scale: 0.7, opacity: 0 }}
-                    transition={{
-                      duration: 0.35,
-                      delay: idx * 0.03,
-                      ease: [0.23, 1, 0.32, 1],
-                    }}
-                    whileHover={{ rotateY: 360, scale: 1.15, transition: { duration: 0.6 } }}
-                    className={`relative ${getLetterContainerClass(item.char)} [transform-style:preserve-3d]`}
-                  >
-                    <NextImage
-                      src={item.src}
-                      alt={item.char}
-                      width={140}
-                      height={160}
-                      unoptimized
-                      priority
-                      className="h-full w-full object-contain drop-shadow-[0_4px_14px_rgba(0,0,0,0.85)]"
-                    />
-                  </motion.div>
-                ))}
-              </div>
+      <div className="flex flex-wrap items-center gap-x-4 sm:gap-x-6 gap-y-2 min-h-[40px] sm:min-h-[56px] md:min-h-[64px]">
+        {/* Word 1 (ASSEMBLE -> JOIN) */}
+        <div className="flex items-center -space-x-1.5 sm:-space-x-2.5 md:-space-x-3">
+          {word1Slots.map((slot, idx) => (
+            <FlipLetterCard
+              key={`word1-${idx}`}
+              frontChar={slot.frontChar}
+              frontSrc={slot.frontSrc}
+              backChar={slot.backChar}
+              backSrc={slot.backSrc}
+              isHovered={isHovered}
+              delay={idx * 0.04}
+            />
+          ))}
+        </div>
 
-              {/* ON */}
-              <div className="flex items-center -space-x-1.5 sm:-space-x-2.5 md:-space-x-3">
-                {onLetters.map((item, idx) => (
-                  <motion.div
-                    key={`on-${idx}`}
-                    initial={{ rotateY: -90, rotateX: 15, scale: 0.7, opacity: 0 }}
-                    animate={{ rotateY: 0, rotateX: 0, scale: 1, opacity: 1 }}
-                    exit={{ rotateY: 90, rotateX: -15, scale: 0.7, opacity: 0 }}
-                    transition={{
-                      duration: 0.35,
-                      delay: (assembleLetters.length + idx) * 0.03,
-                      ease: [0.23, 1, 0.32, 1],
-                    }}
-                    whileHover={{ rotateY: 360, scale: 1.15, transition: { duration: 0.6 } }}
-                    className={`relative ${getLetterContainerClass(item.char)} [transform-style:preserve-3d]`}
-                  >
-                    <NextImage
-                      src={item.src}
-                      alt={item.char}
-                      width={140}
-                      height={160}
-                      unoptimized
-                      priority
-                      className="h-full w-full object-contain drop-shadow-[0_4px_14px_rgba(0,0,0,0.85)]"
-                    />
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          ) : (
-            /* JOIN US */
-            <motion.div
-              key="join-us"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.15 }}
-              className="flex flex-wrap items-center gap-x-4 sm:gap-x-6 gap-y-2"
-            >
-              {/* JOIN */}
-              <div className="flex items-center -space-x-1.5 sm:-space-x-2.5 md:-space-x-3">
-                {joinLetters.map((item, idx) => (
-                  <motion.div
-                    key={`join-${idx}`}
-                    initial={{ rotateY: 90, rotateX: -15, scale: 0.7, opacity: 0 }}
-                    animate={{ rotateY: 0, rotateX: 0, scale: 1, opacity: 1 }}
-                    exit={{ rotateY: -90, rotateX: 15, scale: 0.7, opacity: 0 }}
-                    transition={{
-                      duration: 0.35,
-                      delay: idx * 0.04,
-                      ease: [0.23, 1, 0.32, 1],
-                    }}
-                    whileHover={{ rotateY: 360, scale: 1.2, transition: { duration: 0.6 } }}
-                    className={`relative ${getLetterContainerClass(item.char)} [transform-style:preserve-3d]`}
-                  >
-                    <NextImage
-                      src={item.src}
-                      alt={item.char}
-                      width={140}
-                      height={160}
-                      unoptimized
-                      priority
-                      className="h-full w-full object-contain drop-shadow-[0_0_18px_rgba(52,211,153,0.9)]"
-                    />
-                  </motion.div>
-                ))}
-              </div>
-
-              {/* US */}
-              <div className="flex items-center -space-x-1.5 sm:-space-x-2.5 md:-space-x-3">
-                {usLetters.map((item, idx) => (
-                  <motion.div
-                    key={`us-${idx}`}
-                    initial={{ rotateY: 90, rotateX: -15, scale: 0.7, opacity: 0 }}
-                    animate={{ rotateY: 0, rotateX: 0, scale: 1, opacity: 1 }}
-                    exit={{ rotateY: -90, rotateX: 15, scale: 0.7, opacity: 0 }}
-                    transition={{
-                      duration: 0.35,
-                      delay: (joinLetters.length + idx) * 0.04,
-                      ease: [0.23, 1, 0.32, 1],
-                    }}
-                    whileHover={{ rotateY: 360, scale: 1.2, transition: { duration: 0.6 } }}
-                    className={`relative ${getLetterContainerClass(item.char)} [transform-style:preserve-3d]`}
-                  >
-                    <NextImage
-                      src={item.src}
-                      alt={item.char}
-                      width={140}
-                      height={160}
-                      unoptimized
-                      priority
-                      className="h-full w-full object-contain drop-shadow-[0_0_18px_rgba(52,211,153,0.9)]"
-                    />
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* Word 2 (ON -> US) */}
+        <div className="flex items-center -space-x-1.5 sm:-space-x-2.5 md:-space-x-3">
+          {word2Slots.map((slot, idx) => (
+            <FlipLetterCard
+              key={`word2-${idx}`}
+              frontChar={slot.frontChar}
+              frontSrc={slot.frontSrc}
+              backChar={slot.backChar}
+              backSrc={slot.backSrc}
+              isHovered={isHovered}
+              delay={(word1Slots.length + idx) * 0.04}
+            />
+          ))}
+        </div>
       </div>
 
       <div className="h-[2px] w-36 rounded-full bg-gradient-to-r from-emerald-400 via-emerald-500/60 to-transparent transition-all duration-300 group-hover:w-60" />
