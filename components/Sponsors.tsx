@@ -46,7 +46,7 @@ export default function Sponsors() {
           </p>
           <div className="mx-auto max-w-[320px] sm:max-w-[380px] md:max-w-[420px]">
             <NextImage
-              src="/assets/sponsors.png"
+              src="/assets/event_sponsers.png"
               alt="Event Sponsors"
               width={420}
               height={180}
