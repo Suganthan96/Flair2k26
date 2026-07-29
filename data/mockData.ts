@@ -32,63 +32,54 @@ export const events: {
   title: string;
   icon: string;
   description: string;
-  image?: string;
 }[] = [
   {
     id: "hackathon",
     title: "Prompt with Jarvis",
     icon: "Code2",
     description: "24-hour build sprint to ship a working prototype from scratch.",
-    image: "/assets/events/hackathon.jpg",
   },
   {
     id: "paper-presentation",
     title: "The Stark Expo",
     icon: "FileText",
     description: "Present original research and ideas to a panel of expert judges.",
-    image: "/assets/events/paper-presentation.jpg",
   },
   {
     id: "treasure-hunt",
     title: "Where is Gamora?",
     icon: "MapPin",
     description: "Solve clues and puzzles scattered across campus to find the prize.",
-    image: "/assets/events/treasure-hunt.jpg",
   },
   {
     id: "robo-race",
     title: "Debuggers Assemble",
     icon: "Bot",
     description: "Design and race autonomous bots through a timed obstacle track.",
-    image: "/assets/events/robo-race.jpg",
   },
   {
     id: "quiz",
     title: "Infinity IQ / Trivia 3000",
     icon: "BrainCircuit",
     description: "Rapid-fire rounds testing tech trivia and general knowledge.",
-    image: "/assets/events/quiz.jpg",
   },
   {
     id: "web-design",
     title: "I Can Meme This All Day",
     icon: "LayoutTemplate",
     description: "Build a pixel-perfect responsive site against the clock.",
-    image: "/assets/events/web-design.jpg",
   },
   {
     id: "gaming",
     title: "X-Charades",
     icon: "Gamepad2",
     description: "Compete in a bracketed esports tournament across top titles.",
-    image: "/assets/events/gaming.jpg",
   },
   {
     id: "case-study",
     title: "Sacred Connections",
     icon: "Briefcase",
     description: "Crack real-world business problems under time pressure.",
-    image: "/assets/events/case-study.jpg",
   },
 ];
 
