@@ -62,16 +62,16 @@ export default function AssembleOn() {
       onMouseLeave={() => setIsHovered(false)}
       className="group flex flex-col items-start gap-2.5 select-none"
     >
-      <div className="relative flex min-h-[40px] items-center sm:min-h-[56px] md:min-h-[64px]">
+      <div className="relative flex min-h-[40px] items-center sm:min-h-[56px] md:min-h-[64px] [perspective:1000px]">
         <AnimatePresence mode="wait">
           {!isHovered ? (
             /* ASSEMBLE ON */
             <motion.div
               key="assemble-on"
-              initial={{ opacity: 0, y: 4, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -4, scale: 0.98 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
               className="flex flex-wrap items-center gap-x-4 sm:gap-x-6 gap-y-2"
             >
               {/* ASSEMBLE */}
@@ -79,10 +79,16 @@ export default function AssembleOn() {
                 {assembleLetters.map((item, idx) => (
                   <motion.div
                     key={`assemble-${idx}`}
-                    initial={{ opacity: 0, y: 4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.12, delay: idx * 0.015 }}
-                    className={`relative ${getLetterContainerClass(item.char)}`}
+                    initial={{ rotateY: -90, rotateX: 15, scale: 0.7, opacity: 0 }}
+                    animate={{ rotateY: 0, rotateX: 0, scale: 1, opacity: 1 }}
+                    exit={{ rotateY: 90, rotateX: -15, scale: 0.7, opacity: 0 }}
+                    transition={{
+                      duration: 0.35,
+                      delay: idx * 0.03,
+                      ease: [0.23, 1, 0.32, 1],
+                    }}
+                    whileHover={{ rotateY: 360, scale: 1.15, transition: { duration: 0.6 } }}
+                    className={`relative ${getLetterContainerClass(item.char)} [transform-style:preserve-3d]`}
                   >
                     <NextImage
                       src={item.src}
@@ -102,10 +108,16 @@ export default function AssembleOn() {
                 {onLetters.map((item, idx) => (
                   <motion.div
                     key={`on-${idx}`}
-                    initial={{ opacity: 0, y: 4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.12, delay: 0.12 + idx * 0.015 }}
-                    className={`relative ${getLetterContainerClass(item.char)}`}
+                    initial={{ rotateY: -90, rotateX: 15, scale: 0.7, opacity: 0 }}
+                    animate={{ rotateY: 0, rotateX: 0, scale: 1, opacity: 1 }}
+                    exit={{ rotateY: 90, rotateX: -15, scale: 0.7, opacity: 0 }}
+                    transition={{
+                      duration: 0.35,
+                      delay: (assembleLetters.length + idx) * 0.03,
+                      ease: [0.23, 1, 0.32, 1],
+                    }}
+                    whileHover={{ rotateY: 360, scale: 1.15, transition: { duration: 0.6 } }}
+                    className={`relative ${getLetterContainerClass(item.char)} [transform-style:preserve-3d]`}
                   >
                     <NextImage
                       src={item.src}
@@ -124,10 +136,10 @@ export default function AssembleOn() {
             /* JOIN US */
             <motion.div
               key="join-us"
-              initial={{ opacity: 0, y: 4, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -4, scale: 0.98 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
               className="flex flex-wrap items-center gap-x-4 sm:gap-x-6 gap-y-2"
             >
               {/* JOIN */}
@@ -135,10 +147,16 @@ export default function AssembleOn() {
                 {joinLetters.map((item, idx) => (
                   <motion.div
                     key={`join-${idx}`}
-                    initial={{ opacity: 0, y: 4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.12, delay: idx * 0.02 }}
-                    className={`relative ${getLetterContainerClass(item.char)}`}
+                    initial={{ rotateY: 90, rotateX: -15, scale: 0.7, opacity: 0 }}
+                    animate={{ rotateY: 0, rotateX: 0, scale: 1, opacity: 1 }}
+                    exit={{ rotateY: -90, rotateX: 15, scale: 0.7, opacity: 0 }}
+                    transition={{
+                      duration: 0.35,
+                      delay: idx * 0.04,
+                      ease: [0.23, 1, 0.32, 1],
+                    }}
+                    whileHover={{ rotateY: 360, scale: 1.2, transition: { duration: 0.6 } }}
+                    className={`relative ${getLetterContainerClass(item.char)} [transform-style:preserve-3d]`}
                   >
                     <NextImage
                       src={item.src}
@@ -147,7 +165,7 @@ export default function AssembleOn() {
                       height={160}
                       unoptimized
                       priority
-                      className="h-full w-full object-contain drop-shadow-[0_0_16px_rgba(52,211,153,0.85)]"
+                      className="h-full w-full object-contain drop-shadow-[0_0_18px_rgba(52,211,153,0.9)]"
                     />
                   </motion.div>
                 ))}
@@ -158,10 +176,16 @@ export default function AssembleOn() {
                 {usLetters.map((item, idx) => (
                   <motion.div
                     key={`us-${idx}`}
-                    initial={{ opacity: 0, y: 4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.12, delay: 0.1 + idx * 0.02 }}
-                    className={`relative ${getLetterContainerClass(item.char)}`}
+                    initial={{ rotateY: 90, rotateX: -15, scale: 0.7, opacity: 0 }}
+                    animate={{ rotateY: 0, rotateX: 0, scale: 1, opacity: 1 }}
+                    exit={{ rotateY: -90, rotateX: 15, scale: 0.7, opacity: 0 }}
+                    transition={{
+                      duration: 0.35,
+                      delay: (joinLetters.length + idx) * 0.04,
+                      ease: [0.23, 1, 0.32, 1],
+                    }}
+                    whileHover={{ rotateY: 360, scale: 1.2, transition: { duration: 0.6 } }}
+                    className={`relative ${getLetterContainerClass(item.char)} [transform-style:preserve-3d]`}
                   >
                     <NextImage
                       src={item.src}
@@ -170,7 +194,7 @@ export default function AssembleOn() {
                       height={160}
                       unoptimized
                       priority
-                      className="h-full w-full object-contain drop-shadow-[0_0_16px_rgba(52,211,153,0.85)]"
+                      className="h-full w-full object-contain drop-shadow-[0_0_18px_rgba(52,211,153,0.9)]"
                     />
                   </motion.div>
                 ))}
