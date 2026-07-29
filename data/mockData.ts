@@ -155,7 +155,7 @@ export const footerLinks = {
   contact: {
     email: "flair2k26@licet.ac.in",
     phone: "+91 98765 43210",
-    address: "LICET Campus, Nungambakkam, Chennai - 600016",
+    address: "LICET Campus, St. Thomas Mount, Chennai - 600016",
   },
   social: [
     { label: "Instagram", href: "https://instagram.com" },
