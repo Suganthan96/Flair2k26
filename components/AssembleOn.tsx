@@ -65,10 +65,11 @@ function FlipLetterCard({
           rotateY: isHovered ? 180 : 0,
           scale: isHovered ? 0 : 1,
           opacity: isHovered ? 0 : 1,
+          width: isHovered ? 0 : "auto",
         }}
-        transition={{ duration: 0.45, delay: isHovered ? delay : 0, ease: [0.4, 0, 0.2, 1] }}
+        transition={{ duration: 0.35, delay: isHovered ? delay : 0, ease: [0.4, 0, 0.2, 1] }}
         style={{ transformStyle: "preserve-3d" }}
-        className={`relative ${frontClass} [perspective:1000px] overflow-hidden`}
+        className={`relative ${isHovered ? "w-0 p-0 m-0 overflow-hidden" : frontClass} [perspective:1000px] transition-all duration-300`}
       >
         <div className="h-full w-full [backface-visibility:hidden]">
           <NextImage
@@ -115,7 +116,7 @@ function FlipLetterCard({
             height={160}
             unoptimized
             priority
-            className="h-full w-full object-contain drop-shadow-[0_0_18px_rgba(52,211,153,0.9)]"
+            className="h-full w-full object-contain drop-shadow-[0_4px_14px_rgba(0,0,0,0.85)]"
           />
         </div>
       </motion.div>
@@ -133,7 +134,7 @@ export default function AssembleOn() {
       onMouseLeave={() => setIsHovered(false)}
       className="group flex flex-col items-start gap-2.5 select-none"
     >
-      <div className="flex flex-wrap items-center gap-x-4 sm:gap-x-6 gap-y-2 min-h-[40px] sm:min-h-[56px] md:min-h-[64px]">
+      <div className={`flex flex-wrap items-center gap-y-2 min-h-[40px] sm:min-h-[56px] md:min-h-[64px] transition-all duration-300 ${isHovered ? "gap-x-2.5 sm:gap-x-4" : "gap-x-4 sm:gap-x-6"}`}>
         {/* Word 1 (ASSEMBLE -> JOIN) */}
         <div className="flex items-center -space-x-1.5 sm:-space-x-2.5 md:-space-x-3">
           {word1Slots.map((slot, idx) => (
@@ -174,7 +175,7 @@ export default function AssembleOn() {
         transition={{ duration: 0.85, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
       >
         <TextScramble
-          className="font-avenger text-xs uppercase tracking-[0.28em] text-emerald-400 sm:text-sm drop-shadow-[0_0_10px_rgba(61,255,140,0.8)] cursor-pointer"
+          className="font-avenger text-xs uppercase tracking-[0.28em] text-emerald-400 sm:text-sm cursor-pointer"
           duration={1.0}
           speed={0.03}
           delay={3.0}
