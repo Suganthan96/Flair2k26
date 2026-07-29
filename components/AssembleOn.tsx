@@ -151,8 +151,8 @@ export default function AssembleOn() {
           ))}
         </div>
 
-        {/* Word 2 (ON -> US) - generous spacing on hover */}
-        <div className={`flex items-center -space-x-1.5 sm:-space-x-2.5 md:-space-x-3 transition-all duration-300 ${isHovered ? "ml-4 sm:ml-7 md:ml-9" : "ml-0"}`}>
+        {/* Word 2 (ON -> US) - wide spacing on hover */}
+        <div className={`flex items-center -space-x-1.5 sm:-space-x-2.5 md:-space-x-3 transition-all duration-300 ${isHovered ? "ml-10 sm:ml-16 md:ml-20" : "ml-0"}`}>
           {word2Slots.map((slot, idx) => (
             <FlipLetterCard
               key={`word2-${idx}`}
