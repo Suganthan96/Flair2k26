@@ -107,7 +107,7 @@ export const events: {
     teamSize: "1",
     time: "1.30 PM – 3:00 PM",
     venue: "H23",
-    organizers: "Priya Dharshini, Naveen Kumar",
+    organizers: "MAGA DEVI P V, Abinesh Vibin",
     queries: [
       { name: "Zenith Joshua", phone: "+91 74483 43632" },
       { name: "Richan", phone: "+91 91502 48398" },
@@ -164,11 +164,6 @@ export const events: {
     time: "10.15 AM – 12.15 PM",
     venue: "A21",
     organizers: "Suganthan, Narayani",
-      "Think you can explain complex tech with a single meme? Prove it individually on our systems. We provide the template and the technical theme on the spot - you bring the wit.",
-    teamSize: "1",
-    time: "1.30 PM – 3:00 PM",
-    venue: "H23",
-    organizers: "MAGA DEVI P V, Abinesh Vibin",
     queries: [
       { name: "Zenith Joshua", phone: "+91 74483 43632" },
       { name: "Richan", phone: "+91 91502 48398" },
