@@ -1,70 +1,57 @@
-import { FileText, ArrowRight } from "lucide-react";
-import AnimatedSection from "./AnimatedSection";
-import { iconMap, GRADIENTS } from "./eventVisuals";
+"use client";
+
+import { useRef, useState } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import EventsGrid from "./EventsGrid";
+import EventDetailModal from "./EventDetailModal";
 import { events } from "@/data/mockData";
 
+// Matches the "from" tone of each card's gradient in eventVisuals.ts, cycled
+// the same way (i % length). A soft ambient wash behind the whole list
+// shifts through these as you scroll — echoing the reference site's
+// per-section background colour changes, without copying its layout.
+const WASH_COLORS = ["#5b1a8c", "#1b3f73", "#ed1c24", "#1b3f73"];
+
 export default function EventPromoCards() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start center", "end center"],
+  });
+  const washStops = WASH_COLORS.map((_, i) => i / (WASH_COLORS.length - 1));
+  const washColor = useTransform(scrollYProgress, washStops, WASH_COLORS);
+
   return (
-    <section id="events" className="relative px-6 pb-6 pt-16 sm:pb-8 sm:pt-20">
-      <div className="mx-auto flex max-w-6xl flex-col gap-10">
-        {events.map((event, i) => {
-          const Icon = iconMap[event.icon] ?? FileText;
-          const reversed = i % 2 === 1;
-          const gradient = GRADIENTS[i % GRADIENTS.length];
+    // No logo here (see EventsHeader) and no overlap margin — this section
+    // just follows EventsHeader in normal document flow, so it's purely the
+    // grid, sized to fill the frame on its own.
+    //
+    // overflow-clip (not overflow-x-hidden alone): per the CSS overflow
+    // spec, pairing any non-"visible" axis with a "visible" axis forces the
+    // "visible" one to compute as `auto` — even if set explicitly — which
+    // would silently turn this into its own scroll container. `clip` on
+    // both axes sidesteps that entirely.
+    <section
+      ref={sectionRef}
+      className="relative z-10 flex w-full flex-col overflow-clip pb-6 sm:pb-8 lg:min-h-screen lg:pb-0"
+    >
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute -inset-x-10 -inset-y-24 -z-10 rounded-[3rem] opacity-25 blur-[110px]"
+        style={{ backgroundColor: washColor }}
+      />
 
-          return (
-            <AnimatedSection key={event.id}>
-              <div
-                className={`relative overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-br p-8 sm:p-12 ${gradient}`}
-              >
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute -left-16 -top-16 h-64 w-64 rounded-full bg-white/10 blur-3xl"
-                />
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute -bottom-10 -right-10 h-72 w-72 rounded-full bg-black/20 blur-3xl"
-                />
+      <EventsGrid events={events} onOpenDetails={setOpenIndex} />
 
-                <div className="relative grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
-                  <div
-                    className={`relative mx-auto aspect-square w-full max-w-sm overflow-hidden rounded-2xl border border-white/20 bg-black/40 shadow-2xl shadow-black/40 ${
-                      reversed ? "lg:order-2" : "lg:order-1"
-                    }`}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/30" />
-                    <div className="relative flex h-full items-center justify-center">
-                      <Icon
-                        size={120}
-                        strokeWidth={1.25}
-                        className="text-white/90 drop-shadow-[0_4px_20px_rgba(0,0,0,0.6)]"
-                      />
-                    </div>
-                  </div>
-
-                  <div
-                    className={`text-center lg:text-left ${reversed ? "lg:order-1" : "lg:order-2"}`}
-                  >
-                    <h2 className="font-black-ops text-4xl uppercase leading-[0.95] text-white sm:text-5xl">
-                      {event.title}
-                    </h2>
-                    <p className="mx-auto mt-5 max-w-md text-base leading-relaxed text-white/80 sm:text-lg lg:mx-0">
-                      {event.description}
-                    </p>
-                    <a
-                      href={`/events/${event.id}`}
-                      className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-semibold text-black transition-transform hover:scale-105"
-                    >
-                      View Details
-                      <ArrowRight size={16} />
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </AnimatedSection>
-          );
-        })}
-      </div>
+      {openIndex !== null && (
+        <EventDetailModal
+          event={events[openIndex]}
+          index={openIndex}
+          onClose={() => setOpenIndex(null)}
+        />
+      )}
     </section>
   );
 }

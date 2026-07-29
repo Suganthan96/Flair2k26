@@ -1,0 +1,27 @@
+/* Window-scroll mode: this wrapper is a normal in-flow block (the page
+   itself scrolls it), not an isolated scroll container — no overflow/height
+   rules here, unlike the upstream component's default isolated-box mode. */
+.scroll-stack-scroller {
+  position: relative;
+  width: 100%;
+}
+
+.scroll-stack-inner {
+  position: relative;
+}
+
+.scroll-stack-card {
+  /* Transform mechanics only — sizing, padding, border-radius, and shadow
+     come from the card content itself (EventCard), not this wrapper. */
+  transform-origin: top center;
+  will-change: transform, filter;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.scroll-stack-end {
+  width: 100%;
+  height: 1px;
+}
