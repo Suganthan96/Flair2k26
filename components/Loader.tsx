@@ -7,6 +7,11 @@ import { useLenis } from "lenis/react";
 
 const HOLD_MS = 2000;
 
+// Anything elsewhere on the page that needs to wait for the loader (rather
+// than guessing its timing with a hardcoded delay, which drifts the moment
+// either side's numbers change) can listen for this instead.
+export const LOADER_DONE_EVENT = "loader-done";
+
 export default function Loader() {
   const [visible, setVisible] = useState(true);
   const lenis = useLenis();
@@ -35,6 +40,7 @@ export default function Loader() {
       onExitComplete={() => {
         document.body.style.overflow = "";
         lenis?.start();
+        window.dispatchEvent(new Event(LOADER_DONE_EVENT));
       }}
     >
       {visible && (

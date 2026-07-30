@@ -26,6 +26,7 @@ type EventDetail = {
   organizers: string;
   queries: EventQueryContact[];
   lumaEventId: string;
+  posterImage?: string;
 };
 
 export default function EventDetailModal({
@@ -150,25 +151,37 @@ export default function EventDetailModal({
               </ul>
             </div>
 
-            <div
-              className={`relative overflow-hidden rounded-2xl border border-white/20 bg-gradient-to-br p-8 ${gradient}`}
-            >
-              <div
-                aria-hidden
-                className="pointer-events-none absolute -left-10 -top-10 h-48 w-48 rounded-full bg-white/10 blur-3xl"
-              />
-              <div
-                aria-hidden
-                className="pointer-events-none absolute -bottom-8 -right-8 h-56 w-56 rounded-full bg-black/20 blur-3xl"
-              />
-              <div className="relative flex h-full min-h-48 items-center justify-center">
-                <Icon
-                  size={90}
-                  strokeWidth={1.25}
-                  className="text-white/90 drop-shadow-[0_4px_20px_rgba(0,0,0,0.6)]"
+            {event.posterImage ? (
+              <div className="relative min-h-48 overflow-hidden rounded-2xl border border-white/20">
+                <Image
+                  src={event.posterImage}
+                  alt={`${event.title} poster`}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-contain"
                 />
               </div>
-            </div>
+            ) : (
+              <div
+                className={`relative overflow-hidden rounded-2xl border border-white/20 bg-gradient-to-br p-8 ${gradient}`}
+              >
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute -left-10 -top-10 h-48 w-48 rounded-full bg-white/10 blur-3xl"
+                />
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute -bottom-8 -right-8 h-56 w-56 rounded-full bg-black/20 blur-3xl"
+                />
+                <div className="relative flex h-full min-h-48 items-center justify-center">
+                  <Icon
+                    size={90}
+                    strokeWidth={1.25}
+                    className="text-white/90 drop-shadow-[0_4px_20px_rgba(0,0,0,0.6)]"
+                  />
+                </div>
+              </div>
+            )}
           </div>
 
           <div className={`mt-6 ${GLASS_PANEL}`}>

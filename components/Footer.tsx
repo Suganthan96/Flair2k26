@@ -109,6 +109,20 @@ export default function Footer() {
               </a>
             </li>
           </ul>
+
+          {/* No API key needed: the plain `output=embed` query form (as
+              opposed to the `/maps/embed/v1/...` endpoint) works unauthenticated.
+              Not wrapped in a link — the iframe is its own interactive
+              document, so an outer <a> would just sit uselessly behind it. */}
+          <div className="mt-3 overflow-hidden rounded-xl border border-white/15">
+            <iframe
+              src="https://maps.google.com/maps?q=13.0592975,80.2336586&z=16&output=embed"
+              title="LICET campus location"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              className="h-32 w-full grayscale invert-[92%] sm:h-36"
+            />
+          </div>
         </div>
 
         <div>

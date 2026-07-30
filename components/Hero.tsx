@@ -2,9 +2,10 @@
 
 // Aliased: the bare `Image` name is the DOM constructor used to preload frames.
 import NextImage from "next/image";
-import { motion } from "framer-motion";
 import { useEffect, useRef, useState, type RefObject } from "react";
 import SideRays from "./SideRays";
+import { TextScramble } from "./core/text-scramble";
+import { LOADER_DONE_EVENT } from "./Loader";
 
 const FRAME_COUNT = 137;
 const FRAME_PATH = (i: number) => `/newframes/frame_${String(i).padStart(6, "0")}.jpg`;
@@ -181,6 +182,17 @@ const MIN_HERO_OPACITY = 0.12;
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const fadeRef = useRef<HTMLDivElement>(null);
+  // Waits for the loader's own real completion event rather than guessing
+  // its timing with a hardcoded delay — a guess drifts out of sync (either
+  // revealing early behind the still-visible splash, or late) the moment
+  // either side's numbers change.
+  const [loaderDone, setLoaderDone] = useState(false);
+
+  useEffect(() => {
+    const onLoaderDone = () => setLoaderDone(true);
+    window.addEventListener(LOADER_DONE_EVENT, onLoaderDone);
+    return () => window.removeEventListener(LOADER_DONE_EVENT, onLoaderDone);
+  }, []);
 
   useEffect(() => {
     let rafId = 0;
@@ -236,16 +248,13 @@ export default function Hero() {
           />
         </div>
 
-        {/* Sits outside the grade wrapper so the crest keeps its own colour.
-            Same materialize-in treatment as the title lockup, just earlier
-            and lighter — it's a small crest, not the hero moment. */}
-        <motion.a
+        {/* No entrance animation — sits outside the grade wrapper so the
+            crest keeps its own colour, and is hidden behind the opaque
+            loader until it clears anyway, so there's nothing to fade in. */}
+        <a
           href="#home"
           aria-label="LICET — Flair 2k26 home"
           className="absolute left-8 top-3 z-10 block sm:left-16 sm:top-4"
-          initial={{ opacity: 0, scale: 1.2, y: -16, filter: "blur(12px)" }}
-          animate={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.25 }}
         >
           <NextImage
             src="/assets/licet-logo.webp"
@@ -255,48 +264,45 @@ export default function Hero() {
             priority
             className="h-14 w-14 object-contain drop-shadow-[0_2px_12px_rgba(0,0,0,0.65)] sm:h-16 sm:w-16"
           />
-        </motion.a>
+        </a>
 
         {/* "Assemble" mark, top-left — sits just below the LICET crest so the
             two stack in the same corner instead of competing with the FLAIR
-            title lockup on the opposite side. Same materialize-out-of-Doom's-
-            magic entrance as the rest. Date sits right under it in the same
-            beat, arriving just after. */}
-        <motion.div
-          className="pointer-events-none absolute left-2 top-10 z-10 w-80 sm:left-6 sm:top-12 sm:w-96"
-          initial={{ opacity: 0, scale: 1.25, y: -20, filter: "blur(16px)" }}
-          animate={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
-          transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
-        >
+            title lockup on the opposite side. No entrance animation here —
+            hidden behind the opaque loader until it clears, so it just
+            appears; the text below is the only thing that animates in. */}
+        <div className="pointer-events-none absolute left-2 top-24 z-10 w-80 sm:left-6 sm:top-28 sm:w-96">
           <NextImage
-            src="/assets/assemble-removebg-preview.png"
+            src="/assets/assemble.png"
             alt="Assemble"
-            width={577}
-            height={433}
+            width={2048}
+            height={768}
             priority
-            sizes="(max-width: 640px) 42vw, (max-width: 1024px) 28vw, 20vw"
+            // Matches the container's actual fixed widths (w-80/sm:w-96)
+            // exactly — the old value here was a leftover vw-based guess
+            // from a different layout, badly under-requesting resolution
+            // for this fixed-width box and rendering visibly soft.
+            sizes="(max-width: 640px) 320px, 384px"
             className="w-full select-none object-contain drop-shadow-[0_4px_24px_rgba(0,0,0,0.7)]"
           />
-          <motion.p
-            className="-mt-16 text-center font-black-ops text-lg uppercase tracking-[0.2em] text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] sm:-mt-20 sm:text-2xl"
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: "easeOut", delay: 0.9 }}
-          >
-            On 8th August
-          </motion.p>
-        </motion.div>
+          <p className="-mt-4 text-center font-mono text-sm uppercase tracking-[0.2em] text-[#47C262] drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] sm:-mt-6 sm:text-lg">
+            {/* Held back until the loader's own completion event fires (see
+                the `loaderDone` listener above) — hidden behind the loader
+                either way, but only mounting (and starting its scramble)
+                once it's actually gone means it can never reveal early. */}
+            {loaderDone ? (
+              <TextScramble duration={1200}>On 8th August</TextScramble>
+            ) : (
+              "On 8th August"
+            )}
+          </p>
+        </div>
 
         {/* Title lockup, bottom-right. Also outside the grade wrapper — the
-            grade would mute the green glow that ties it to the footage. Enters
-            like it's materializing out of Doom's magic — settles in with a
-            slow unblur/scale-down. */}
-        <motion.div
-          className="pointer-events-none absolute bottom-6 right-6 z-10 w-52 sm:bottom-10 sm:right-10 sm:w-72 lg:w-[22rem]"
-          initial={{ opacity: 0, scale: 1.25, y: 26, filter: "blur(16px)" }}
-          animate={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
-          transition={{ duration: 1.3, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
-        >
+            grade would mute the green glow that ties it to the footage. No
+            entrance animation — hidden behind the opaque loader until it
+            clears, so it just appears. */}
+        <div className="pointer-events-none absolute bottom-6 right-6 z-10 w-52 sm:bottom-10 sm:right-10 sm:w-72 lg:w-[22rem]">
           <NextImage
             src="/assets/FLAIR.png"
             alt="Flair 2k26"
@@ -306,7 +312,7 @@ export default function Hero() {
             sizes="(max-width: 640px) 60vw, (max-width: 1024px) 40vw, 30vw"
             className="w-full select-none object-contain drop-shadow-[0_4px_24px_rgba(0,0,0,0.7)]"
           />
-        </motion.div>
+        </div>
       </div>
     </section>
   );

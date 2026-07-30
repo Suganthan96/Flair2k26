@@ -11,6 +11,9 @@ const nextConfig: NextConfig = {
       {
         pathname: "/assets/**",
       },
+      {
+        pathname: "/Event-Posters/**",
+      },
     ],
   },
 };

@@ -14,6 +14,13 @@ export default function Sponsors() {
             height={390}
             className="h-auto w-64 object-contain drop-shadow-[0_4px_20px_rgba(0,0,0,0.6)] sm:w-80"
           />
+          <Image
+            src="/assets/sponsor.jpg"
+            alt="Event sponsor"
+            width={622}
+            height={447}
+            className="mt-8 h-auto w-56 object-contain shadow-lg shadow-black/40 sm:w-72"
+          />
           <div className="mt-8">
             <Countdown />
           </div>
