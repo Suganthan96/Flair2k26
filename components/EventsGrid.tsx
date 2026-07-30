@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 import type { events } from "@/data/mockData";
 
 type EventItem = (typeof events)[number];
@@ -203,17 +204,21 @@ function EventTile({
         </h3>
       </div>
 
-      {/* Sliding door panel — desktop/hover only. */}
+      {/* Sliding door panel — desktop/hover only. Just the description
+          (the title strip above already covers that) plus a corner badge
+          hinting at the click-through to the detail page. The badge is a
+          span, not a nested <button> — the whole tile is already one. */}
       <motion.div
         className="pointer-events-none absolute inset-0 hidden flex-col justify-end p-4 lg:flex"
         initial={false}
         animate={isHovered ? { x: 0, y: 0 } : offscreen}
         transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
       >
-        <h3 className="font-black-ops text-lg uppercase leading-tight text-white">
-          {event.title}
-        </h3>
-        <p className="mt-2 text-sm leading-relaxed text-white/80">
+        <span className="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-white backdrop-blur-md">
+          Click Here
+          <ArrowRight size={14} />
+        </span>
+        <p className="text-sm leading-relaxed text-white/80">
           {event.description}
         </p>
       </motion.div>
