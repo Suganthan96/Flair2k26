@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
@@ -55,7 +56,14 @@ export default function EventDetailModal({
   const Icon = iconMap[event.icon] ?? iconMap.FileText;
   const gradient = GRADIENTS[index % GRADIENTS.length];
 
-  return (
+  // Portalled straight to <body>: EventPromoCards' <section> ancestor sets
+  // its own `relative z-10`, which creates a stacking context that traps
+  // this modal's z-50 inside it — the whole section (with the modal inside)
+  // then only ranks as "10" against unrelated fixed elements elsewhere on
+  // the page (e.g. SideNav's z-40 hamburger button), which can end up
+  // rendering on top despite its lower z-index. Escaping to `document.body`
+  // sidesteps that entirely.
+  return createPortal(
     <motion.div
       role="dialog"
       aria-modal="true"
@@ -228,6 +236,7 @@ export default function EventDetailModal({
           </div>
         </div>
       </motion.div>
-    </motion.div>
+    </motion.div>,
+    document.body
   );
 }

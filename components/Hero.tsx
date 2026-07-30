@@ -24,6 +24,11 @@ type Ctx = CanvasRenderingContext2D;
 // clear space to sit against. Clamped inside fitCover so it never opens a
 // gap at the overflowing edge.
 const PAN_BIAS_X = 0.06;
+// Mobile's much taller/narrower aspect ratio magnifies the cover-fit crop
+// far more than desktop, cropping into his wrist at the same bias fraction —
+// needs a noticeably bigger push to bring it fully into frame.
+const MOBILE_PAN_BIAS_X = 0.22;
+const MOBILE_BREAKPOINT = 640;
 
 /**
  * Scale the frame to fill the viewport completely, overflowing on whichever
@@ -46,6 +51,7 @@ function ScrollFrameCanvas({ trackRef }: { trackRef: RefObject<HTMLElement | nul
   const currentRef = useRef(0);
   const targetRef = useRef(0);
   const paintedRef = useRef(-1);
+  const cssWidthRef = useRef(0);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -64,7 +70,8 @@ function ScrollFrameCanvas({ trackRef }: { trackRef: RefObject<HTMLElement | nul
     }
 
     function draw(c: Ctx, w: number, h: number, img: HTMLImageElement, alpha: number) {
-      const box = fitCover(w, h, img.naturalWidth, img.naturalHeight, w * PAN_BIAS_X);
+      const panBiasX = cssWidthRef.current < MOBILE_BREAKPOINT ? MOBILE_PAN_BIAS_X : PAN_BIAS_X;
+      const box = fitCover(w, h, img.naturalWidth, img.naturalHeight, w * panBiasX);
       c.globalAlpha = alpha;
       c.drawImage(img, box.dx, box.dy, box.dw, box.dh);
       c.globalAlpha = 1;
@@ -91,6 +98,7 @@ function ScrollFrameCanvas({ trackRef }: { trackRef: RefObject<HTMLElement | nul
       const parent = canvas!.parentElement;
       const w = parent?.clientWidth ?? window.innerWidth;
       const h = parent?.clientHeight ?? window.innerHeight;
+      cssWidthRef.current = w;
 
       // Cap at the source resolution: a buffer wider than the frames themselves
       // costs fill rate every tick and buys no detail.
@@ -254,7 +262,11 @@ export default function Hero() {
         <a
           href="#home"
           aria-label="LICET — Flair 2k26 home"
-          className="absolute left-8 top-3 z-10 block sm:left-16 sm:top-4"
+          // top offsets computed to align this crest's vertical center with
+          // the hamburger button's (SideNav.tsx: top-6/sm:top-8, both h-14 —
+          // sm+ the crest grows to h-16, so its top needs a 4px correction
+          // to keep both centers level rather than just matching raw offsets.
+          className="absolute left-8 top-6 z-10 block sm:left-16 sm:top-7"
         >
           <NextImage
             src="/assets/licet-logo.webp"
@@ -270,8 +282,10 @@ export default function Hero() {
             two stack in the same corner instead of competing with the FLAIR
             title lockup on the opposite side. No entrance animation here —
             hidden behind the opaque loader until it clears, so it just
-            appears; the text below is the only thing that animates in. */}
-        <div className="pointer-events-none absolute left-2 top-24 z-10 w-80 sm:left-6 sm:top-28 sm:w-96">
+            appears; the text below is the only thing that animates in.
+            Hidden entirely on mobile (hidden sm:block) — the fixed-width
+            box (w-80) is too wide for narrow phone screens and clips. */}
+        <div className="pointer-events-none absolute left-2 top-24 z-10 hidden w-80 sm:left-6 sm:top-28 sm:block sm:w-96">
           <NextImage
             src="/assets/assemble.png"
             alt="Assemble"
