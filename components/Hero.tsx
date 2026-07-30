@@ -5,6 +5,7 @@ import NextImage from "next/image";
 import { useEffect, useRef, useState, type RefObject } from "react";
 import SideRays from "./SideRays";
 import AssembleOn from "./AssembleOn";
+import FlairTitle from "./FlairTitle";
 
 const FRAME_COUNT = 137;
 const FRAME_PATH = (i: number) => `/newframes/frame_${String(i).padStart(6, "0")}.jpg`;
@@ -244,16 +245,10 @@ export default function Hero() {
           />
         </a>
 
-        {/* Title lockup, bottom-right. Outside grade wrapper */}
-        <NextImage
-          src="/assets/FLAIR.png"
-          alt="Flair 2k26"
-          width={2896}
-          height={2172}
-          priority
-          sizes="(max-width: 640px) 60vw, (max-width: 1024px) 40vw, 30vw"
-          className="pointer-events-none absolute bottom-6 right-6 z-10 w-52 select-none object-contain drop-shadow-[0_4px_24px_rgba(0,0,0,0.7)] sm:bottom-10 sm:right-10 sm:w-72 lg:w-[22rem]"
-        />
+        {/* Title lockup, bottom-right. Animated assembly from individual letter PNGs */}
+        <div className="pointer-events-auto absolute bottom-6 right-6 z-10 select-none sm:bottom-10 sm:right-10">
+          <FlairTitle />
+        </div>
 
         {/* Assemble On - bottom-left 3D letter animation */}
         <div className="pointer-events-auto absolute bottom-6 left-6 z-10 select-none sm:bottom-10 sm:left-10">
