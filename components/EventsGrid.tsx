@@ -22,18 +22,25 @@ type SlideFrom = "left" | "right" | "top" | "bottom";
 // plain (non-dense) row-major auto-placement tiles all 16 cells with no
 // gaps — verified by hand-tracing the placement algorithm — so no explicit
 // grid-column/grid-row line numbers are needed.
-const TILE_CONFIG: Record<string, { span: string; slideFrom: SlideFrom }> = {
-  "AI Prompting": { span: "lg:col-span-1 lg:row-span-2", slideFrom: "left" },
-  "paper-presentation": { span: "lg:col-span-3 lg:row-span-1", slideFrom: "top" },
-  "treasure-hunt": { span: "lg:col-span-1 lg:row-span-2", slideFrom: "right" },
-  "Code-Debugging": { span: "lg:col-span-2 lg:row-span-1", slideFrom: "right" },
-  "bussiness-pitch": { span: "lg:col-span-1 lg:row-span-1", slideFrom: "bottom" },
-  "meme-creation": { span: "lg:col-span-1 lg:row-span-2", slideFrom: "left" },
-  "Tech Charades": { span: "lg:col-span-1 lg:row-span-2", slideFrom: "right" },
-  "Technical Connection": { span: "lg:col-span-2 lg:row-span-1", slideFrom: "bottom" },
+// `widthPercent` is this tile's actual rendered width at `lg:` as a percent
+// of the grid — measured from the live layout, not derived from col-span
+// (the 1fr/2fr/1fr/1fr track widths mean a "1-column" tile can be either
+// 20% or 40% wide depending which column it lands in). Feeds the `sizes`
+// prop below so Next.js requests an image sized for how big the tile
+// actually renders, instead of a generic guess that under-fetches for the
+// wider tiles and renders visibly blurry.
+const TILE_CONFIG: Record<string, { span: string; slideFrom: SlideFrom; widthPercent: number }> = {
+  "AI Prompting": { span: "lg:col-span-1 lg:row-span-2", slideFrom: "left", widthPercent: 20 },
+  "paper-presentation": { span: "lg:col-span-3 lg:row-span-1", slideFrom: "top", widthPercent: 80 },
+  "treasure-hunt": { span: "lg:col-span-1 lg:row-span-2", slideFrom: "right", widthPercent: 20 },
+  "Code-Debugging": { span: "lg:col-span-2 lg:row-span-1", slideFrom: "right", widthPercent: 40 },
+  "bussiness-pitch": { span: "lg:col-span-1 lg:row-span-1", slideFrom: "bottom", widthPercent: 20 },
+  "meme-creation": { span: "lg:col-span-1 lg:row-span-2", slideFrom: "left", widthPercent: 40 },
+  "Tech Charades": { span: "lg:col-span-1 lg:row-span-2", slideFrom: "right", widthPercent: 20 },
+  "Technical Connection": { span: "lg:col-span-2 lg:row-span-1", slideFrom: "bottom", widthPercent: 60 },
 };
 
-const DEFAULT_CONFIG = { span: "lg:col-span-1 lg:row-span-1", slideFrom: "bottom" as SlideFrom };
+const DEFAULT_CONFIG = { span: "lg:col-span-1 lg:row-span-1", slideFrom: "bottom" as SlideFrom, widthPercent: 20 };
 
 const OFFSCREEN: Record<SlideFrom, { x?: string; y?: string }> = {
   left: { x: "-100%" },
@@ -166,6 +173,11 @@ function EventTile({
           muted
           loop
           playsInline
+          // Without this, the browser starts fetching all 8 of these (some
+          // 30MB+) the instant the grid mounts, regardless of whether any
+          // tile is ever hovered — the actual source of the load-time lag.
+          // "none" defers any fetch at all until .play() is called on hover.
+          preload="none"
           className="absolute inset-0 h-full w-full object-cover"
         />
       )}
@@ -187,7 +199,7 @@ function EventTile({
             src={event.backgroundImage}
             alt=""
             fill
-            sizes="(max-width: 1024px) 50vw, 25vw"
+            sizes={`(max-width: 1024px) 50vw, ${config.widthPercent}vw`}
             className="object-cover"
             style={{ objectPosition: event.backgroundPosition ?? "center" }}
           />

@@ -43,7 +43,7 @@ export default function Footer() {
               alt="GRAIT logo"
               width={96}
               height={96}
-              className="h-24 w-24 object-contain"
+              className="h-10 w-10 object-contain"
             />
           </div>
           <p className="mt-4 text-sm text-white/60">
@@ -75,13 +75,22 @@ export default function Footer() {
           </h3>
 
           <h4 className="mt-4 text-xs font-semibold uppercase tracking-widest text-emerald-400">
+            For Queries
+          </h4>
+          <ul className="mt-3 space-y-2 text-sm text-white/65">
+            {footerLinks.contact.queries.map((contact) => (
+              <li key={contact.name}>
+                {contact.name} : {contact.phone}
+              </li>
+            ))}
+          </ul>
+
+          <h4 className="mt-6 text-xs font-semibold uppercase tracking-widest text-emerald-400">
             Coordinators
           </h4>
           <ul className="mt-3 space-y-2 text-sm text-white/65">
-            {footerLinks.contact.coordinators.map((coordinator) => (
-              <li key={coordinator.name}>
-                {coordinator.name} : {coordinator.phone}
-              </li>
+            {footerLinks.contact.coordinators.map((name) => (
+              <li key={name}>{name}</li>
             ))}
           </ul>
 

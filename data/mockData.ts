@@ -99,8 +99,11 @@ export const events: {
       { name: "Richan", phone: "+91 91502 48398" },
     ],
     lumaEventId: "evt-TRewZ5zsA2Xb8fO",
-    backgroundImage: "/assets/paper-expo.avif",
-    backgroundPosition: "top",
+    backgroundImage: "/assets/sheild's archieve.jpg",
+    // "top" alone cropped right at the hairline on this very wide/short
+    // tile — Tony and Steve's heads sit roughly 15-30% down the source
+    // image, so nudging the focal point down that far keeps them in frame.
+    backgroundPosition: "center 20%",
     posterImage: "/Event-Posters/Technical Research Presentation.png",
   },
   {
@@ -150,7 +153,7 @@ export const events: {
   },
   {
     id: "bussiness-pitch",
-    title: "Stark Tank",
+    title: "SUSTAINOVATE 2k26",
     icon: "BrainCircuit",
     description: "Rapid-fire rounds testing tech trivia and general knowledge.",
     longDescription:
@@ -306,10 +309,11 @@ export const footerLinks = {
     address: "Loyola College Licet, Loyola Campus, Nungambakkam, Chennai, Greater Chennai, Tamil Nadu 600034, India",
     addressHref:
       "https://www.google.com/maps/place/LICET+:+Loyola-ICAM+College+of+Engineering+and+Technology/@13.0592975,80.2336586,854m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3a5266606a8d51eb:0xcfedaad4ca5bd750!8m2!3d13.0592975!4d80.2336586!16s%2Fm%2F0dlk73f?entry=ttu&g_ep=EgoyMDI2MDcyNi4wIKXMDSoASAFQAw%3D%3D",
-    coordinators: [
+    queries: [
       { name: "Zenith Joshua", phone: "+91 74483 43632" },
       { name: "Richan", phone: "+91 91502 48398" },
     ],
+    coordinators: ["Steffina Evangelin", "Aadhishankar Babu"],
   },
   social: [
     { label: "Instagram", href: "https://www.instagram.com/flairit_2k26?igsh=MXRjNDVmYzBiNGZibg==" },
