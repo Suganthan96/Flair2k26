@@ -62,6 +62,8 @@ export const events: {
   /** Full event poster, shown in the detail modal in place of the plain
    * gradient + icon panel when present. */
   posterImage?: string;
+  /** Per-event rules PDF, opened in an in-page viewer from the detail modal. */
+  guidelinesPdf?: string;
   lumaEventId: string;
 }[] = [
   {
@@ -82,6 +84,7 @@ export const events: {
     lumaEventId: "evt-80hU40SG5wXqj3V",
     backgroundImage: "/assets/age of ultron.png",
     posterImage: "/Event-Posters/AI Prompting  [Prompt with Jarvis].png",
+    guidelinesPdf: "/Guidelines/AI Prompting.pdf.pdf",
   },
   {
     id: "paper-presentation",
@@ -105,6 +108,7 @@ export const events: {
     // image, so nudging the focal point down that far keeps them in frame.
     backgroundPosition: "center 20%",
     posterImage: "/Event-Posters/Technical Research Presentation.png",
+    guidelinesPdf: "/Guidelines/Technical Research Presentation rules.docx.pdf",
   },
   {
     // id kept as-is: EventsGrid.tsx's TILE_CONFIG/HOVER_VIDEO/ENTRANCE_OFFSET
@@ -131,6 +135,7 @@ export const events: {
     backgroundImage: "/assets/i can meme this all day.jpg",
     backgroundPosition: "top",
     posterImage: "/Event-Posters/UI UX.png",
+    guidelinesPdf: "/Guidelines/UI UX Guidelines.pdf",
   },
   {
     id: "Code-Debugging",
@@ -150,6 +155,7 @@ export const events: {
     lumaEventId: "evt-0DlblubojnaeKj2",
     backgroundImage: "/assets/Debuggers-assemble.jpeg",
     posterImage: "/Event-Posters/Code Debugging  [DEBUGGERS ASSEMBLE].png",
+    guidelinesPdf: "/Guidelines/DEBUGGERS ASSEMBLE.pdf",
   },
   {
     id: "bussiness-pitch",
@@ -169,7 +175,8 @@ export const events: {
     lumaEventId: "evt-EReesO2u1YgnQLq",
     backgroundImage: "/assets/bussiness-pitch.avif",
     backgroundPosition: "top",
-    posterImage: "/Event-Posters/Business pitch  [STARK TANK].png",
+    posterImage: "/Event-Posters/Business pitch  [SUSTAINOVATE].png",
+    guidelinesPdf: "/Guidelines/sustainovate Guidelines.pdf",
   },
   {
     id: "treasure-hunt",
@@ -190,6 +197,7 @@ export const events: {
     backgroundImage: "/assets/vormir-gamora.jpg",
     backgroundPosition: "top",
     posterImage: "/Event-Posters/WHERE IS GAMORA.png",
+    guidelinesPdf: "/Guidelines/Whereisgamora_guidelines.pdf",
   },
   {
     id: "Tech Charades",
@@ -210,6 +218,7 @@ export const events: {
     backgroundImage: "/assets/x-chardes.jpeg",
     backgroundPosition: "top",
     posterImage: "/Event-Posters/Tech Charades.png",
+    guidelinesPdf: "/Guidelines/Tech Charades Guidelines 2026.pdf",
   },
   {
     id: "Technical Connection",
@@ -232,6 +241,7 @@ export const events: {
     // notice that — same URL reads as the same cached image either way.
     backgroundImage: "/assets/connections.jpg?v=2",
     posterImage: "/Event-Posters/connections (1).png",
+    guidelinesPdf: "/Guidelines/connections.pdf.pdf",
   },
 ];
 
