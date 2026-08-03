@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion, type Variants } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import { useLenis } from "lenis/react";
 import { useEffect, useState } from "react";
 import { navLinks } from "@/data/mockData";
 
@@ -21,6 +22,17 @@ const LINK_VARIANTS: Variants = {
 
 export default function SideNav() {
   const [open, setOpen] = useState(false);
+  const lenis = useLenis();
+
+  // Smoothly animates to the target section via the app's own Lenis
+  // instance instead of letting the browser jump there instantly — closing
+  // the panel and starting the scroll in the same click keeps the two
+  // feeling like one motion rather than a cut followed by a scroll.
+  function handleLinkClick(e: React.MouseEvent<HTMLAnchorElement>, href: string) {
+    e.preventDefault();
+    setOpen(false);
+    lenis?.scrollTo(href, { duration: 1.2, easing: (t: number) => 1 - Math.pow(1 - t, 3) });
+  }
 
   useEffect(() => {
     if (!open) return;
@@ -106,7 +118,7 @@ export default function SideNav() {
                     key={link.href}
                     variants={LINK_VARIANTS}
                     href={link.href}
-                    onClick={() => setOpen(false)}
+                    onClick={(e) => handleLinkClick(e, link.href)}
                     className="font-jost text-xl uppercase text-white/90 transition-colors hover:text-avenger-red sm:text-2xl"
                   >
                     {link.label}

@@ -25,12 +25,14 @@ const socialIcons: Record<string, React.ComponentType<{ size?: number }>> = {
   LinkedIn: LinkedInIcon,
 };
 
+const CONTRIBUTORS = ["Suganthan96", "sylesh7", "samuveljohnson1416", "yugindhanam"];
+
 export default function Footer() {
   return (
-    <footer id="contact" className="relative overflow-hidden border-t border-white/10 bg-background px-6 pt-16">
-      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
+    <footer id="contact" className="relative overflow-hidden border-t border-white/10 bg-background px-6 pt-8">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-[1.2fr_1.2fr_1.3fr_0.9fr]">
         <div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-start gap-3">
             <Image
               src="/assets/FLAIR.png"
               alt={siteConfig.name}
@@ -43,30 +45,12 @@ export default function Footer() {
               alt="GRAIT logo"
               width={96}
               height={96}
-              className="h-24 w-24 object-contain"
+              className="-mt-3 h-20 w-20 object-contain"
             />
           </div>
           <p className="mt-4 text-sm text-white/60">
             LICET&apos;s flagship technical symposium. Assemble. Innovate. Elevate.
           </p>
-        </div>
-
-        <div>
-          <h3 className="text-xs font-semibold uppercase tracking-widest text-emerald-400">
-            Quick Links
-          </h3>
-          <ul className="mt-4 space-y-3">
-            {footerLinks.quick.map((link) => (
-              <li key={link.href}>
-                <a
-                  href={link.href}
-                  className="text-sm text-white/65 transition-colors hover:text-avenger-red"
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
         </div>
 
         <div>
@@ -77,29 +61,31 @@ export default function Footer() {
           <h4 className="mt-4 text-xs font-semibold uppercase tracking-widest text-emerald-400">
             For Queries
           </h4>
-          <ul className="mt-3 space-y-2 text-sm text-white/65">
+          <ul className="mt-2 space-y-1 text-sm text-white/65">
             {footerLinks.contact.queries.map((contact) => (
-              <li key={contact.name}>
+              <li key={contact.name} className="whitespace-nowrap">
                 {contact.name} : {contact.phone}
               </li>
             ))}
           </ul>
 
-          <h4 className="mt-6 text-xs font-semibold uppercase tracking-widest text-emerald-400">
+          <h4 className="mt-2 text-xs font-semibold uppercase tracking-widest text-emerald-400">
             Coordinators
           </h4>
-          <ul className="mt-3 space-y-2 text-sm text-white/65">
+          <ul className="mt-2 space-y-1 text-sm text-white/65">
             {footerLinks.contact.coordinators.map((name) => (
               <li key={name}>{name}</li>
             ))}
           </ul>
+        </div>
 
-          <h4 className="mt-6 text-xs font-semibold uppercase tracking-widest text-emerald-400">
+        <div>
+          <h3 className="text-xs font-semibold uppercase tracking-widest text-emerald-400">
             Mail Us
-          </h4>
+          </h3>
           <a
             href={`mailto:${footerLinks.contact.email}`}
-            className="mt-3 inline-flex items-center gap-2 text-sm text-white/65 underline decoration-white/30 underline-offset-2 transition-colors hover:text-avenger-red"
+            className="mt-4 inline-flex items-center gap-2 text-sm text-white/65 underline decoration-white/30 underline-offset-2 transition-colors hover:text-avenger-red"
           >
             <Mail size={16} className="shrink-0" />
             {footerLinks.contact.email}
@@ -153,10 +139,35 @@ export default function Footer() {
               );
             })}
           </div>
+
+          <p className="mt-8 text-xs text-white/40">Built with hands by</p>
+          <div className="mt-3 flex gap-2">
+            {CONTRIBUTORS.map((handle) => (
+              <a
+                key={handle}
+                href={`https://github.com/${handle}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={`@${handle}`}
+                aria-label={`@${handle} on GitHub`}
+                className="block h-8 w-8 overflow-hidden rounded-full border border-white/15 transition-colors hover:border-avenger-red"
+              >
+                {/* Plain <img> (not next/image): avatars.githubusercontent.com
+                    is an external host we'd otherwise need to allowlist in
+                    next.config.ts, for four tiny 32px icons that don't
+                    benefit much from Next's optimizer anyway. */}
+                <img
+                  src={`https://github.com/${handle}.png?size=64`}
+                  alt=""
+                  className="h-full w-full object-cover"
+                />
+              </a>
+            ))}
+          </div>
         </div>
       </div>
 
-      <div className="mx-auto mt-12 max-w-6xl border-t border-white/10 pt-6 text-center text-xs text-white/40">
+      <div className="mx-auto mt-12 max-w-7xl border-t border-white/10 pt-6 text-center text-xs text-white/40">
         © {new Date().getFullYear()} Flair 2k26, LICET. All rights reserved.
       </div>
 

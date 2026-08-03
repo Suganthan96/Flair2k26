@@ -4,7 +4,7 @@ import Countdown from "./Countdown";
 
 export default function Sponsors() {
   return (
-    <section id="sponsors" className="relative bg-background px-6 pb-24 pt-10">
+    <section id="sponsors" className="relative bg-background px-6 pb-10 pt-10">
       <div className="mx-auto max-w-6xl">
         <AnimatedSection className="flex flex-col items-center text-center">
           <Image
