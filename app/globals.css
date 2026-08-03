@@ -25,6 +25,24 @@
   --font-jost: var(--font-jost);
 }
 
+/* Custom Doomsday-themed pointer, applied to every element directly (not
+   just `body`) — Tailwind's Preflight sets `cursor: pointer` straight on
+   `button`/`[role="button"]`, which as a direct rule always beats an
+   inherited value from body regardless of specificity, so hovering any
+   button/link was reverting to the plain system pointer. Setting it here
+   on `*` (unlayered, so it still wins over Tailwind's layered Preflight)
+   keeps the same custom cursor everywhere. The source .cur ships five
+   embedded sizes (16 up to 128px) for Windows' cursor-scaling settings —
+   browsers pick one on their own with no CSS control over which, and were
+   rendering the 128px version, giant next to normal UI elements. This is
+   a single-entry .cur rebuilt from the 32px frame downscaled to 24px
+   (there's no 24px frame in the original, so this one's resampled rather
+   than just extracted), so there's nothing else to pick. Falls back to
+   the native arrow (`auto`) if the file fails to load. */
+* {
+  cursor: url("/assets/avengers-doomsday-cursor-24.cur"), auto;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
