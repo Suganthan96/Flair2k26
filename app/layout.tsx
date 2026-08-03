@@ -69,9 +69,12 @@ const avenger = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "FLAIR 2K26 | LICET Technical Symposium",
+  title: "FLAIR 2K26",
   description:
     "Flair 2k26 — LICET's flagship technical symposium. Assemble. Innovate. Elevate.",
+  icons: {
+    icon: "/assets/licet-logo.webp",
+  },
 };
 
 export default function RootLayout({
