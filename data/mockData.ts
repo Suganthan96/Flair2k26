@@ -74,7 +74,7 @@ export const events: {
     longDescription:
       "Talk to the tech.Control the output. Step up solo to see the commands AI best.Survive the fast text , image , and multiprompt challenges, then build a winning presentation using nothing but raw prompt engineering..",
     teamSize: "2-4",
-    time: "1.30 PM – 3.30 PM",
+    time: "1:30 PM – 3:00 PM",
     venue: "A21",
     organizers: "Fatima Theresa, Sharini",
     queries: [
@@ -94,7 +94,7 @@ export const events: {
     longDescription:
       "Technical paper presentation is a platform for ambitious students to present thier ideas of innovation as teams in form of paper,poster or ppt.",
     teamSize: "1-3",
-    time: "10.15 AM - 11.30 AM",
+    time: "10:15 AM - 11:30 AM",
     venue: "H23, J14",
     organizers: "Krithik, Sherin",
     queries: [
@@ -122,7 +122,7 @@ export const events: {
     longDescription:
       "One brief. One canvas. Infinite possibilities. Design a clean, intuitive interface for a given problem statement — wireframes, flow, and a polished final screen. Speed matters, but so does the experience you craft.",
     teamSize: "1",
-    time: "1.30 PM – 3:00 PM",
+    time: "1:30 PM – 3:00 PM",
     venue: "H23",
     organizers: "MAGA DEVI P V, Abinesh Vibin",
     queries: [
@@ -186,7 +186,7 @@ export const events: {
     longDescription:
       "No Paper.No maps.Just you and the machine.The IT Department presents a digital Treasure Hunt.Navigate hidden directories , crack system clues , and race the clock .",
     teamSize: "2-4",
-    time: "10.15 AM – 12.15 PM",
+    time: "10:15 AM – 12:15 PM",
     venue: "A21",
     organizers: "Suganthan, Narayani",
     queries: [
@@ -207,7 +207,7 @@ export const events: {
     longDescription:
       "Can you explain tech without speaking? Prove it. Team up in threes to act out complex jargon,sketch digital concepts, and race the clock . Three silent rounds. Zero room for errors.",
     teamSize: "3-5",
-    time: "1:30 PM – 3:30 PM ",
+    time: "1:30 PM – 3:00 PM ",
     venue: "I32",
     organizers: "Priyanka, Gayathri",
     queries: [

@@ -167,12 +167,7 @@ function EventTile({
       initial={{ opacity: 0, filter: "blur(8px)", ...entrance }}
       whileInView={{ opacity: 1, filter: "blur(0px)", x: 0, y: 0 }}
       viewport={{ once: false, amount: 0.25 }}
-      transition={{
-        default: { duration: 0.6, delay: index * 0.06, ease: [0.16, 1, 0.3, 1] },
-        scale: { duration: 0.3, ease: "easeOut" },
-      }}
-      whileHover={{ scale: 0.97 }}
-      whileTap={{ scale: 0.97 }}
+      transition={{ duration: 0.6, delay: index * 0.06, ease: [0.16, 1, 0.3, 1] }}
       className={`group relative min-h-[9rem] overflow-hidden border border-white/10 text-left lg:min-h-0 ${config.span}`}
     >
       {/* Solid, static black base — always there, never animated.
@@ -196,7 +191,13 @@ function EventTile({
           // tile is ever hovered — the actual source of the load-time lag.
           // "none" defers any fetch at all until .play() is called on hover.
           preload="none"
-          className="absolute inset-0 h-full w-full object-cover"
+          // scale-110: several of these source clips have a hair of
+          // letterboxing baked into the footage itself (not something
+          // object-cover alone can crop away, since it's part of the
+          // video's own pixels) — most visible as thin gaps at the tile
+          // corners on the widest tiles, where the crop has to zoom in
+          // the most. A modest zoom pushes that baked-in edge out of frame.
+          className="absolute inset-0 h-full w-full scale-110 object-cover"
         />
       )}
 

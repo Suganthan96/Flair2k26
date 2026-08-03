@@ -29,7 +29,7 @@ const CONTRIBUTORS = ["Suganthan96", "sylesh7", "samuveljohnson1416", "yugindhan
 
 export default function Footer() {
   return (
-    <footer id="contact" className="relative overflow-hidden border-t border-white/10 bg-background px-6 pt-8">
+    <footer id="contact" className="relative z-0 overflow-hidden border-t border-white/10 bg-background px-6 pt-8">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-[1.2fr_1.2fr_1.3fr_0.9fr]">
         <div>
           <div className="flex items-start gap-3">
@@ -171,14 +171,17 @@ export default function Footer() {
         © {new Date().getFullYear()} Flair 2k26, LICET. All rights reserved.
       </div>
 
-      {/* Oversized bleed wordmark — purely decorative. Sized in vw (not rem)
-          so it scales to fill the full viewport width at any breakpoint,
-          rather than sitting at a fixed size anchored to one side. Clipped
-          by the footer's own overflow-hidden so it never adds horizontal
-          scroll even if a letter edge would otherwise poke past. */}
+      {/* Oversized bleed wordmark — purely decorative, sitting behind the
+          Contact Us / Mail Us / Follow Us row as a background watermark
+          rather than below everything at the bottom. Absolutely positioned
+          (out of normal flow) so it adds zero extra height to the footer;
+          `-z-10` keeps it behind the real content above. Anchored to the
+          top edge, where that content row starts, instead of centered or
+          bottom-anchored. Sized in vw so it scales with viewport width;
+          the footer's own overflow-hidden clips it. */}
       <div
         aria-hidden
-        className="pointer-events-none -mx-6 mt-8 select-none whitespace-nowrap text-center font-avenger uppercase leading-none text-white/5 text-[18vw]"
+        className="pointer-events-none absolute inset-x-0 top-16 -z-10 select-none overflow-hidden whitespace-nowrap text-center font-avenger uppercase leading-none text-white/5 text-[13vw]"
       >
         FLAIR2K26
       </div>
