@@ -137,16 +137,34 @@ function EventTile({
     }
   }, [isHovered]);
 
+  // Desktop: a real mouse hover already sets isHovered=true before the
+  // click lands, so this fires onOpenDetails immediately — identical to
+  // the old single-click behaviour. Touch has no hover, so the first tap
+  // only reveals (matching what hover shows on desktop) and a second tap
+  // on the now-revealed tile opens the modal.
+  function handleClick() {
+    if (isHovered) {
+      onOpenDetails();
+    } else {
+      onHoverStart();
+    }
+  }
+
   return (
     <motion.button
       type="button"
       onMouseEnter={onHoverStart}
       onMouseLeave={onHoverEnd}
-      onClick={onOpenDetails}
+      onClick={handleClick}
       initial={{ opacity: 0, filter: "blur(8px)", ...entrance }}
       whileInView={{ opacity: 1, filter: "blur(0px)", x: 0, y: 0 }}
-      viewport={{ once: true, amount: 0.25 }}
-      transition={{ duration: 0.6, delay: index * 0.06, ease: [0.16, 1, 0.3, 1] }}
+      viewport={{ once: false, amount: 0.25 }}
+      transition={{
+        default: { duration: 0.6, delay: index * 0.06, ease: [0.16, 1, 0.3, 1] },
+        scale: { duration: 0.3, ease: "easeOut" },
+      }}
+      whileHover={{ scale: 0.97 }}
+      whileTap={{ scale: 0.97 }}
       className={`group relative min-h-[9rem] overflow-hidden border border-white/10 text-left lg:min-h-0 ${config.span}`}
     >
       {/* Solid, static black base — always there, never animated.
@@ -194,18 +212,26 @@ function EventTile({
       )}
       <div className="absolute inset-0 bg-black/25" />
 
-      {/* Always-visible title strip — the touch/mobile experience,
-          and the resting state on desktop before the door panel
-          takes over on hover. */}
-      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-4 lg:transition-opacity lg:group-hover:opacity-0">
+      {/* Resting-state title strip — visible until the tile is revealed
+          (hover on desktop, first tap on mobile), then fades out as the
+          door panel takes over. Driven by isHovered directly (not CSS
+          :hover) so it responds the same way to a tap as to a real hover. */}
+      <motion.div
+        className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-4"
+        initial={false}
+        animate={{ opacity: isHovered ? 0 : 1 }}
+        transition={{ duration: 0.3 }}
+      >
         <h3 className="font-black-ops text-sm uppercase leading-tight text-white sm:text-base">
           {event.title}
         </h3>
-      </div>
+      </motion.div>
 
-      {/* Sliding door panel — desktop/hover only. */}
+      {/* Sliding door panel — revealed the same way on every device now:
+          hover on desktop, first tap on mobile (second tap opens the
+          modal; see handleClick above). */}
       <motion.div
-        className="pointer-events-none absolute inset-0 hidden flex-col justify-end p-4 lg:flex"
+        className="pointer-events-none absolute inset-0 flex flex-col justify-end p-4"
         initial={false}
         animate={isHovered ? { x: 0, y: 0 } : offscreen}
         transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}

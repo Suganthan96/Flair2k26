@@ -18,23 +18,29 @@ const SOURCE_WIDTH = 1920;
 
 type Ctx = CanvasRenderingContext2D;
 
-// Shifts the cover-fit pan slightly right (as a fraction of canvas width),
-// pushing the character away from the left edge so the Assemble lockup has
-// clear space to sit against. Clamped inside fitCover so it never opens a
-// gap at the overflowing edge.
-const PAN_BIAS_X = 0.06;
+// Shifts the cover-fit crop window horizontally, as a fraction (-1..1) of
+// however much overflow actually exists once the frame is scaled to cover
+// the container. 0 is dead-center; positive reveals more of the image's
+// left side (pulling the character — and the raised hand, which sits left
+// of center — further into a narrow crop) at the cost of the right side.
+// Expressing it as a fraction of the overflow (not a fixed pixel amount)
+// is what makes this work the same way on a barely-cropped desktop frame
+// and a heavily-cropped tall mobile one — a fixed pixel bias was nowhere
+// near enough to pull the hand into frame once mobile's much larger
+// overflow was taken into account.
+const PAN_FRACTION_X = 0.3;
 
 /**
  * Scale the frame to fill the viewport completely, overflowing on whichever
  * axis is proportionally shorter. Guarantees full-bleed at any window shape —
  * no pillarbox or letterbox gutters, ever.
  */
-function fitCover(cw: number, ch: number, iw: number, ih: number, panBiasX = 0) {
+function fitCover(cw: number, ch: number, iw: number, ih: number, panFractionX = 0) {
   const scale = Math.max(cw / iw, ch / ih);
   const dw = iw * scale;
   const dh = ih * scale;
   const maxShiftX = (dw - cw) / 2;
-  const bias = Math.min(maxShiftX, Math.max(-maxShiftX, panBiasX));
+  const bias = maxShiftX * Math.min(1, Math.max(-1, panFractionX));
   return { dx: (cw - dw) / 2 + bias, dy: (ch - dh) / 2, dw, dh };
 }
 
@@ -63,7 +69,7 @@ function ScrollFrameCanvas({ trackRef }: { trackRef: RefObject<HTMLElement | nul
     }
 
     function draw(c: Ctx, w: number, h: number, img: HTMLImageElement, alpha: number) {
-      const box = fitCover(w, h, img.naturalWidth, img.naturalHeight, w * PAN_BIAS_X);
+      const box = fitCover(w, h, img.naturalWidth, img.naturalHeight, PAN_FRACTION_X);
       c.globalAlpha = alpha;
       c.drawImage(img, box.dx, box.dy, box.dw, box.dh);
       c.globalAlpha = 1;
@@ -242,7 +248,7 @@ export default function Hero() {
         <motion.a
           href="#home"
           aria-label="LICET — Flair 2k26 home"
-          className="absolute left-8 top-3 z-10 block sm:left-16 sm:top-4"
+          className="absolute left-8 top-6 z-10 block sm:left-16 sm:top-8"
           initial={{ opacity: 0, scale: 1.2, y: -16, filter: "blur(12px)" }}
           animate={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.25 }}
@@ -261,9 +267,10 @@ export default function Hero() {
             two stack in the same corner instead of competing with the FLAIR
             title lockup on the opposite side. Same materialize-out-of-Doom's-
             magic entrance as the rest. Date sits right under it in the same
-            beat, arriving just after. */}
+            beat, arriving just after. Hidden below `sm` — the mobile crop is
+            already tight just fitting the character, no room for this too. */}
         <motion.div
-          className="pointer-events-none absolute left-2 top-4 z-10 w-80 sm:left-6 sm:top-6 sm:w-96"
+          className="pointer-events-none absolute left-2 top-4 z-10 hidden w-80 sm:left-6 sm:top-6 sm:block sm:w-96"
           initial={{ opacity: 0, scale: 1.25, y: -20, filter: "blur(16px)" }}
           animate={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
           transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
