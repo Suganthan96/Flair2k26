@@ -59,6 +59,11 @@ export const events: {
   backgroundImage?: string;
   /** CSS object-position for the background image crop; defaults to "center". */
   backgroundPosition?: string;
+  /** Full event poster, shown in the detail modal in place of the plain
+   * gradient + icon panel when present. */
+  posterImage?: string;
+  /** Per-event rules PDF, opened in an in-page viewer from the detail modal. */
+  guidelinesPdf?: string;
   lumaEventId: string;
 }[] = [
   {
@@ -78,6 +83,8 @@ export const events: {
     ],
     lumaEventId: "evt-80hU40SG5wXqj3V",
     backgroundImage: "/assets/age of ultron.png",
+    posterImage: "/Event-Posters/AI Prompting  [Prompt with Jarvis].png",
+    guidelinesPdf: "/Guidelines/AI Prompting.pdf.pdf",
   },
   {
     id: "paper-presentation",
@@ -95,15 +102,25 @@ export const events: {
       { name: "Richan", phone: "+91 91502 48398" },
     ],
     lumaEventId: "evt-TRewZ5zsA2Xb8fO",
-    backgroundImage: "/assets/paper-expo.avif",
+    backgroundImage: "/assets/sheild's archieve.jpg",
+    // "top" alone cropped right at the hairline on this very wide/short
+    // tile — Tony and Steve's heads sit roughly 15-30% down the source
+    // image, so nudging the focal point down that far keeps them in frame.
+    backgroundPosition: "center 20%",
+    posterImage: "/Event-Posters/Technical Research Presentation.png",
+    guidelinesPdf: "/Guidelines/Technical Research Presentation rules.docx.pdf",
   },
   {
+    // id kept as-is: EventsGrid.tsx's TILE_CONFIG/HOVER_VIDEO/ENTRANCE_OFFSET
+    // maps (and the bento grid's tile-order math) are keyed off this exact
+    // string — renaming it would silently drop the tile back to a default
+    // 1x1 span and lose its hover video.
     id: "meme-creation",
-    title: "I Can Meme This All Day",
+    title: "Infinity Interface",
     icon: "LayoutTemplate",
-    description: "Build a pixel-perfect responsive site against the clock.",
+    description: "Design an interface so seamless it feels infinite — against the clock.",
     longDescription:
-      "Think you can explain complex tech with a single meme? Prove it individually on our systems. We provide the template and the technical theme on the spot - you bring the wit.",
+      "One brief. One canvas. Infinite possibilities. Design a clean, intuitive interface for a given problem statement — wireframes, flow, and a polished final screen. Speed matters, but so does the experience you craft.",
     teamSize: "1",
     time: "1.30 PM – 3:00 PM",
     venue: "H23",
@@ -113,8 +130,12 @@ export const events: {
       { name: "Richan", phone: "+91 91502 48398" },
     ],
     lumaEventId: "evt-ziwcw16DWyGLOn2",
+    // TODO: still the old meme-creation photo/hover-video (see HOVER_VIDEO
+    // in EventsGrid.tsx) — swap both once UI/UX-themed art is available.
     backgroundImage: "/assets/i can meme this all day.jpg",
     backgroundPosition: "top",
+    posterImage: "/Event-Posters/UI UX.png",
+    guidelinesPdf: "/Guidelines/UI UX Guidelines.pdf",
   },
   {
     id: "Code-Debugging",
@@ -133,10 +154,12 @@ export const events: {
     ],
     lumaEventId: "evt-0DlblubojnaeKj2",
     backgroundImage: "/assets/Debuggers-assemble.jpeg",
+    posterImage: "/Event-Posters/Code Debugging  [DEBUGGERS ASSEMBLE].png",
+    guidelinesPdf: "/Guidelines/DEBUGGERS ASSEMBLE.pdf",
   },
   {
     id: "bussiness-pitch",
-    title: "Stark Tank",
+    title: "SUSTAINOVATE 2k26",
     icon: "BrainCircuit",
     description: "Rapid-fire rounds testing tech trivia and general knowledge.",
     longDescription:
@@ -152,6 +175,8 @@ export const events: {
     lumaEventId: "evt-EReesO2u1YgnQLq",
     backgroundImage: "/assets/bussiness-pitch.avif",
     backgroundPosition: "top",
+    posterImage: "/Event-Posters/Business pitch  [SUSTAINOVATE].png",
+    guidelinesPdf: "/Guidelines/sustainovate Guidelines.pdf",
   },
   {
     id: "treasure-hunt",
@@ -171,6 +196,8 @@ export const events: {
     lumaEventId: "evt-uXjsXiOFz0G0nGx",
     backgroundImage: "/assets/vormir-gamora.jpg",
     backgroundPosition: "top",
+    posterImage: "/Event-Posters/WHERE IS GAMORA.png",
+    guidelinesPdf: "/Guidelines/Whereisgamora_guidelines.pdf",
   },
   {
     id: "Tech Charades",
@@ -190,6 +217,8 @@ export const events: {
     lumaEventId: "evt-gfyfV5c2R6TMYtU",
     backgroundImage: "/assets/x-chardes.jpeg",
     backgroundPosition: "top",
+    posterImage: "/Event-Posters/Tech Charades.png",
+    guidelinesPdf: "/Guidelines/Tech Charades Guidelines 2026.pdf",
   },
   {
     id: "Technical Connection",
@@ -210,7 +239,9 @@ export const events: {
     // Cache-busting query string: the replacement file kept the same name,
     // and neither the browser nor Next's image optimizer has any way to
     // notice that — same URL reads as the same cached image either way.
-    backgroundImage: "/assets/connections.jpg",
+    backgroundImage: "/assets/connections.jpg?v=2",
+    posterImage: "/Event-Posters/connections (1).png",
+    guidelinesPdf: "/Guidelines/connections.pdf.pdf",
   },
 ];
 
@@ -288,10 +319,11 @@ export const footerLinks = {
     address: "Loyola College Licet, Loyola Campus, Nungambakkam, Chennai, Greater Chennai, Tamil Nadu 600034, India",
     addressHref:
       "https://www.google.com/maps/place/LICET+:+Loyola-ICAM+College+of+Engineering+and+Technology/@13.0592975,80.2336586,854m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3a5266606a8d51eb:0xcfedaad4ca5bd750!8m2!3d13.0592975!4d80.2336586!16s%2Fm%2F0dlk73f?entry=ttu&g_ep=EgoyMDI2MDcyNi4wIKXMDSoASAFQAw%3D%3D",
-    coordinators: [
+    queries: [
       { name: "Zenith Joshua", phone: "+91 74483 43632" },
       { name: "Richan", phone: "+91 91502 48398" },
     ],
+    coordinators: ["Steffina Evangelin", "Aadhishankar Babu"],
   },
   social: [
     { label: "Instagram", href: "https://www.instagram.com/flairit_2k26?igsh=MXRjNDVmYzBiNGZibg==" },

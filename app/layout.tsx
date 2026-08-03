@@ -6,6 +6,7 @@ import BackgroundMusic from "@/components/BackgroundMusic";
 import Loader from "@/components/Loader";
 import SideNav from "@/components/SideNav";
 import DoomCursor from "@/components/DoomCursor";
+import AvengerCursor from "@/components/AvengerCursor";
 import SmoothScroll from "@/components/SmoothScroll";
 import { BackgroundProvider } from "@/components/BackgroundContext";
 import "lenis/dist/lenis.css";
@@ -89,11 +90,11 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <BackgroundProvider>
+          <AvengerCursor />
           <Loader />
           <SideNav />
           <SmoothScroll>{children}</SmoothScroll>
           <BackgroundMusic />
-          <DoomCursor />
           <Script id="luma-checkout" src="https://embed.lu.ma/checkout-button.js" strategy="afterInteractive" />
         </BackgroundProvider>
       </body>

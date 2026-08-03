@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
 import EventsGrid from "./EventsGrid";
 import EventDetailModal from "./EventDetailModal";
@@ -15,6 +15,17 @@ const WASH_COLORS = ["#5b1a8c", "#1b3f73", "#ed1c24", "#1b3f73"];
 export default function EventPromoCards() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
+
+  // The sidebar's links are plain #hash anchors — clicking one while this
+  // modal is open changed the hash (and jumped/scrolled the page underneath)
+  // but never told this component to close it, leaving it stuck open over
+  // whatever section was just navigated to. Closing on any hash change
+  // catches the sidebar and any other #anchor navigation (back/forward, etc).
+  useEffect(() => {
+    const onHashChange = () => setOpenIndex(null);
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 450" width="100%" height="100%">
+  <!-- Background -->
+  <rect width="1000" height="450" fill="#e60212" />
+
+  <!-- Outer White Box -->
+  <rect x="150" y="55" width="700" height="270" fill="none" stroke="#ffffff" stroke-width="12" />
+
+  <!-- Main Text: LICET with letter spacing to prevent overlapping -->
+  <text 
+    x="500" 
+    y="285" 
+    font-family="'Impact', 'Arial Black', sans-serif" 
+    font-weight="900" 
+    font-size="230" 
+    fill="#ffffff" 
+    text-anchor="middle" 
+    letter-spacing="12"
+    textLength="640" 
+    lengthAdjust="spacing">LICET</text>
+
+  <!-- Sub Text: IT DEPARTMENT -->
+  <text 
+    x="500" 
+    y="385" 
+    font-family="'Eurostile', 'Arial', sans-serif" 
+    font-weight="bold" 
+    font-size="42" 
+    fill="#ffffff" 
+    text-anchor="middle" 
+    letter-spacing="18">IT DEPARTMENT</text>
+</svg>

@@ -22,18 +22,25 @@ type SlideFrom = "left" | "right" | "top" | "bottom";
 // plain (non-dense) row-major auto-placement tiles all 16 cells with no
 // gaps — verified by hand-tracing the placement algorithm — so no explicit
 // grid-column/grid-row line numbers are needed.
-const TILE_CONFIG: Record<string, { span: string; slideFrom: SlideFrom }> = {
-  "AI Prompting": { span: "lg:col-span-1 lg:row-span-2", slideFrom: "left" },
-  "paper-presentation": { span: "lg:col-span-3 lg:row-span-1", slideFrom: "top" },
-  "treasure-hunt": { span: "lg:col-span-1 lg:row-span-2", slideFrom: "right" },
-  "Code-Debugging": { span: "lg:col-span-2 lg:row-span-1", slideFrom: "right" },
-  "bussiness-pitch": { span: "lg:col-span-1 lg:row-span-1", slideFrom: "bottom" },
-  "meme-creation": { span: "lg:col-span-1 lg:row-span-2", slideFrom: "left" },
-  "Tech Charades": { span: "lg:col-span-1 lg:row-span-2", slideFrom: "right" },
-  "Technical Connection": { span: "lg:col-span-2 lg:row-span-1", slideFrom: "bottom" },
+// `widthPercent` is this tile's actual rendered width at `lg:` as a percent
+// of the grid — measured from the live layout, not derived from col-span
+// (the 1fr/2fr/1fr/1fr track widths mean a "1-column" tile can be either
+// 20% or 40% wide depending which column it lands in). Feeds the `sizes`
+// prop below so Next.js requests an image sized for how big the tile
+// actually renders, instead of a generic guess that under-fetches for the
+// wider tiles and renders visibly blurry.
+const TILE_CONFIG: Record<string, { span: string; slideFrom: SlideFrom; widthPercent: number }> = {
+  "AI Prompting": { span: "lg:col-span-1 lg:row-span-2", slideFrom: "left", widthPercent: 20 },
+  "paper-presentation": { span: "lg:col-span-3 lg:row-span-1", slideFrom: "top", widthPercent: 80 },
+  "treasure-hunt": { span: "lg:col-span-1 lg:row-span-2", slideFrom: "right", widthPercent: 20 },
+  "Code-Debugging": { span: "lg:col-span-2 lg:row-span-1", slideFrom: "right", widthPercent: 40 },
+  "bussiness-pitch": { span: "lg:col-span-1 lg:row-span-1", slideFrom: "bottom", widthPercent: 20 },
+  "meme-creation": { span: "lg:col-span-1 lg:row-span-2", slideFrom: "left", widthPercent: 40 },
+  "Tech Charades": { span: "lg:col-span-1 lg:row-span-2", slideFrom: "right", widthPercent: 20 },
+  "Technical Connection": { span: "lg:col-span-2 lg:row-span-1", slideFrom: "bottom", widthPercent: 60 },
 };
 
-const DEFAULT_CONFIG = { span: "lg:col-span-1 lg:row-span-1", slideFrom: "bottom" as SlideFrom };
+const DEFAULT_CONFIG = { span: "lg:col-span-1 lg:row-span-1", slideFrom: "bottom" as SlideFrom, widthPercent: 20 };
 
 const OFFSCREEN: Record<SlideFrom, { x?: string; y?: string }> = {
   left: { x: "-100%" },
@@ -138,16 +145,34 @@ function EventTile({
     }
   }, [isHovered]);
 
+  // Desktop: a real mouse hover already sets isHovered=true before the
+  // click lands, so this fires onOpenDetails immediately — identical to
+  // the old single-click behaviour. Touch has no hover, so the first tap
+  // only reveals (matching what hover shows on desktop) and a second tap
+  // on the now-revealed tile opens the modal.
+  function handleClick() {
+    if (isHovered) {
+      onOpenDetails();
+    } else {
+      onHoverStart();
+    }
+  }
+
   return (
     <motion.button
       type="button"
       onMouseEnter={onHoverStart}
       onMouseLeave={onHoverEnd}
-      onClick={onOpenDetails}
+      onClick={handleClick}
       initial={{ opacity: 0, filter: "blur(8px)", ...entrance }}
       whileInView={{ opacity: 1, filter: "blur(0px)", x: 0, y: 0 }}
-      viewport={{ once: true, amount: 0.25 }}
-      transition={{ duration: 0.6, delay: index * 0.06, ease: [0.16, 1, 0.3, 1] }}
+      viewport={{ once: false, amount: 0.25 }}
+      transition={{
+        default: { duration: 0.6, delay: index * 0.06, ease: [0.16, 1, 0.3, 1] },
+        scale: { duration: 0.3, ease: "easeOut" },
+      }}
+      whileHover={{ scale: 0.97 }}
+      whileTap={{ scale: 0.97 }}
       className={`group relative min-h-[9rem] overflow-hidden border border-white/10 text-left lg:min-h-0 ${config.span}`}
     >
       {/* Solid, static black base — always there, never animated.
@@ -166,6 +191,11 @@ function EventTile({
           muted
           loop
           playsInline
+          // Without this, the browser starts fetching all 8 of these (some
+          // 30MB+) the instant the grid mounts, regardless of whether any
+          // tile is ever hovered — the actual source of the load-time lag.
+          // "none" defers any fetch at all until .play() is called on hover.
+          preload="none"
           className="absolute inset-0 h-full w-full object-cover"
         />
       )}
@@ -187,7 +217,7 @@ function EventTile({
             src={event.backgroundImage}
             alt=""
             fill
-            sizes="(max-width: 1024px) 50vw, 25vw"
+            sizes={`(max-width: 1024px) 50vw, ${config.widthPercent}vw`}
             className="object-cover"
             style={{ objectPosition: event.backgroundPosition ?? "center" }}
           />
@@ -195,21 +225,29 @@ function EventTile({
       )}
       <div className="absolute inset-0 bg-black/25" />
 
-      {/* Always-visible title strip — the touch/mobile experience,
-          and the resting state on desktop before the door panel
-          takes over on hover. */}
-      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-4 lg:transition-opacity lg:group-hover:opacity-0">
+      {/* Resting-state title strip — visible until the tile is revealed
+          (hover on desktop, first tap on mobile), then fades out as the
+          door panel takes over. Driven by isHovered directly (not CSS
+          :hover) so it responds the same way to a tap as to a real hover. */}
+      <motion.div
+        className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-4"
+        initial={false}
+        animate={{ opacity: isHovered ? 0 : 1 }}
+        transition={{ duration: 0.3 }}
+      >
         <h3 className="font-black-ops text-sm uppercase leading-tight text-white sm:text-base">
           {event.title}
         </h3>
-      </div>
+      </motion.div>
 
-      {/* Sliding door panel — desktop/hover only. Just the description
-          (the title strip above already covers that) plus a corner badge
-          hinting at the click-through to the detail page. The badge is a
-          span, not a nested <button> — the whole tile is already one. */}
+      {/* Sliding door panel — revealed the same way on every device now:
+          hover on desktop, first tap on mobile (second tap opens the
+          modal; see handleClick above). Just the description (the title
+          strip above already covers that) plus a corner badge hinting at
+          the click-through to the detail page. The badge is a span, not a
+          nested <button> — the whole tile is already one. */}
       <motion.div
-        className="pointer-events-none absolute inset-0 hidden flex-col justify-end p-4 lg:flex"
+        className="pointer-events-none absolute inset-0 flex flex-col justify-end p-4"
         initial={false}
         animate={isHovered ? { x: 0, y: 0 } : offscreen}
         transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
