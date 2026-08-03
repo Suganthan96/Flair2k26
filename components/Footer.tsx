@@ -75,13 +75,22 @@ export default function Footer() {
           </h3>
 
           <h4 className="mt-4 text-xs font-semibold uppercase tracking-widest text-emerald-400">
+            For Queries
+          </h4>
+          <ul className="mt-3 space-y-2 text-sm text-white/65">
+            {footerLinks.contact.queries.map((contact) => (
+              <li key={contact.name}>
+                {contact.name} : {contact.phone}
+              </li>
+            ))}
+          </ul>
+
+          <h4 className="mt-6 text-xs font-semibold uppercase tracking-widest text-emerald-400">
             Coordinators
           </h4>
           <ul className="mt-3 space-y-2 text-sm text-white/65">
-            {footerLinks.contact.coordinators.map((coordinator) => (
-              <li key={coordinator.name}>
-                {coordinator.name} : {coordinator.phone}
-              </li>
+            {footerLinks.contact.coordinators.map((name) => (
+              <li key={name}>{name}</li>
             ))}
           </ul>
 
@@ -109,6 +118,20 @@ export default function Footer() {
               </a>
             </li>
           </ul>
+
+          {/* No API key needed: the plain `output=embed` query form (as
+              opposed to the `/maps/embed/v1/...` endpoint) works unauthenticated.
+              Not wrapped in a link — the iframe is its own interactive
+              document, so an outer <a> would just sit uselessly behind it. */}
+          <div className="mt-3 overflow-hidden rounded-xl border border-white/15">
+            <iframe
+              src="https://maps.google.com/maps?q=13.0592975,80.2336586&z=16&output=embed"
+              title="LICET campus location"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              className="h-32 w-full grayscale invert-[92%] sm:h-36"
+            />
+          </div>
         </div>
 
         <div>

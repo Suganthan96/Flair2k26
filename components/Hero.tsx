@@ -2,9 +2,10 @@
 
 // Aliased: the bare `Image` name is the DOM constructor used to preload frames.
 import NextImage from "next/image";
-import { motion } from "framer-motion";
 import { useEffect, useRef, useState, type RefObject } from "react";
 import SideRays from "./SideRays";
+import { TextScramble } from "./core/text-scramble";
+import { LOADER_DONE_EVENT } from "./Loader";
 
 const FRAME_COUNT = 137;
 const FRAME_PATH = (i: number) => `/newframes/frame_${String(i).padStart(6, "0")}.jpg`;
@@ -18,29 +19,28 @@ const SOURCE_WIDTH = 1920;
 
 type Ctx = CanvasRenderingContext2D;
 
-// Shifts the cover-fit crop window horizontally, as a fraction (-1..1) of
-// however much overflow actually exists once the frame is scaled to cover
-// the container. 0 is dead-center; positive reveals more of the image's
-// left side (pulling the character — and the raised hand, which sits left
-// of center — further into a narrow crop) at the cost of the right side.
-// Expressing it as a fraction of the overflow (not a fixed pixel amount)
-// is what makes this work the same way on a barely-cropped desktop frame
-// and a heavily-cropped tall mobile one — a fixed pixel bias was nowhere
-// near enough to pull the hand into frame once mobile's much larger
-// overflow was taken into account.
-const PAN_FRACTION_X = 0.3;
+// Shifts the cover-fit pan slightly right (as a fraction of canvas width),
+// pushing the character away from the left edge so the Assemble lockup has
+// clear space to sit against. Clamped inside fitCover so it never opens a
+// gap at the overflowing edge.
+const PAN_BIAS_X = 0.06;
+// Mobile's much taller/narrower aspect ratio magnifies the cover-fit crop
+// far more than desktop, cropping into his wrist at the same bias fraction —
+// needs a noticeably bigger push to bring it fully into frame.
+const MOBILE_PAN_BIAS_X = 0.22;
+const MOBILE_BREAKPOINT = 640;
 
 /**
  * Scale the frame to fill the viewport completely, overflowing on whichever
  * axis is proportionally shorter. Guarantees full-bleed at any window shape —
  * no pillarbox or letterbox gutters, ever.
  */
-function fitCover(cw: number, ch: number, iw: number, ih: number, panFractionX = 0) {
+function fitCover(cw: number, ch: number, iw: number, ih: number, panBiasX = 0) {
   const scale = Math.max(cw / iw, ch / ih);
   const dw = iw * scale;
   const dh = ih * scale;
   const maxShiftX = (dw - cw) / 2;
-  const bias = maxShiftX * Math.min(1, Math.max(-1, panFractionX));
+  const bias = Math.min(maxShiftX, Math.max(-maxShiftX, panBiasX));
   return { dx: (cw - dw) / 2 + bias, dy: (ch - dh) / 2, dw, dh };
 }
 
@@ -51,6 +51,7 @@ function ScrollFrameCanvas({ trackRef }: { trackRef: RefObject<HTMLElement | nul
   const currentRef = useRef(0);
   const targetRef = useRef(0);
   const paintedRef = useRef(-1);
+  const cssWidthRef = useRef(0);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -69,7 +70,8 @@ function ScrollFrameCanvas({ trackRef }: { trackRef: RefObject<HTMLElement | nul
     }
 
     function draw(c: Ctx, w: number, h: number, img: HTMLImageElement, alpha: number) {
-      const box = fitCover(w, h, img.naturalWidth, img.naturalHeight, PAN_FRACTION_X);
+      const panBiasX = cssWidthRef.current < MOBILE_BREAKPOINT ? MOBILE_PAN_BIAS_X : PAN_BIAS_X;
+      const box = fitCover(w, h, img.naturalWidth, img.naturalHeight, w * panBiasX);
       c.globalAlpha = alpha;
       c.drawImage(img, box.dx, box.dy, box.dw, box.dh);
       c.globalAlpha = 1;
@@ -96,6 +98,7 @@ function ScrollFrameCanvas({ trackRef }: { trackRef: RefObject<HTMLElement | nul
       const parent = canvas!.parentElement;
       const w = parent?.clientWidth ?? window.innerWidth;
       const h = parent?.clientHeight ?? window.innerHeight;
+      cssWidthRef.current = w;
 
       // Cap at the source resolution: a buffer wider than the frames themselves
       // costs fill rate every tick and buys no detail.
@@ -187,6 +190,17 @@ const MIN_HERO_OPACITY = 0.12;
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const fadeRef = useRef<HTMLDivElement>(null);
+  // Waits for the loader's own real completion event rather than guessing
+  // its timing with a hardcoded delay — a guess drifts out of sync (either
+  // revealing early behind the still-visible splash, or late) the moment
+  // either side's numbers change.
+  const [loaderDone, setLoaderDone] = useState(false);
+
+  useEffect(() => {
+    const onLoaderDone = () => setLoaderDone(true);
+    window.addEventListener(LOADER_DONE_EVENT, onLoaderDone);
+    return () => window.removeEventListener(LOADER_DONE_EVENT, onLoaderDone);
+  }, []);
 
   useEffect(() => {
     let rafId = 0;
@@ -242,16 +256,17 @@ export default function Hero() {
           />
         </div>
 
-        {/* Sits outside the grade wrapper so the crest keeps its own colour.
-            Same materialize-in treatment as the title lockup, just earlier
-            and lighter — it's a small crest, not the hero moment. */}
-        <motion.a
+        {/* No entrance animation — sits outside the grade wrapper so the
+            crest keeps its own colour, and is hidden behind the opaque
+            loader until it clears anyway, so there's nothing to fade in. */}
+        <a
           href="#home"
           aria-label="LICET — Flair 2k26 home"
-          className="absolute left-8 top-6 z-10 block sm:left-16 sm:top-8"
-          initial={{ opacity: 0, scale: 1.2, y: -16, filter: "blur(12px)" }}
-          animate={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.25 }}
+          // top offsets computed to align this crest's vertical center with
+          // the hamburger button's (SideNav.tsx: top-6/sm:top-8, both h-14 —
+          // sm+ the crest grows to h-16, so its top needs a 4px correction
+          // to keep both centers level rather than just matching raw offsets.
+          className="absolute left-8 top-6 z-10 block sm:left-16 sm:top-7"
         >
           <NextImage
             src="/assets/licet-logo.webp"
@@ -261,49 +276,47 @@ export default function Hero() {
             priority
             className="h-14 w-14 object-contain drop-shadow-[0_2px_12px_rgba(0,0,0,0.65)] sm:h-16 sm:w-16"
           />
-        </motion.a>
+        </a>
 
         {/* "Assemble" mark, top-left — sits just below the LICET crest so the
             two stack in the same corner instead of competing with the FLAIR
-            title lockup on the opposite side. Same materialize-out-of-Doom's-
-            magic entrance as the rest. Date sits right under it in the same
-            beat, arriving just after. Hidden below `sm` — the mobile crop is
-            already tight just fitting the character, no room for this too. */}
-        <motion.div
-          className="pointer-events-none absolute left-2 top-4 z-10 hidden w-80 sm:left-6 sm:top-6 sm:block sm:w-96"
-          initial={{ opacity: 0, scale: 1.25, y: -20, filter: "blur(16px)" }}
-          animate={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
-          transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
-        >
+            title lockup on the opposite side. No entrance animation here —
+            hidden behind the opaque loader until it clears, so it just
+            appears; the text below is the only thing that animates in.
+            Hidden entirely on mobile (hidden sm:block) — the fixed-width
+            box (w-80) is too wide for narrow phone screens and clips. */}
+        <div className="pointer-events-none absolute left-2 top-24 z-10 hidden w-80 sm:left-6 sm:top-28 sm:block sm:w-96">
           <NextImage
-            src="/assets/assemble-removebg-preview.png"
+            src="/assets/assemble.png"
             alt="Assemble"
-            width={577}
-            height={433}
+            width={2048}
+            height={768}
             priority
-            sizes="(max-width: 640px) 42vw, (max-width: 1024px) 28vw, 20vw"
+            // Matches the container's actual fixed widths (w-80/sm:w-96)
+            // exactly — the old value here was a leftover vw-based guess
+            // from a different layout, badly under-requesting resolution
+            // for this fixed-width box and rendering visibly soft.
+            sizes="(max-width: 640px) 320px, 384px"
             className="w-full select-none object-contain drop-shadow-[0_4px_24px_rgba(0,0,0,0.7)]"
           />
-          <motion.p
-            className="-mt-16 text-center font-black-ops text-lg uppercase tracking-[0.2em] text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] sm:-mt-20 sm:text-2xl"
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: "easeOut", delay: 0.9 }}
-          >
-            On 8th August
-          </motion.p>
-        </motion.div>
+          <p className="-mt-4 text-center font-mono text-sm uppercase tracking-[0.2em] text-[#47C262] drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] sm:-mt-6 sm:text-lg">
+            {/* Held back until the loader's own completion event fires (see
+                the `loaderDone` listener above) — hidden behind the loader
+                either way, but only mounting (and starting its scramble)
+                once it's actually gone means it can never reveal early. */}
+            {loaderDone ? (
+              <TextScramble duration={1200}>On 8th August</TextScramble>
+            ) : (
+              "On 8th August"
+            )}
+          </p>
+        </div>
 
         {/* Title lockup, bottom-right. Also outside the grade wrapper — the
-            grade would mute the green glow that ties it to the footage. Enters
-            like it's materializing out of Doom's magic — settles in with a
-            slow unblur/scale-down. */}
-        <motion.div
-          className="pointer-events-none absolute bottom-6 right-6 z-10 w-52 sm:bottom-10 sm:right-10 sm:w-72 lg:w-[22rem]"
-          initial={{ opacity: 0, scale: 1.25, y: 26, filter: "blur(16px)" }}
-          animate={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
-          transition={{ duration: 1.3, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
-        >
+            grade would mute the green glow that ties it to the footage. No
+            entrance animation — hidden behind the opaque loader until it
+            clears, so it just appears. */}
+        <div className="pointer-events-none absolute bottom-6 right-6 z-10 w-52 sm:bottom-10 sm:right-10 sm:w-72 lg:w-[22rem]">
           <NextImage
             src="/assets/FLAIR.png"
             alt="Flair 2k26"
@@ -313,7 +326,7 @@ export default function Hero() {
             sizes="(max-width: 640px) 60vw, (max-width: 1024px) 40vw, 30vw"
             className="w-full select-none object-contain drop-shadow-[0_4px_24px_rgba(0,0,0,0.7)]"
           />
-        </motion.div>
+        </div>
       </div>
     </section>
   );

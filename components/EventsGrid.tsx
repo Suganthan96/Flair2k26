@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 import type { events } from "@/data/mockData";
 
 type EventItem = (typeof events)[number];
@@ -21,18 +22,25 @@ type SlideFrom = "left" | "right" | "top" | "bottom";
 // plain (non-dense) row-major auto-placement tiles all 16 cells with no
 // gaps — verified by hand-tracing the placement algorithm — so no explicit
 // grid-column/grid-row line numbers are needed.
-const TILE_CONFIG: Record<string, { span: string; slideFrom: SlideFrom }> = {
-  "AI Prompting": { span: "lg:col-span-1 lg:row-span-2", slideFrom: "left" },
-  "paper-presentation": { span: "lg:col-span-3 lg:row-span-1", slideFrom: "top" },
-  "treasure-hunt": { span: "lg:col-span-1 lg:row-span-2", slideFrom: "right" },
-  "Code-Debugging": { span: "lg:col-span-2 lg:row-span-1", slideFrom: "right" },
-  "bussiness-pitch": { span: "lg:col-span-1 lg:row-span-1", slideFrom: "bottom" },
-  "meme-creation": { span: "lg:col-span-1 lg:row-span-2", slideFrom: "left" },
-  "Tech Charades": { span: "lg:col-span-1 lg:row-span-2", slideFrom: "right" },
-  "Technical Connection": { span: "lg:col-span-2 lg:row-span-1", slideFrom: "bottom" },
+// `widthPercent` is this tile's actual rendered width at `lg:` as a percent
+// of the grid — measured from the live layout, not derived from col-span
+// (the 1fr/2fr/1fr/1fr track widths mean a "1-column" tile can be either
+// 20% or 40% wide depending which column it lands in). Feeds the `sizes`
+// prop below so Next.js requests an image sized for how big the tile
+// actually renders, instead of a generic guess that under-fetches for the
+// wider tiles and renders visibly blurry.
+const TILE_CONFIG: Record<string, { span: string; slideFrom: SlideFrom; widthPercent: number }> = {
+  "AI Prompting": { span: "lg:col-span-1 lg:row-span-2", slideFrom: "left", widthPercent: 20 },
+  "paper-presentation": { span: "lg:col-span-3 lg:row-span-1", slideFrom: "top", widthPercent: 80 },
+  "treasure-hunt": { span: "lg:col-span-1 lg:row-span-2", slideFrom: "right", widthPercent: 20 },
+  "Code-Debugging": { span: "lg:col-span-2 lg:row-span-1", slideFrom: "right", widthPercent: 40 },
+  "bussiness-pitch": { span: "lg:col-span-1 lg:row-span-1", slideFrom: "bottom", widthPercent: 20 },
+  "meme-creation": { span: "lg:col-span-1 lg:row-span-2", slideFrom: "left", widthPercent: 40 },
+  "Tech Charades": { span: "lg:col-span-1 lg:row-span-2", slideFrom: "right", widthPercent: 20 },
+  "Technical Connection": { span: "lg:col-span-2 lg:row-span-1", slideFrom: "bottom", widthPercent: 60 },
 };
 
-const DEFAULT_CONFIG = { span: "lg:col-span-1 lg:row-span-1", slideFrom: "bottom" as SlideFrom };
+const DEFAULT_CONFIG = { span: "lg:col-span-1 lg:row-span-1", slideFrom: "bottom" as SlideFrom, widthPercent: 20 };
 
 const OFFSCREEN: Record<SlideFrom, { x?: string; y?: string }> = {
   left: { x: "-100%" },
@@ -183,6 +191,11 @@ function EventTile({
           muted
           loop
           playsInline
+          // Without this, the browser starts fetching all 8 of these (some
+          // 30MB+) the instant the grid mounts, regardless of whether any
+          // tile is ever hovered — the actual source of the load-time lag.
+          // "none" defers any fetch at all until .play() is called on hover.
+          preload="none"
           className="absolute inset-0 h-full w-full object-cover"
         />
       )}
@@ -204,7 +217,7 @@ function EventTile({
             src={event.backgroundImage}
             alt=""
             fill
-            sizes="(max-width: 1024px) 50vw, 25vw"
+            sizes={`(max-width: 1024px) 50vw, ${config.widthPercent}vw`}
             className="object-cover"
             style={{ objectPosition: event.backgroundPosition ?? "center" }}
           />
@@ -229,17 +242,21 @@ function EventTile({
 
       {/* Sliding door panel — revealed the same way on every device now:
           hover on desktop, first tap on mobile (second tap opens the
-          modal; see handleClick above). */}
+          modal; see handleClick above). Just the description (the title
+          strip above already covers that) plus a corner badge hinting at
+          the click-through to the detail page. The badge is a span, not a
+          nested <button> — the whole tile is already one. */}
       <motion.div
         className="pointer-events-none absolute inset-0 flex flex-col justify-end p-4"
         initial={false}
         animate={isHovered ? { x: 0, y: 0 } : offscreen}
         transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
       >
-        <h3 className="font-black-ops text-lg uppercase leading-tight text-white">
-          {event.title}
-        </h3>
-        <p className="mt-2 text-sm leading-relaxed text-white/80">
+        <span className="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-white backdrop-blur-md">
+          Click Here
+          <ArrowRight size={14} />
+        </span>
+        <p className="text-sm leading-relaxed text-white/80">
           {event.description}
         </p>
       </motion.div>

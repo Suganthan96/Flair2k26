@@ -20,12 +20,7 @@ export default function RegisterButton({
       className={`register-button inline-flex items-center justify-center rounded-full border border-green-500/40 bg-green-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-green-500${className ? ` ${className}` : ""}`}
       {...dataProps}
     >
-      <span
-        className="register-glitch-text"
-        data-text={typeof children === "string" ? children : undefined}
-      >
-        {children}
-      </span>
+      {children}
     </a>
   );
 }

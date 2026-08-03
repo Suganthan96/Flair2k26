@@ -3,11 +3,18 @@
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { useLenis } from "lenis/react";
 
 const HOLD_MS = 2000;
 
+// Anything elsewhere on the page that needs to wait for the loader (rather
+// than guessing its timing with a hardcoded delay, which drifts the moment
+// either side's numbers change) can listen for this instead.
+export const LOADER_DONE_EVENT = "loader-done";
+
 export default function Loader() {
   const [visible, setVisible] = useState(true);
+  const lenis = useLenis();
 
   useEffect(() => {
     // Lock the page from scrolling (and hide the scrollbar) for as long as
@@ -19,10 +26,21 @@ export default function Loader() {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    // Lenis drives scroll itself (its own listeners + transforms), so
+    // `overflow: hidden` on body above doesn't actually stop it — without
+    // this, scrolling while the splash is up still scrolled the real page
+    // underneath, letting the footer show through before the loader was done.
+    // Runs once `lenis` is ready (it initializes async, not on first paint).
+    lenis?.stop();
+  }, [lenis]);
+
   return (
     <AnimatePresence
       onExitComplete={() => {
         document.body.style.overflow = "";
+        lenis?.start();
+        window.dispatchEvent(new Event(LOADER_DONE_EVENT));
       }}
     >
       {visible && (
