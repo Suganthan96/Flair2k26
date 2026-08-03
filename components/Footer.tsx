@@ -181,7 +181,11 @@ export default function Footer() {
           the footer's own overflow-hidden clips it. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-16 -z-10 select-none overflow-hidden whitespace-nowrap text-center font-avenger uppercase leading-none text-white/5 text-[13vw]"
+        // No overflow-hidden here (the footer's own already exists as a
+        // safety net): the "avenger" font's ascent runs taller than its own
+        // line-height box under `leading-none`, so this div's own
+        // overflow-hidden was clipping the tops of tall letters like "F".
+        className="pointer-events-none absolute inset-x-0 top-16 -z-10 select-none whitespace-nowrap text-center font-avenger uppercase leading-none text-white/5 text-[10.5vw]"
       >
         FLAIR2K26
       </div>
