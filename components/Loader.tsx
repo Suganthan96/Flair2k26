@@ -65,8 +65,8 @@ export default function Loader() {
             className="relative h-full w-full"
           >
             <Image
-              src="/assets/Marvel_Studios_logo.svg"
-              alt="Marvel Studios"
+              src="/assets/Loader.svg"
+              alt="Flair"
               fill
               unoptimized
               priority
