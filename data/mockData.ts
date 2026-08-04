@@ -73,7 +73,7 @@ export const events: {
     description: "24-hour build sprint to ship a working prototype from scratch.",
     longDescription:
       "Talk to the tech.Control the output. Step up solo to see the commands AI best.Survive the fast text , image , and multiprompt challenges, then build a winning presentation using nothing but raw prompt engineering..",
-    teamSize: "2-4",
+    teamSize: "1 - 2",
     time: "1:30 PM – 3:00 PM",
     venue: "A21",
     organizers: "Fatima Theresa, Sharini",
@@ -93,7 +93,7 @@ export const events: {
     description: "Present original research and ideas to a panel of expert judges.",
     longDescription:
       "Technical paper presentation is a platform for ambitious students to present thier ideas of innovation as teams in form of paper,poster or ppt.",
-    teamSize: "1-3",
+    teamSize: "1 - 3",
     time: "10:15 AM - 11:30 AM",
     venue: "H23, J14",
     organizers: "Krithik, Sherin",
@@ -121,7 +121,7 @@ export const events: {
     description: "Design an interface so seamless it feels infinite — against the clock.",
     longDescription:
       "One brief. One canvas. Infinite possibilities. Design a clean, intuitive interface for a given problem statement — wireframes, flow, and a polished final screen. Speed matters, but so does the experience you craft.",
-    teamSize: "1",
+    teamSize: "1 - 2",
     time: "1:30 PM – 3:00 PM",
     venue: "H23",
     organizers: "MAGA DEVI P V, Abinesh Vibin",

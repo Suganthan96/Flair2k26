@@ -129,6 +129,11 @@ function EventTile({
   const offscreen = OFFSCREEN[config.slideFrom];
   const entrance = ENTRANCE_OFFSET[config.slideFrom];
   const hoverVideo = HOVER_VIDEO[event.id];
+  // WebM (VP9) sibling of the same clip, same basename — typically 30-50%
+  // smaller than the H.264 mp4 at equivalent quality. Listed first in the
+  // <source> list below so browsers that support it use it; mp4 is the
+  // universal fallback (notably for Safari, which doesn't decode VP9).
+  const hoverVideoWebm = hoverVideo?.replace(/\.mp4$/, ".webm");
   const videoRef = useRef<HTMLVideoElement>(null);
 
   // Only plays while actually hovered — no point decoding video the user
@@ -152,12 +157,12 @@ function EventTile({
   // instead of visibly buffering on first play. `requestIdleCallback` isn't
   // in Safari, hence the setTimeout fallback.
   useEffect(() => {
-    if (!hoverVideo) return;
+    if (!hoverVideoWebm) return;
     const prefetch = () => {
       const link = document.createElement("link");
       link.rel = "prefetch";
       link.as = "video";
-      link.href = hoverVideo;
+      link.href = hoverVideoWebm;
       document.head.appendChild(link);
     };
     const hasRic = "requestIdleCallback" in window;
@@ -166,7 +171,7 @@ function EventTile({
       if (hasRic) window.cancelIdleCallback(handle as number);
       else window.clearTimeout(handle as number);
     };
-  }, [hoverVideo]);
+  }, [hoverVideoWebm]);
 
   // Desktop: a real mouse hover already sets isHovered=true before the
   // click lands, so this fires onOpenDetails immediately — identical to
@@ -205,17 +210,18 @@ function EventTile({
       {hoverVideo && (
         <video
           ref={videoRef}
-          src={hoverVideo}
           poster={event.backgroundImage}
           muted
           loop
           playsInline
           // "metadata" (not "none"): fetches just enough to know the video's
-          // duration/dimensions rather than the full 30MB+ file, so it's
-          // still cheap with 8 tiles on the page, but gives playback a small
-          // head start over fetching nothing at all until hover. The real
-          // fix for load lag is the idle-time prefetch above and the poster
-          // frame — this is a minor assist, not the main fix.
+          // duration/dimensions, not the whole file — cheap even with 8
+          // tiles on the page, and gives playback a small head start over
+          // fetching nothing at all until hover. The real fix for load lag
+          // is re-encoding these (see scripts/optimize-videos.mjs — was up
+          // to 14 Mbps/60fps/1920px source footage with an unused audio
+          // track, now capped at 960px/30fps/no-audio, ~1-5MB instead of
+          // 17-38MB) plus the idle-time prefetch above and the poster frame.
           preload="metadata"
           // scale-110: several of these source clips have a hair of
           // letterboxing baked into the footage itself (not something
@@ -224,7 +230,14 @@ function EventTile({
           // corners on the widest tiles, where the crop has to zoom in
           // the most. A modest zoom pushes that baked-in edge out of frame.
           className="absolute inset-0 h-full w-full scale-110 object-cover"
-        />
+        >
+          {/* webm first: browsers use the first <source> whose type they
+              support, and VP9/webm is typically 30-50% smaller than the
+              h264/mp4 fallback at equivalent quality. Safari (no VP9
+              decode) falls through to the mp4. */}
+          {hoverVideoWebm && <source src={hoverVideoWebm} type="video/webm" />}
+          <source src={hoverVideo} type="video/mp4" />
+        </video>
       )}
 
       {/* Photo lives in its own layer so it alone can slide out on
