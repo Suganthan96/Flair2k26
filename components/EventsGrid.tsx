@@ -145,6 +145,29 @@ function EventTile({
     }
   }, [isHovered]);
 
+  // Quietly warms the browser's HTTP cache for this tile's video once the
+  // page has gone idle (after the initial paint/load, so it never competes
+  // with anything the user is actually waiting on) — by the time someone
+  // actually hovers, the file's often already cached and starts instantly
+  // instead of visibly buffering on first play. `requestIdleCallback` isn't
+  // in Safari, hence the setTimeout fallback.
+  useEffect(() => {
+    if (!hoverVideo) return;
+    const prefetch = () => {
+      const link = document.createElement("link");
+      link.rel = "prefetch";
+      link.as = "video";
+      link.href = hoverVideo;
+      document.head.appendChild(link);
+    };
+    const hasRic = "requestIdleCallback" in window;
+    const handle = hasRic ? window.requestIdleCallback(prefetch) : window.setTimeout(prefetch, 1000);
+    return () => {
+      if (hasRic) window.cancelIdleCallback(handle as number);
+      else window.clearTimeout(handle as number);
+    };
+  }, [hoverVideo]);
+
   // Desktop: a real mouse hover already sets isHovered=true before the
   // click lands, so this fires onOpenDetails immediately — identical to
   // the old single-click behaviour. Touch has no hover, so the first tap
@@ -183,14 +206,17 @@ function EventTile({
         <video
           ref={videoRef}
           src={hoverVideo}
+          poster={event.backgroundImage}
           muted
           loop
           playsInline
-          // Without this, the browser starts fetching all 8 of these (some
-          // 30MB+) the instant the grid mounts, regardless of whether any
-          // tile is ever hovered — the actual source of the load-time lag.
-          // "none" defers any fetch at all until .play() is called on hover.
-          preload="none"
+          // "metadata" (not "none"): fetches just enough to know the video's
+          // duration/dimensions rather than the full 30MB+ file, so it's
+          // still cheap with 8 tiles on the page, but gives playback a small
+          // head start over fetching nothing at all until hover. The real
+          // fix for load lag is the idle-time prefetch above and the poster
+          // frame — this is a minor assist, not the main fix.
+          preload="metadata"
           // scale-110: several of these source clips have a hair of
           // letterboxing baked into the footage itself (not something
           // object-cover alone can crop away, since it's part of the
