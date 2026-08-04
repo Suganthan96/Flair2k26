@@ -210,10 +210,16 @@ function EventTile({
       {hoverVideo && (
         <video
           ref={videoRef}
-          poster={event.backgroundImage}
           muted
           loop
           playsInline
+          // No poster: it used to be event.backgroundImage, but that's the
+          // exact photo sliding away above this layer — any decode delay
+          // before the video's first real frame painted made it look like
+          // the same photo had "reappeared" instead of transitioning to
+          // video. Leaving poster unset falls through to the black base
+          // beneath (see the comment on that div) until a frame is ready.
+          //
           // "metadata" (not "none"): fetches just enough to know the video's
           // duration/dimensions, not the whole file — cheap even with 8
           // tiles on the page, and gives playback a small head start over
@@ -221,7 +227,7 @@ function EventTile({
           // is re-encoding these (see scripts/optimize-videos.mjs — was up
           // to 14 Mbps/60fps/1920px source footage with an unused audio
           // track, now capped at 960px/30fps/no-audio, ~1-5MB instead of
-          // 17-38MB) plus the idle-time prefetch above and the poster frame.
+          // 17-38MB) plus the idle-time prefetch above.
           preload="metadata"
           // scale-110: several of these source clips have a hair of
           // letterboxing baked into the footage itself (not something
