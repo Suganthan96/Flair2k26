@@ -164,7 +164,7 @@ export const events: {
     description: "Rapid-fire rounds testing tech trivia and general knowledge.",
     longDescription:
       "A great oppurtunity for the young innovators to pitch thier startup idea and gain recognition.",
-    teamSize: "2",
+    teamSize: "1-4",
     time: "1:30 PM – 3:00 PM",
     venue: "A22",
     organizers: "ChandraPrasad, Sameera Kathun",
@@ -206,8 +206,8 @@ export const events: {
     description: "Compete in a bracketed esports tournament across top titles.",
     longDescription:
       "Can you explain tech without speaking? Prove it. Team up in threes to act out complex jargon,sketch digital concepts, and race the clock . Three silent rounds. Zero room for errors.",
-    teamSize: "3-5",
-    time: "1:30 PM – 3:00 PM ",
+    teamSize: "1-2",
+    time: "1:30 PM – 3:30 PM ",
     venue: "I32",
     organizers: "Priyanka, Gayathri",
     queries: [
