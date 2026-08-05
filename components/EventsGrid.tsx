@@ -194,7 +194,7 @@ function EventTile({
       onClick={handleClick}
       initial={{ opacity: 0, filter: "blur(8px)", ...entrance }}
       whileInView={{ opacity: 1, filter: "blur(0px)", x: 0, y: 0 }}
-      viewport={{ once: false, amount: 0.25 }}
+      viewport={{ once: true, amount: 0.25 }}
       transition={{ duration: 0.6, delay: index * 0.06, ease: [0.16, 1, 0.3, 1] }}
       className={`group relative min-h-[9rem] overflow-hidden border border-white/10 text-left lg:min-h-0 ${config.span}`}
     >
@@ -263,7 +263,14 @@ function EventTile({
             src={event.backgroundImage}
             alt=""
             fill
-            sizes={`(max-width: 1024px) 50vw, ${config.widthPercent}vw`}
+            // `sizes` tells Next which image width to serve.
+            // Mobile: grid is 2-col so each tile is ~50 vw.
+            // Desktop (lg): use 2× the logical widthPercent so Retina / 2×
+            //   DPR screens get a full-resolution image instead of a half-
+            //   size one that the browser then upscales (the main cause of
+            //   visible blurriness on high-density displays).
+            sizes={`(max-width: 1024px) 50vw, ${config.widthPercent * 2}vw`}
+            quality={100}
             className="object-cover"
             style={{ objectPosition: event.backgroundPosition ?? "center" }}
           />
