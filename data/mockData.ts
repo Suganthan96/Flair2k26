@@ -74,7 +74,7 @@ export const events: {
       longDescription:
         "Talk to the tech.Control the output. Step up solo to see the commands AI best.Survive the fast text , image , and multiprompt challenges, then build a winning presentation using nothing but raw prompt engineering..",
       teamSize: "2-4",
-      time: "1:15 PM – 2:45 PM",
+      time: "1:15 PM - 2:45 PM",
       venue: "A21",
       organizers: "Fatima Theresa, Sharini",
       queries: [
@@ -165,8 +165,8 @@ export const events: {
       longDescription:
         "A great oppurtunity for the young innovators to pitch thier startup idea and gain recognition.",
       teamSize: "1-4",
-      time: "1:15 PM – 2:45 PM",
-      venue: "A22",
+      time: "11:30 AM – 2:30 PM",
+      venue: "F11",
       organizers: "ChandraPrasad, Sameera Kathun",
       queries: [
         { name: "Zenith Joshua", phone: "+91 74483 43632" },
@@ -206,8 +206,8 @@ export const events: {
       description: "Compete in a bracketed esports tournament across top titles.",
       longDescription:
         "Can you explain tech without speaking? Prove it. Team up in threes to act out complex jargon,sketch digital concepts, and race the clock . Three silent rounds. Zero room for errors.",
-      teamSize: "1-2",
-      time: "1:15 PM – 2:45 PM",
+      teamSize: "2",
+      time: "10:15 AM – 12:15 PM",
       venue: "I32",
       organizers: "Priyanka, Gayathri",
       queries: [
@@ -228,7 +228,7 @@ export const events: {
       longDescription:
         "Spot the link before time runs out. Team up in pairs to crack visual riddles. Spot the patterns early, decipher fast image sequences, and prove your technical intuition is unmatched.",
       teamSize: "2-3",
-      time: "10:45 AM – 12:30 PM",
+      time: "10:15 AM – 12:15 PM",
       venue: "I33",
       organizers: "Aarogiyaramya, Sahaya Nimisha",
       queries: [
