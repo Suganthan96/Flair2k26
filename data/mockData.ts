@@ -66,184 +66,184 @@ export const events: {
   guidelinesPdf?: string;
   lumaEventId: string;
 }[] = [
-  {
-    id: "AI Prompting",
-    title: "Prompt with Jarvis",
-    icon: "Code2",
-    description: "24-hour build sprint to ship a working prototype from scratch.",
-    longDescription:
-      "Talk to the tech.Control the output. Step up solo to see the commands AI best.Survive the fast text , image , and multiprompt challenges, then build a winning presentation using nothing but raw prompt engineering..",
-    teamSize: "2-4",
-    time: "1:30 PM – 3:00 PM",
-    venue: "A21",
-    organizers: "Fatima Theresa, Sharini",
-    queries: [
-      { name: "Zenith Joshua", phone: "+91 74483 43632" },
-      { name: "Richan", phone: "+91 91502 48398" },
-    ],
-    lumaEventId: "evt-80hU40SG5wXqj3V",
-    backgroundImage: "/assets/age of ultron.png",
-    posterImage: "/Event-Posters/AI Prompting  [Prompt with Jarvis].png",
-    guidelinesPdf: "/Guidelines/AI Prompting.pdf.pdf",
-  },
-  {
-    id: "paper-presentation",
-    title: "S.H.I.E.L.D's Archive",
-    icon: "FileText",
-    description: "Present original research and ideas to a panel of expert judges.",
-    longDescription:
-      "Technical paper presentation is a platform for ambitious students to present thier ideas of innovation as teams in form of paper,poster or ppt.",
-    teamSize: "1-3",
-    time: "10:15 AM - 11:30 AM",
-    venue: "H23, J14",
-    organizers: "Krithik, Sherin",
-    queries: [
-      { name: "Zenith Joshua", phone: "+91 74483 43632" },
-      { name: "Richan", phone: "+91 91502 48398" },
-    ],
-    lumaEventId: "evt-TRewZ5zsA2Xb8fO",
-    backgroundImage: "/assets/sheild's archieve.jpg",
-    // "top" alone cropped right at the hairline on this very wide/short
-    // tile — Tony and Steve's heads sit roughly 15-30% down the source
-    // image, so nudging the focal point down that far keeps them in frame.
-    backgroundPosition: "center 20%",
-    posterImage: "/Event-Posters/Technical Research Presentation.png",
-    guidelinesPdf: "/Guidelines/Technical Research Presentation rules.docx.pdf",
-  },
-  {
-    // id kept as-is: EventsGrid.tsx's TILE_CONFIG/HOVER_VIDEO/ENTRANCE_OFFSET
-    // maps (and the bento grid's tile-order math) are keyed off this exact
-    // string — renaming it would silently drop the tile back to a default
-    // 1x1 span and lose its hover video.
-    id: "meme-creation",
-    title: "Infinity Interface",
-    icon: "LayoutTemplate",
-    description: "Design an interface so seamless it feels infinite — against the clock.",
-    longDescription:
-      "One brief. One canvas. Infinite possibilities. Design a clean, intuitive interface for a given problem statement — wireframes, flow, and a polished final screen. Speed matters, but so does the experience you craft.",
-    teamSize: "1",
-    time: "1:30 PM – 3:00 PM",
-    venue: "H23",
-    organizers: "MAGA DEVI P V, Abinesh Vibin",
-    queries: [
-      { name: "Zenith Joshua", phone: "+91 74483 43632" },
-      { name: "Richan", phone: "+91 91502 48398" },
-    ],
-    lumaEventId: "evt-ziwcw16DWyGLOn2",
-    // TODO: still the old meme-creation photo/hover-video (see HOVER_VIDEO
-    // in EventsGrid.tsx) — swap both once UI/UX-themed art is available.
-    backgroundImage: "/assets/i can meme this all day.jpg",
-    backgroundPosition: "top",
-    posterImage: "/Event-Posters/UI UX.png",
-    guidelinesPdf: "/Guidelines/UI UX Guidelines.pdf",
-  },
-  {
-    id: "Code-Debugging",
-    title: "Debuggers Assemble",
-    icon: "Bot",
-    description: "Design and race autonomous bots through a timed obstacle track.",
-    longDescription:
-      "Two coders , One broken script. Zero room for error .Smash 12 rapid fire bugs in Round 1 , then pass the keyboard mid-challenge in a brutal Round to relay. clear the test cases and assemble the perfect code.",
-    teamSize: "1-2",
-    time: "10:15 AM – 12:30 PM",
-    venue: "A22",
-    organizers: "Keerthivasan, Antony Joshua",
-    queries: [
-      { name: "Zenith Joshua", phone: "+91 74483 43632" },
-      { name: "Richan", phone: "+91 91502 48398" },
-    ],
-    lumaEventId: "evt-0DlblubojnaeKj2",
-    backgroundImage: "/assets/Debuggers-assemble.jpeg",
-    posterImage: "/Event-Posters/Code Debugging  [DEBUGGERS ASSEMBLE].png",
-    guidelinesPdf: "/Guidelines/DEBUGGERS ASSEMBLE.pdf",
-  },
-  {
-    id: "bussiness-pitch",
-    title: "SUSTAINOVATE 2k26",
-    icon: "BrainCircuit",
-    description: "Rapid-fire rounds testing tech trivia and general knowledge.",
-    longDescription:
-      "A great oppurtunity for the young innovators to pitch thier startup idea and gain recognition.",
-    teamSize: "1-4",
-    time: "1:30 PM – 3:00 PM",
-    venue: "A22",
-    organizers: "ChandraPrasad, Sameera Kathun",
-    queries: [
-      { name: "Zenith Joshua", phone: "+91 74483 43632" },
-      { name: "Richan", phone: "+91 91502 48398" },
-    ],
-    lumaEventId: "evt-EReesO2u1YgnQLq",
-    backgroundImage: "/assets/bussiness-pitch.avif",
-    backgroundPosition: "top",
-    posterImage: "/Event-Posters/Business pitch  [SUSTAINOVATE].png",
-    guidelinesPdf: "/Guidelines/sustainovate Guidelines.pdf",
-  },
-  {
-    id: "treasure-hunt",
-    title: "Where is Gamora?",
-    icon: "MapPin",
-    description: "Solve clues and puzzles scattered across campus to find the prize.",
-    longDescription:
-      "No Paper.No maps.Just you and the machine.The IT Department presents a digital Treasure Hunt.Navigate hidden directories , crack system clues , and race the clock .",
-    teamSize: "2-4",
-    time: "10:15 AM – 12:15 PM",
-    venue: "A21",
-    organizers: "Suganthan, Narayani",
-    queries: [
-      { name: "Zenith Joshua", phone: "+91 74483 43632" },
-      { name: "Richan", phone: "+91 91502 48398" },
-    ],
-    lumaEventId: "evt-uXjsXiOFz0G0nGx",
-    backgroundImage: "/assets/vormir-gamora.jpg",
-    backgroundPosition: "top",
-    posterImage: "/Event-Posters/WHERE IS GAMORA.png",
-    guidelinesPdf: "/Guidelines/Whereisgamora_guidelines.pdf",
-  },
-  {
-    id: "Tech Charades",
-    title: "X-Charades",
-    icon: "Gamepad2",
-    description: "Compete in a bracketed esports tournament across top titles.",
-    longDescription:
-      "Can you explain tech without speaking? Prove it. Team up in threes to act out complex jargon,sketch digital concepts, and race the clock . Three silent rounds. Zero room for errors.",
-    teamSize: "1-2",
-    time: "1:30 PM – 3:30 PM ",
-    venue: "I32",
-    organizers: "Priyanka, Gayathri",
-    queries: [
-      { name: "Zenith Joshua", phone: "+91 74483 43632" },
-      { name: "Richan", phone: "+91 91502 48398" },
-    ],
-    lumaEventId: "evt-gfyfV5c2R6TMYtU",
-    backgroundImage: "/assets/x-chardes.jpeg",
-    backgroundPosition: "top",
-    posterImage: "/Event-Posters/Tech Charades.png",
-    guidelinesPdf: "/Guidelines/Tech Charades Guidelines 2026.pdf",
-  },
-  {
-    id: "Technical Connection",
-    title: "Sacred Connections",
-    icon: "Briefcase",
-    description: "Crack real-world business problems under time pressure.",
-    longDescription:
-      "Spot the link before time runs out. Team up in pairs to crack visual riddles. Spot the patterns early, decipher fast image sequences, and prove your technical intuition is unmatched.",
-    teamSize: "2-3",
-    time: "10:45 AM – 12:30 PM",
-    venue: "I33",
-    organizers: "Aarogiyaramya, Sahaya Nimisha",
-    queries: [
-      { name: "Zenith Joshua", phone: "+91 74483 43632" },
-      { name: "Richan", phone: "+91 91502 48398" },
-    ],
-    lumaEventId: "evt-yfO2RHvL8hwS6DF",
-    // Cache-busting query string: the replacement file kept the same name,
-    // and neither the browser nor Next's image optimizer has any way to
-    // notice that — same URL reads as the same cached image either way.
-    backgroundImage: "/assets/connections.jpg?v=2",
-    posterImage: "/Event-Posters/connections (1).png",
-    guidelinesPdf: "/Guidelines/connections.pdf.pdf",
-  },
-];
+    {
+      id: "AI Prompting",
+      title: "Prompt with Jarvis",
+      icon: "Code2",
+      description: "24-hour build sprint to ship a working prototype from scratch.",
+      longDescription:
+        "Talk to the tech.Control the output. Step up solo to see the commands AI best.Survive the fast text , image , and multiprompt challenges, then build a winning presentation using nothing but raw prompt engineering..",
+      teamSize: "2-4",
+      time: "1:15 PM – 2:45 PM",
+      venue: "A21",
+      organizers: "Fatima Theresa, Sharini",
+      queries: [
+        { name: "Zenith Joshua", phone: "+91 74483 43632" },
+        { name: "Richan", phone: "+91 91502 48398" },
+      ],
+      lumaEventId: "evt-80hU40SG5wXqj3V",
+      backgroundImage: "/assets/age of ultron.png",
+      posterImage: "/Event-Posters/AI Prompting  [Prompt with Jarvis].png",
+      guidelinesPdf: "/Guidelines/AI Prompting.pdf.pdf",
+    },
+    {
+      id: "paper-presentation",
+      title: "S.H.I.E.L.D's Archive",
+      icon: "FileText",
+      description: "Present original research and ideas to a panel of expert judges.",
+      longDescription:
+        "Technical paper presentation is a platform for ambitious students to present thier ideas of innovation as teams in form of paper,poster or ppt.",
+      teamSize: "1-3",
+      time: "10:15 AM - 11:30 AM",
+      venue: "H23, J14",
+      organizers: "Krithik, Sherin",
+      queries: [
+        { name: "Zenith Joshua", phone: "+91 74483 43632" },
+        { name: "Richan", phone: "+91 91502 48398" },
+      ],
+      lumaEventId: "evt-TRewZ5zsA2Xb8fO",
+      backgroundImage: "/assets/sheild's archieve.jpg",
+      // "top" alone cropped right at the hairline on this very wide/short
+      // tile — Tony and Steve's heads sit roughly 15-30% down the source
+      // image, so nudging the focal point down that far keeps them in frame.
+      backgroundPosition: "center 20%",
+      posterImage: "/Event-Posters/Technical Research Presentation.png",
+      guidelinesPdf: "/Guidelines/Technical Research Presentation rules.docx.pdf",
+    },
+    {
+      // id kept as-is: EventsGrid.tsx's TILE_CONFIG/HOVER_VIDEO/ENTRANCE_OFFSET
+      // maps (and the bento grid's tile-order math) are keyed off this exact
+      // string — renaming it would silently drop the tile back to a default
+      // 1x1 span and lose its hover video.
+      id: "meme-creation",
+      title: "Infinity Interface",
+      icon: "LayoutTemplate",
+      description: "Design an interface so seamless it feels infinite — against the clock.",
+      longDescription:
+        "One brief. One canvas. Infinite possibilities. Design a clean, intuitive interface for a given problem statement — wireframes, flow, and a polished final screen. Speed matters, but so does the experience you craft.",
+      teamSize: "1",
+      time: "1:15 PM – 2:45 PM",
+      venue: "H23",
+      organizers: "MAGA DEVI P V, Abinesh Vibin",
+      queries: [
+        { name: "Zenith Joshua", phone: "+91 74483 43632" },
+        { name: "Richan", phone: "+91 91502 48398" },
+      ],
+      lumaEventId: "evt-ziwcw16DWyGLOn2",
+      // TODO: still the old meme-creation photo/hover-video (see HOVER_VIDEO
+      // in EventsGrid.tsx) — swap both once UI/UX-themed art is available.
+      backgroundImage: "/assets/i can meme this all day.jpg",
+      backgroundPosition: "top",
+      posterImage: "/Event-Posters/UI UX.png",
+      guidelinesPdf: "/Guidelines/UI UX Guidelines.pdf",
+    },
+    {
+      id: "Code-Debugging",
+      title: "Debuggers Assemble",
+      icon: "Bot",
+      description: "Design and race autonomous bots through a timed obstacle track.",
+      longDescription:
+        "Two coders , One broken script. Zero room for error .Smash 12 rapid fire bugs in Round 1 , then pass the keyboard mid-challenge in a brutal Round to relay. clear the test cases and assemble the perfect code.",
+      teamSize: "1-2",
+      time: "10:15 AM – 12:30 PM",
+      venue: "A22",
+      organizers: "Keerthivasan, Antony Joshua",
+      queries: [
+        { name: "Zenith Joshua", phone: "+91 74483 43632" },
+        { name: "Richan", phone: "+91 91502 48398" },
+      ],
+      lumaEventId: "evt-0DlblubojnaeKj2",
+      backgroundImage: "/assets/Debuggers-assemble.jpeg",
+      posterImage: "/Event-Posters/Code Debugging  [DEBUGGERS ASSEMBLE].png",
+      guidelinesPdf: "/Guidelines/DEBUGGERS ASSEMBLE.pdf",
+    },
+    {
+      id: "bussiness-pitch",
+      title: "SUSTAINOVATE 2k26",
+      icon: "BrainCircuit",
+      description: "Rapid-fire rounds testing tech trivia and general knowledge.",
+      longDescription:
+        "A great oppurtunity for the young innovators to pitch thier startup idea and gain recognition.",
+      teamSize: "1-4",
+      time: "1:15 PM – 2:45 PM",
+      venue: "A22",
+      organizers: "ChandraPrasad, Sameera Kathun",
+      queries: [
+        { name: "Zenith Joshua", phone: "+91 74483 43632" },
+        { name: "Richan", phone: "+91 91502 48398" },
+      ],
+      lumaEventId: "evt-EReesO2u1YgnQLq",
+      backgroundImage: "/assets/bussiness-pitch.avif",
+      backgroundPosition: "top",
+      posterImage: "/Event-Posters/Business pitch  [SUSTAINOVATE].png",
+      guidelinesPdf: "/Guidelines/sustainovate Guidelines.pdf",
+    },
+    {
+      id: "treasure-hunt",
+      title: "Where is Gamora?",
+      icon: "MapPin",
+      description: "Solve clues and puzzles scattered across campus to find the prize.",
+      longDescription:
+        "No Paper.No maps.Just you and the machine.The IT Department presents a digital Treasure Hunt.Navigate hidden directories , crack system clues , and race the clock .",
+      teamSize: "2-4",
+      time: "10:15 AM – 12:15 PM",
+      venue: "A21",
+      organizers: "Suganthan, Narayani",
+      queries: [
+        { name: "Zenith Joshua", phone: "+91 74483 43632" },
+        { name: "Richan", phone: "+91 91502 48398" },
+      ],
+      lumaEventId: "evt-uXjsXiOFz0G0nGx",
+      backgroundImage: "/assets/vormir-gamora.jpg",
+      backgroundPosition: "top",
+      posterImage: "/Event-Posters/WHERE IS GAMORA.png",
+      guidelinesPdf: "/Guidelines/Whereisgamora_guidelines.pdf",
+    },
+    {
+      id: "Tech Charades",
+      title: "X-Charades",
+      icon: "Gamepad2",
+      description: "Compete in a bracketed esports tournament across top titles.",
+      longDescription:
+        "Can you explain tech without speaking? Prove it. Team up in threes to act out complex jargon,sketch digital concepts, and race the clock . Three silent rounds. Zero room for errors.",
+      teamSize: "1-2",
+      time: "1:15 PM – 2:45 PM",
+      venue: "I32",
+      organizers: "Priyanka, Gayathri",
+      queries: [
+        { name: "Zenith Joshua", phone: "+91 74483 43632" },
+        { name: "Richan", phone: "+91 91502 48398" },
+      ],
+      lumaEventId: "evt-gfyfV5c2R6TMYtU",
+      backgroundImage: "/assets/x-chardes.jpeg",
+      backgroundPosition: "top",
+      posterImage: "/Event-Posters/Tech Charades.png",
+      guidelinesPdf: "/Guidelines/Tech Charades Guidelines 2026.pdf",
+    },
+    {
+      id: "Technical Connection",
+      title: "Sacred Connections",
+      icon: "Briefcase",
+      description: "Crack real-world business problems under time pressure.",
+      longDescription:
+        "Spot the link before time runs out. Team up in pairs to crack visual riddles. Spot the patterns early, decipher fast image sequences, and prove your technical intuition is unmatched.",
+      teamSize: "2-3",
+      time: "10:45 AM – 12:30 PM",
+      venue: "I33",
+      organizers: "Aarogiyaramya, Sahaya Nimisha",
+      queries: [
+        { name: "Zenith Joshua", phone: "+91 74483 43632" },
+        { name: "Richan", phone: "+91 91502 48398" },
+      ],
+      lumaEventId: "evt-yfO2RHvL8hwS6DF",
+      // Cache-busting query string: the replacement file kept the same name,
+      // and neither the browser nor Next's image optimizer has any way to
+      // notice that — same URL reads as the same cached image either way.
+      backgroundImage: "/assets/connections.jpg?v=2",
+      posterImage: "/Event-Posters/connections (1).png",
+      guidelinesPdf: "/Guidelines/connections.pdf.pdf",
+    },
+  ];
 
 export type ScheduleItem = {
   time: string;
