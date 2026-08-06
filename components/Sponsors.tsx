@@ -6,6 +6,8 @@ const SPONSOR_LOGOS = [
   "/assets/sponsor.jpg",
   "/assets/sponser2.avif",
   "/assets/sponser3.jpeg",
+  "/assets/sponsers5 (1).jpg",
+  "/assets/sponser6.jpeg",
 ];
 
 export default function Sponsors() {

@@ -12,7 +12,14 @@ export default function BackgroundMusic() {
     const audio = audioRef.current;
     if (!audio) return;
 
-    const events = ["pointerdown", "keydown", "touchstart"] as const;
+    // click/touchend/keydown — not pointerdown/touchstart. Per the WHATWG
+    // spec, only click, mouseup, pointerup, touchend, and non-modifier
+    // keydown count as "activation triggering" user gestures. Chrome is
+    // lenient about pointerdown/touchstart, but Safari (iOS in particular)
+    // strictly enforces the real list — play() called from those two was
+    // silently rejected every time on Safari, and since `started` never
+    // flipped to true, background music never actually started there.
+    const events = ["click", "keydown", "touchend"] as const;
     const cleanup = () =>
       events.forEach((event) => document.removeEventListener(event, start));
 
