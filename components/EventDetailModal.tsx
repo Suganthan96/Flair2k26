@@ -14,7 +14,7 @@ import { commonGuidelines, type EventQueryContact } from "@/data/mockData";
 // Shared glass-panel look for every info box in the modal — semi-transparent
 // with a blur, so the modal's own background image shows through instead of
 // sitting behind a solid card.
-const GLASS_PANEL = "rounded-2xl border border-white/10 p-6";
+const GLASS_PANEL = "rounded-2xl border border-white/10 bg-white/5 p-6";
 
 type EventDetail = {
   id: string;

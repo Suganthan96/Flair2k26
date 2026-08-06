@@ -124,7 +124,7 @@ export const events: {
       teamSize: "1 - 2",
       time: "1:15 PM – 2:45 PM",
       venue: "H23",
-      organizers: "MAGA DEVI P V, Abinesh Vibin",
+      organizers: "Maga Devi, Austin Dijai",
       queries: [
         { name: "Zenith Joshua", phone: "+91 74483 43632" },
         { name: "Richan", phone: "+91 91502 48398" },
@@ -147,10 +147,10 @@ export const events: {
       teamSize: "1-2",
       time: "10:15 AM – 12:30 PM",
       venue: "A22",
-      organizers: "Keerthivasan, Antony Joshua",
+      organizers: "Keerthivasan, Selva Darshini S",
       queries: [
-        { name: "Zenith Joshua", phone: "+91 74483 43632" },
-        { name: "Richan", phone: "+91 91502 48398" },
+        { name: "Keerthivasan", phone: "+91 78100 03524" },
+        { name: "Selva Darshini S", phone: "+91 90256 70334" },
       ],
       lumaEventId: "evt-0DlblubojnaeKj2",
       backgroundImage: "/assets/Debuggers-assemble.jpeg",
@@ -165,12 +165,12 @@ export const events: {
       longDescription:
         "A great oppurtunity for the young innovators to pitch thier startup idea and gain recognition.",
       teamSize: "1-4",
-      time: "11:30 AM – 2:30 PM",
+      time: "11:30 AM – 3:30 PM",
       venue: "F11",
       organizers: "ChandraPrasad, Sameera Kathun",
       queries: [
-        { name: "Zenith Joshua", phone: "+91 74483 43632" },
-        { name: "Richan", phone: "+91 91502 48398" },
+        { name: "Chandra Prasad", phone: "+91 97905 88408" },
+        { name: "Sameera Kathun", phone: "+91 88706 11972" },
       ],
       lumaEventId: "evt-EReesO2u1YgnQLq",
       backgroundImage: "/assets/bussiness-pitch.avif",
@@ -240,7 +240,7 @@ export const events: {
       // and neither the browser nor Next's image optimizer has any way to
       // notice that — same URL reads as the same cached image either way.
       backgroundImage: "/assets/connections.jpg?v=2",
-      posterImage: "/Event-Posters/connections (1).png",
+      posterImage: "/Event-Posters/connections.png",
       guidelinesPdf: "/Guidelines/connections.pdf.pdf",
     },
   ];
