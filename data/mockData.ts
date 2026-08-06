@@ -70,7 +70,7 @@ export const events: {
       id: "AI Prompting",
       title: "Prompt with Jarvis",
       icon: "Code2",
-      description: "24-hour build sprint to ship a working prototype from scratch.",
+      description: "Engineer the perfect prompt — tackle text, image, and multi-prompt challenges using raw AI prompt engineering.",
       longDescription:
         "Talk to the tech.Control the output. Step up solo to see the commands AI best.Survive the fast text , image , and multiprompt challenges, then build a winning presentation using nothing but raw prompt engineering..",
       teamSize: "2-4",
@@ -141,7 +141,7 @@ export const events: {
       id: "Code-Debugging",
       title: "Debuggers Assemble",
       icon: "Bot",
-      description: "Design and race autonomous bots through a timed obstacle track.",
+      description: "Two coders, one broken script — smash rapid-fire bugs and relay the keyboard to assemble the perfect code.",
       longDescription:
         "Two coders , One broken script. Zero room for error .Smash 12 rapid fire bugs in Round 1 , then pass the keyboard mid-challenge in a brutal Round to relay. clear the test cases and assemble the perfect code.",
       teamSize: "1-2",
@@ -161,7 +161,7 @@ export const events: {
       id: "bussiness-pitch",
       title: "SUSTAINOVATE 2k26",
       icon: "BrainCircuit",
-      description: "Rapid-fire rounds testing tech trivia and general knowledge.",
+      description: "Pitch your startup idea to a panel and turn your innovation into recognition on the big stage.",
       longDescription:
         "A great oppurtunity for the young innovators to pitch thier startup idea and gain recognition.",
       teamSize: "1-4",
@@ -182,7 +182,7 @@ export const events: {
       id: "treasure-hunt",
       title: "Where is Gamora?",
       icon: "MapPin",
-      description: "Solve clues and puzzles scattered across campus to find the prize.",
+      description: "Navigate hidden directories, crack system clues, and race the clock in a fully digital treasure hunt.",
       longDescription:
         "No Paper.No maps.Just you and the machine.The IT Department presents a digital Treasure Hunt.Navigate hidden directories , crack system clues , and race the clock .",
       teamSize: "2-4",
@@ -203,7 +203,7 @@ export const events: {
       id: "Tech Charades",
       title: "X-Charades",
       icon: "Gamepad2",
-      description: "Compete in a bracketed esports tournament across top titles.",
+      description: "Explain complex tech jargon without a single word — act it out, sketch it, and beat the clock.",
       longDescription:
         "Can you explain tech without speaking? Prove it. Team up in threes to act out complex jargon,sketch digital concepts, and race the clock . Three silent rounds. Zero room for errors.",
       teamSize: "2",
@@ -224,7 +224,7 @@ export const events: {
       id: "Technical Connection",
       title: "Sacred Connections",
       icon: "Briefcase",
-      description: "Crack real-world business problems under time pressure.",
+      description: "Spot the hidden link between visual clues and crack rapid image sequences before your rivals do.",
       longDescription:
         "Spot the link before time runs out. Team up in pairs to crack visual riddles. Spot the patterns early, decipher fast image sequences, and prove your technical intuition is unmatched.",
       teamSize: "2-3",
