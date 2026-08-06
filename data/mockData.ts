@@ -121,7 +121,7 @@ export const events: {
       description: "Design an interface so seamless it feels infinite — against the clock.",
       longDescription:
         "One brief. One canvas. Infinite possibilities. Design a clean, intuitive interface for a given problem statement — wireframes, flow, and a polished final screen. Speed matters, but so does the experience you craft.",
-      teamSize: "1",
+      teamSize: "1 - 2",
       time: "1:15 PM – 2:45 PM",
       venue: "H23",
       organizers: "MAGA DEVI P V, Abinesh Vibin",
